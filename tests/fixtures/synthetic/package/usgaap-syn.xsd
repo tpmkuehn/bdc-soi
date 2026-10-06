@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xbrldt="http://xbrl.org/2005/xbrldt"
+  xmlns:us-gaap="http://fasb.org/us-gaap/2024" targetNamespace="http://fasb.org/us-gaap/2024" elementFormDefault="qualified">
+  <xs:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xs:import namespace="http://xbrl.org/2005/xbrldt" schemaLocation="http://www.xbrl.org/2005/xbrldt-2005.xsd"/>
+  <xs:element name="InvestmentOwnedAtFairValue" id="us-gaap_InvestmentOwnedAtFairValue" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" xbrli:periodType="instant" xbrli:balance="debit" nillable="true"/>
+  <xs:element name="InvestmentOwnedAtCost" id="us-gaap_InvestmentOwnedAtCost" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" xbrli:periodType="instant" xbrli:balance="debit" nillable="true"/>
+  <xs:element name="InvestmentOwnedBalancePrincipalAmount" id="us-gaap_InvestmentOwnedBalancePrincipalAmount" type="xbrli:monetaryItemType" substitutionGroup="xbrli:item" xbrli:periodType="instant" nillable="true"/>
+  <xs:element name="InvestmentInterestRate" id="us-gaap_InvestmentInterestRate" type="xbrli:pureItemType" substitutionGroup="xbrli:item" xbrli:periodType="instant" nillable="true"/>
+  <xs:element name="InvestmentBasisSpreadVariableRate" id="us-gaap_InvestmentBasisSpreadVariableRate" type="xbrli:pureItemType" substitutionGroup="xbrli:item" xbrli:periodType="instant" nillable="true"/>
+  <xs:element name="InvestmentMaturityDate" id="us-gaap_InvestmentMaturityDate" type="xbrli:dateItemType" substitutionGroup="xbrli:item" xbrli:periodType="instant" nillable="true"/>
+  <xs:element name="InvestmentIdentifierAxis" id="us-gaap_InvestmentIdentifierAxis" type="xbrli:stringItemType" substitutionGroup="xbrldt:dimensionItem" abstract="true" xbrli:periodType="duration" xbrldt:typedDomainRef="#us-gaap_InvestmentIdentifierDomain"/>
+  <xs:element name="InvestmentIdentifierDomain" id="us-gaap_InvestmentIdentifierDomain" type="xs:string" nillable="true"/>
+  <xs:element name="FairValueByFairValueHierarchyLevelAxis" id="us-gaap_FairValueByFairValueHierarchyLevelAxis" type="xbrli:stringItemType" substitutionGroup="xbrldt:dimensionItem" abstract="true" xbrli:periodType="duration"/>
+  <xs:element name="FairValueInputsLevel3Member" id="us-gaap_FairValueInputsLevel3Member" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" xbrli:periodType="duration"/>
+  <xs:element name="InvestmentTypeAxis" id="us-gaap_InvestmentTypeAxis" type="xbrli:stringItemType" substitutionGroup="xbrldt:dimensionItem" abstract="true" xbrli:periodType="duration"/>
+  <xs:element name="DebtSecuritiesMember" id="us-gaap_DebtSecuritiesMember" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" xbrli:periodType="duration"/>
+</xs:schema>

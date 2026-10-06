@@ -1,0 +1,146 @@
+# Company template for 26North BDC, Inc. (CIK 1950976). Grounded in SEC accession 0001193125-26-340235 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1950976'
+company_name: 26North BDC, Inc.
+templates:
+- id: 26north-bdc-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels are pipe-delimited: ''Debt Investments | Issuer | Description | Industry | SOFR + 4.750 | 8.698% | acquisition | maturity'' (6 or 7 parts; percent spreads without a % sign).
+    HTML SOI in thousands with ''Portfolio Company | Investment Type | Industry | Reference Rate and Spread | Interest Rate | Acquisition Date | Maturity Date | Par Amount/ Shares | Amortized Cost | Fair
+    Value | Percentage of Net Assets''; grand total row ''Total Portfolio Investments''; the undimensioned us-gaap:InvestmentOwnedAtFairValue (''Total Investments at Fair Value'') includes short-term investments
+    listed after that total.'
+  evidence:
+  - '0001193125-26-340235 (2026-06-30): 144 typed members; label parts separated by ''|''; us-gaap:InvestmentBasisSpreadVariableRate = 0.0475 for label ''SOFR + 4.750'' => percent unit'
+  - '0001193125-26-340235 HTML: ''Total Portfolio Investments $1,781,403 $1,768,802'' equals the sum of XBRL holdings (cost 1,781,403,000 / fair value 1,768,802,000); ''Total Investments at Fair Value $1,818,784
+    $1,806,183'' adds short-term investments => total_source_preference html_template_total'
+  - '0001193125-26-340235: HTML ''Amortized Cost'' equals us-gaap:InvestmentOwnedAtCost on 128/128 matched rows => mapped to cost'
+  - '0001193125-26-340235: 42 negative us-gaap:InvestmentOwnedAtFairValue facts on unfunded revolver/delayed-draw members'
+  - 0001193125-26-214004 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Investment Type
+      industry:
+      - ^Industry
+      interest_rate_text:
+      - ^Reference Rate and Spread
+      interest_rate:
+      - ^Interest Rate
+      cost:
+      - ^Amortized Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: investment_type
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      total_if_regex:
+      - ^Total Portfolio Investments
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?:\d+\s*M(?:onth)?\s+)?(?P<index>SOFR|Prime|PRIME|S|P|EURIBOR|E|SONIA|CORRA|C|BBSY|B|BBSW|BKBM|SARON|STIBOR|NIBOR)\s*\+\s*(?:CSA\s*\+\s*)?(?P<spread_pct>\d+(?:\.\d+)?)\s*%?
+      floor_pattern: (?P<floor_pct>\d+(?:\.\d+)?)\s*%\s*[Ff]loor
+      pik_pattern: (?P<pik_pct>\d+(?:\.\d+)?)\s*%\s*PIK
+      spread_unit: percent
+      index_aliases:
+        SOFR: SOFR
+        S: SOFR
+        Prime: Prime
+        PRIME: Prime
+        P: Prime
+        EURIBOR: EURIBOR
+        E: EURIBOR
+        SONIA: SONIA
+        CORRA: CORRA
+        C: CORRA
+        BBSY: BBSY
+        B: BBSY
+        BBSW: BBSW
+        BKBM: BKBM
+        SARON: SARON
+        STIBOR: STIBOR
+        NIBOR: NIBOR
+  composite_fields:
+  - id: 26north-pipe-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^(?P<section>[^|]+?)\s*\|\s*(?P<issuer>[^|]+?)\s*\|\s*(?P<description>[^|]+?)\s*\|\s*(?P<industry>[^|]+?)\s*(?:\|\s*(?P<rate>[^|]*?\+[^|]*?)\s*)?(?:\|\s*(?P<interest_rate>\d+(?:\.\d+)?\s*%)\s*)?(?:\|\s*\d{1,2}/\d{1,2}/\d{4}\s*\|\s*(?P<maturity>\d{1,2}/\d{1,2}/\d{4})\s*)?(?:\|\s*\d{1,2}/\d{1,2}/\d{4}\s*)?$
+    capture_targets:
+      section: investment_type
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      S: SOFR
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001193125-26-340235: 42 negative fair-value facts, all unfunded revolver/delayed-draw commitments (HTML shows ''(54)'' style negatives).'
+    total_source_preference:
+    - html_template_total
+    - xbrl_no_dimensions
+    total_source_preference_evidence: '0001193125-26-340235: HTML ''Total Portfolio Investments'' (1,781,403 / 1,768,802 thousands) equals the XBRL holdings sums; the undimensioned InvestmentOwnedAtFairValue
+      (1,806,183) also includes short-term investments disclosed after that row.'
+  overrides: []

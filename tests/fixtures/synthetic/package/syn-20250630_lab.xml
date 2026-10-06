@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<link:linkbase xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xml="http://www.w3.org/XML/1998/namespace">
+<link:labelLink xlink:type="extended" xlink:role="http://www.xbrl.org/2003/role/link">
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_InvestmentOwnedAtFairValue" xlink:label="fv"/>
+<link:label xlink:type="resource" xlink:label="fv_lbl" xlink:role="http://www.xbrl.org/2003/role/label" xml:lang="en-US">Investment Owned, at Fair Value</link:label>
+<link:label xlink:type="resource" xlink:label="fv_lbl" xlink:role="http://www.xbrl.org/2003/role/documentation" xml:lang="en-US">Fair value of investment owned.</link:label>
+<link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="fv" xlink:to="fv_lbl"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_InvestmentOwnedAtCost" xlink:label="cost"/>
+<link:label xlink:type="resource" xlink:label="cost_lbl" xlink:role="http://www.xbrl.org/2003/role/label" xml:lang="en-US">Investment Owned, at Cost</link:label>
+<link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="cost" xlink:to="cost_lbl"/>
+<link:loc xlink:type="locator" xlink:href="syn-20250630.xsd#syn_SoftwareMember" xlink:label="sw"/>
+<link:label xlink:type="resource" xlink:label="sw_lbl" xlink:role="http://www.xbrl.org/2003/role/label" xml:lang="en-US">Software [Member]</link:label>
+<link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="sw" xlink:to="sw_lbl"/>
+<link:loc xlink:type="locator" xlink:href="syn-20250630.xsd#syn_HealthcareMember" xlink:label="hc"/>
+<link:label xlink:type="resource" xlink:label="hc_lbl" xlink:role="http://www.xbrl.org/2003/role/label" xml:lang="en-US">Healthcare [Member]</link:label>
+<link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="hc" xlink:to="hc_lbl"/>
+<link:loc xlink:type="locator" xlink:href="syn-20250630.xsd#syn_InvestmentInterestRateFloor" xlink:label="floor"/>
+<link:label xlink:type="resource" xlink:label="floor_lbl" xlink:role="http://www.xbrl.org/2003/role/label" xml:lang="en-US">Investment, Interest Rate Floor</link:label>
+<link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="floor" xlink:to="floor_lbl"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_FairValueInputsLevel3Member" xlink:label="l3"/>
+<link:label xlink:type="resource" xlink:label="l3_lbl" xlink:role="http://www.xbrl.org/2003/role/label" xml:lang="en-US">Fair Value, Inputs, Level 3 [Member]</link:label>
+<link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="l3" xlink:to="l3_lbl"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_DebtSecuritiesMember" xlink:label="debt"/>
+<link:label xlink:type="resource" xlink:label="debt_lbl" xlink:role="http://www.xbrl.org/2003/role/label" xml:lang="en-US">Debt Securities [Member]</link:label>
+<link:labelArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/concept-label" xlink:from="debt" xlink:to="debt_lbl"/>
+</link:labelLink>
+</link:linkbase>

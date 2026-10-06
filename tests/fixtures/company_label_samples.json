@@ -1,0 +1,1183 @@
+{
+ "note": "Typed InvestmentIdentifierAxis member labels copied verbatim from the cited SEC filings. The 'fields' are what the company template's composite rules produced on 2026-10-06 (engine-derived regression guards, NOT human-reviewed golden values).",
+ "companies": [
+  {
+   "cik": "1950976",
+   "company": "26North BDC, Inc.",
+   "accession": "0001193125-26-340235",
+   "report_date": "2026-06-30",
+   "template_id": "26north-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Debt Investments | Auctane, Inc.|First Lien Senior Secured Term Loan | Air Freight & Logistics | SOFR + 6.000|9.416% |5/29/2026|6/1/2033",
+     "rule_id": "26north-pipe-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "issuer": "Auctane Inc",
+      "description": "First Lien Senior Secured Term Loan",
+      "industry": "Air Freight & Logistics",
+      "interest_rate": 0.09416,
+      "maturity_date": "2033-06-01",
+      "reference_index": "SOFR",
+      "spread_bps": 600.0,
+      "spread": 0.06
+     }
+    },
+    {
+     "label": "Debt Investments | Cpex Purchaser, LLC |First Lien Senior Secured Delayed Draw Term Loan|Software|SOFR + 6.250|10.147%|2/29/2024|3/1/2030",
+     "rule_id": "26north-pipe-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "issuer": "Cpex Purchaser LLC",
+      "description": "First Lien Senior Secured Delayed Draw Term Loan",
+      "industry": "Software",
+      "interest_rate": 0.10147,
+      "maturity_date": "2030-03-01",
+      "reference_index": "SOFR",
+      "spread_bps": 625.0,
+      "spread": 0.0625
+     }
+    },
+    {
+     "label": "Debt Investments | Homecare Software Solutions LLC |First Lien Senior Secured Term Loan|Health Care Technology|SOFR + 5.550|8.894%|9/26/2024|6/16/2031",
+     "rule_id": "26north-pipe-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "issuer": "Homecare Software Solutions LLC",
+      "description": "First Lien Senior Secured Term Loan",
+      "industry": "Health Care Technology",
+      "interest_rate": 0.08894,
+      "maturity_date": "2031-06-16",
+      "reference_index": "SOFR",
+      "spread_bps": 555.0,
+      "spread": 0.0555
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1950572",
+   "company": "BIP Ventures Evergreen BDC",
+   "accession": "0001193125-26-339708",
+   "report_date": "2026-06-30",
+   "template_id": "bip-ventures-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Investments – non-controlled / affiliated Equity Investments Healthcare ChartSpan Medical Technologies, Inc. Type Series C-1 Preferred Stock Acquisition Date 8/11/2025",
+     "rule_id": "bip-label-v1",
+     "fields": {
+      "industry": "Healthcare",
+      "issuer": "ChartSpan Medical Technologies Inc",
+      "affiliate_status": "non-controlled / affiliated",
+      "description": "Series C-1 Preferred Stock"
+     }
+    },
+    {
+     "label": "Investments – non-controlled / non-affiliated Convertible Notes Healthcare PriorAuthNow, Inc. d/b/a Rhyme, Inc. Type Unsecured Convertible Note Acquisition Date 5/13/2026 Interest Rate 8.0% Maturity Date 5/1/2028",
+     "rule_id": "bip-label-v1",
+     "fields": {
+      "industry": "Healthcare",
+      "issuer": "PriorAuthNow Inc. d/b/a Rhyme Inc",
+      "affiliate_status": "non-controlled / non-affiliated",
+      "description": "Unsecured Convertible Note",
+      "interest_rate": 0.08,
+      "maturity_date": "2028-05-01"
+     }
+    },
+    {
+     "label": "Investments – non-controlled / affiliated Equity Investments Healthcare Korio, Inc. Type Series A Preferred Stock Acquisition Date 8/23/2024",
+     "rule_id": "bip-label-v1",
+     "fields": {
+      "industry": "Healthcare",
+      "issuer": "Korio Inc",
+      "affiliate_status": "non-controlled / affiliated",
+      "description": "Series A Preferred Stock"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1379785",
+   "company": "Barings BDC, Inc.",
+   "accession": "0001379785-26-000030",
+   "report_date": "2026-06-30",
+   "template_id": "barings-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Lambir Bidco Limited | First Lien Senior Secured Term Loan 1",
+     "rule_id": "barings-pipe-label-v1",
+     "fields": {
+      "issuer": "Lambir Bidco Limited",
+      "description": "First Lien Senior Secured Term Loan 1"
+     }
+    },
+    {
+     "label": "Whitcraft Holdings, Inc. | Revolver",
+     "rule_id": "barings-pipe-label-v1",
+     "fields": {
+      "issuer": "Whitcraft Holdings Inc",
+      "description": "Revolver"
+     }
+    },
+    {
+     "label": "THG Acquisition, LLC | First Lien Senior Secured Term Loan",
+     "rule_id": "barings-pipe-label-v1",
+     "fields": {
+      "issuer": "THG Acquisition LLC",
+      "description": "First Lien Senior Secured Term Loan"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1843162",
+   "company": "Chicago Atlantic BDC, Inc.",
+   "accession": "0001193125-26-347342",
+   "report_date": "2026-06-30",
+   "template_id": "chicago-atlantic-2026-layout-v1",
+   "samples": []
+  },
+  {
+   "cik": "1841514",
+   "company": "Commonwealth Credit Partners BDC I, Inc.",
+   "accession": "0001193125-26-344908",
+   "report_date": "2026-06-30",
+   "template_id": "commonwealth-credit-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Debt Investments, First Lien Senior Secured, Pansophic Learning US, LLC - Term Loan, Consumer Services, Spread Above Index SOFR + 5.75% (1.00% floor) Interest Rate 9.40% Maturity Date 5/15/2029",
+     "rule_id": "commonwealth-debt-label-v1",
+     "fields": {
+      "investment_type": "First Lien Senior Secured",
+      "issuer": "Pansophic Learning US LLC",
+      "description": "Term Loan",
+      "industry": "Consumer Services",
+      "interest_rate": 0.094,
+      "maturity_date": "2029-05-15",
+      "reference_index": "SOFR",
+      "spread_bps": 575.0,
+      "spread": 0.0575,
+      "rate_floor": 0.01
+     }
+    },
+    {
+     "label": "Debt Investments, First Lien Senior Secured, OneCare Media, LLC - Revolving Credit Line, Media & Entertainment, Spread Above Index SOFR + 4.50% (1.00% floor) Interest Rate 8.24% Maturity Date 12/31/2027",
+     "rule_id": "commonwealth-debt-label-v1",
+     "fields": {
+      "investment_type": "First Lien Senior Secured",
+      "issuer": "OneCare Media LLC",
+      "description": "Revolving Credit Line",
+      "industry": "Media & Entertainment",
+      "interest_rate": 0.0824,
+      "maturity_date": "2027-12-31",
+      "reference_index": "SOFR",
+      "spread_bps": 450.0,
+      "spread": 0.045,
+      "rate_floor": 0.01
+     }
+    },
+    {
+     "label": "Debt Investments, First Lien Senior Secured, West Creek Financial SPV- Debt Facility VI, LLC - Revolving Credit Line, Financial Services, Spread Above Index SOFR + 5.25% (1.00% floor) Interest Rate 8.89% Maturity Date 11/19/2029",
+     "rule_id": "commonwealth-debt-label-v1",
+     "fields": {
+      "investment_type": "First Lien Senior Secured",
+      "issuer": "West Creek Financial SPV- Debt Facility VI LLC",
+      "description": "Revolving Credit Line",
+      "industry": "Financial Services",
+      "interest_rate": 0.0889,
+      "maturity_date": "2029-11-19",
+      "reference_index": "SOFR",
+      "spread_bps": 525.0,
+      "spread": 0.0525,
+      "rate_floor": 0.01
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1633336",
+   "company": "Crescent Capital BDC, Inc.",
+   "accession": "0001193125-26-342351",
+   "report_date": "2026-06-30",
+   "template_id": "crescent-capital-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Investments United States Debt Investments Capital Goods TSX Fiber Investment Type Senior Secured First Lien Term Loan Interest Term S + 600 (400 PIK), 100Floor Interest Rate 9.91% Maturity/ Dissolution Date 11/2030",
+     "rule_id": "crescent-label-v1",
+     "fields": {
+      "industry": "Capital Goods",
+      "issuer": "TSX Fiber",
+      "investment_type": "Debt Investments",
+      "description": "Senior Secured First Lien Term Loan",
+      "reference_index": "SOFR",
+      "spread_bps": 600.0,
+      "spread": 0.06,
+      "rate_floor": 0.01
+     }
+    },
+    {
+     "label": "Investments United States Debt Investments Capital Goods Oliver Packaging LLC Investment Type Senior Secured First Lien Revolver Interest Term S + 600 (425 PIK), 100 Floor Interest Rate 9.88% Maturity/ Dissolution Date 07/2029 One",
+     "rule_id": "crescent-label-v1",
+     "fields": {
+      "industry": "Capital Goods",
+      "issuer": "Oliver Packaging LLC",
+      "investment_type": "Debt Investments",
+      "description": "Senior Secured First Lien Revolver",
+      "reference_index": "SOFR",
+      "spread_bps": 600.0,
+      "spread": 0.06,
+      "rate_floor": 0.01
+     }
+    },
+    {
+     "label": "Investments United States Debt Investments Health Care Equipment & Services Team Select (CSC TS Merger SUB, LLC) Investment Type Senior Secured First Lien Delayed Draw Term Loan Interest Term S + 475, 100 Floor Interest Rate 8.36% Maturity/ Dissolution Date 05/2029 Two",
+     "rule_id": "crescent-label-v1",
+     "fields": {
+      "industry": "Health Care Equipment & Services",
+      "issuer": "Team Select (CSC TS Merger SUB LLC)",
+      "investment_type": "Debt Investments",
+      "description": "Senior Secured First Lien Delayed Draw Term Loan",
+      "reference_index": "SOFR",
+      "spread_bps": 475.0,
+      "spread": 0.0475,
+      "rate_floor": 0.01
+     }
+    }
+   ]
+  },
+  {
+   "cik": "2018545",
+   "company": "Franklin BSP Real Estate Debt BDC",
+   "accession": "0002018545-25-000016",
+   "report_date": "2025-06-30",
+   "template_id": "franklin-bsp-red-2025-layout-v1",
+   "samples": [
+    {
+     "label": "Caledon Owner, LLC, Multifamily",
+     "rule_id": "fbred-label-v1",
+     "fields": {
+      "issuer": "Caledon Owner LLC",
+      "industry": "Multifamily"
+     }
+    },
+    {
+     "label": "PREF Montabella PropCo, LLC & PREF Dominion PropCo, LLC, Multifamily",
+     "rule_id": "fbred-label-v1",
+     "fields": {
+      "issuer": "PREF Montabella PropCo LLC & PREF Dominion PropCo LLC",
+      "industry": "Multifamily"
+     }
+    },
+    {
+     "label": "Olymbec Viscount LLC, Industrial",
+     "rule_id": "fbred-label-v1",
+     "fields": {
+      "issuer": "Olymbec Viscount LLC",
+      "industry": "Industrial"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1476765",
+   "company": "GOLUB CAPITAL BDC, Inc.",
+   "accession": "0001476765-26-000048",
+   "report_date": "2026-06-30",
+   "template_id": "golub-capital-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "PHM NL SP Bidco B.V. | One stop 4 | Non-Affiliated Issuer",
+     "rule_id": "golub-pipe-label-v1",
+     "fields": {
+      "issuer": "PHM NL SP Bidco B.V.",
+      "description": "One stop 4",
+      "affiliate_status": "Non-Affiliated Issuer"
+     }
+    },
+    {
+     "label": "Thermogenics, Inc. | One stop 2 | Non-Affiliated Issuer",
+     "rule_id": "golub-pipe-label-v1",
+     "fields": {
+      "issuer": "Thermogenics Inc",
+      "description": "One stop 2",
+      "affiliate_status": "Non-Affiliated Issuer"
+     }
+    },
+    {
+     "label": "CMI Parent Inc. | One stop 3 | Non-Affiliated Issuer",
+     "rule_id": "golub-pipe-label-v1",
+     "fields": {
+      "issuer": "CMI Parent Inc",
+      "description": "One stop 3",
+      "affiliate_status": "Non-Affiliated Issuer"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1572694",
+   "company": "Goldman Sachs BDC, Inc.",
+   "accession": "0001193125-26-338331",
+   "report_date": "2026-06-30",
+   "template_id": "goldman-sachs-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Investment Debt Investments - 232.7% United States - 219.9% 1st Lien/Senior Secured Debt - 205.5% Buckeye Acquiror LLC (dba Superior Environmental Solutions) Industry Commercial Services & Supplies Interest Rate 10.24% Reference Rate and Spread S + 6.50% Maturity 08/01/29 One",
+     "rule_id": "gsbd-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "description": "1st Lien/Senior Secured Debt",
+      "issuer": "Buckeye Acquiror LLC (dba Superior Environmental Solutions)",
+      "industry": "Commercial Services & Supplies",
+      "interest_rate": 0.1024,
+      "reference_index": "SOFR",
+      "spread_bps": 650.0,
+      "spread": 0.065
+     }
+    },
+    {
+     "label": "Investment Debt Investments - 232.7% United States - 219.9% 1st Lien/Senior Secured Debt - 205.5% Airwavz Solutions, Inc. Industry Wireless Telecommunication Services Interest Rate 9.06% Reference Rate and Spread S + 5.25% Maturity 03/31/27",
+     "rule_id": "gsbd-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "description": "1st Lien/Senior Secured Debt",
+      "issuer": "Airwavz Solutions Inc",
+      "industry": "Wireless Telecommunication Services",
+      "interest_rate": 0.0906,
+      "maturity_date": "2027-03-31",
+      "reference_index": "SOFR",
+      "spread_bps": 525.0,
+      "spread": 0.0525
+     }
+    },
+    {
+     "label": "Investment Debt Investments - 232.7% United States - 219.9% 1st Lien/Senior Secured Debt - 205.5% US Signal Company, LLC Industry IT Services Interest Rate 9.26% Reference Rate and Spread S + 5.50% Maturity 09/04/29",
+     "rule_id": "gsbd-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "description": "1st Lien/Senior Secured Debt",
+      "issuer": "US Signal Company LLC",
+      "industry": "IT Services",
+      "interest_rate": 0.0926,
+      "maturity_date": "2029-09-04",
+      "reference_index": "SOFR",
+      "spread_bps": 550.0,
+      "spread": 0.055
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1901612",
+   "company": "Golub Capital BDC 4, Inc.",
+   "accession": "0001901612-26-000031",
+   "report_date": "2026-06-30",
+   "template_id": "golub-capital-bdc4-2026-layout-v1",
+   "samples": [
+    {
+     "label": "PPW Aero Buyer, Inc. | One stop 1",
+     "rule_id": "golub-pipe-label-v1",
+     "fields": {
+      "issuer": "PPW Aero Buyer Inc",
+      "description": "One stop 1"
+     }
+    },
+    {
+     "label": "Eagle Family Foods Group, LLC | One stop 1",
+     "rule_id": "golub-pipe-label-v1",
+     "fields": {
+      "issuer": "Eagle Family Foods Group LLC",
+      "description": "One stop 1"
+     }
+    },
+    {
+     "label": "Mario Purchaser, LLC | One stop 1",
+     "rule_id": "golub-pipe-label-v1",
+     "fields": {
+      "issuer": "Mario Purchaser LLC",
+      "description": "One stop 1"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1578348",
+   "company": "Investcorp Credit Management BDC, Inc.",
+   "accession": "0001193125-26-352658",
+   "report_date": "2026-06-30",
+   "template_id": "investcorp-cm-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Non-Controlled/Non-Affiliated Investments, Senior Secured First Lien Debt Investments, Software, AppLogic Networks Parent LLC - Sandvine Exit TL, Interest Rate 3M S + 1.00% + 5.00% PIK, Maturity Date 3/4/2030",
+     "rule_id": "investcorp-label-v1",
+     "fields": {
+      "affiliate_status": "Non-Controlled/Non-Affiliated Investments",
+      "investment_type": "Senior Secured First Lien Debt Investments",
+      "industry": "Software",
+      "issuer": "AppLogic Networks Parent LLC",
+      "maturity_date": "2030-03-04",
+      "reference_index": "SOFR",
+      "spread_bps": 100.0,
+      "spread": 0.01,
+      "description": "Sandvine Exit TL"
+     }
+    },
+    {
+     "label": "Non-Controlled/Non-Affiliated Investments, Senior Secured First Lien Debt Investments, Diversified Consumer Services, Axiom Global Inc. Term Loan, Interest Rate 3M S + 4.50% (0.75% Floor), Maturity Date 10/2/2028 One",
+     "rule_id": "investcorp-label-v1",
+     "fields": {
+      "affiliate_status": "Non-Controlled/Non-Affiliated Investments",
+      "investment_type": "Senior Secured First Lien Debt Investments",
+      "industry": "Diversified Consumer Services",
+      "issuer": "Axiom Global Inc. Term Loan",
+      "reference_index": "SOFR",
+      "spread_bps": 450.0,
+      "spread": 0.045,
+      "rate_floor": 0.0075
+     }
+    },
+    {
+     "label": "Non-Controlled/Affiliated Investments, Senior Secured First Lien Debt Investments, Entertainment, Crafty Apes, LLC Term Loan - Second Out, Interest Rate 1M S + 6.50% PIK (1.00% Floor), Maturity Date 6/1/2027",
+     "rule_id": "investcorp-label-v1",
+     "fields": {
+      "affiliate_status": "Non-Controlled/Affiliated Investments",
+      "investment_type": "Senior Secured First Lien Debt Investments",
+      "industry": "Entertainment",
+      "issuer": "Crafty Apes LLC Term Loan",
+      "maturity_date": "2027-06-01",
+      "reference_index": "SOFR",
+      "spread_bps": 650.0,
+      "spread": 0.065,
+      "rate_floor": 0.01,
+      "description": "Second Out"
+     }
+    },
+    {
+     "label": "Discovery Behavioral Health, LLC - Preferred Equity",
+     "rule_id": "investcorp-html-issuer-description-v1",
+     "fields": {
+      "issuer": "Discovery Behavioral Health LLC",
+      "description": "Preferred Equity"
+     }
+    },
+    {
+     "label": "Fusion Connect, Inc. - Equity Investor Warrants",
+     "rule_id": "investcorp-html-issuer-description-v1",
+     "fields": {
+      "issuer": "Fusion Connect Inc",
+      "description": "Equity Investor Warrants"
+     }
+    },
+    {
+     "label": "Non-Controlled/Non-Affiliated Investments, Equity, Warrants and Other Investments, Commercial Services & Supplies, ArborWorks, LLC B-1 - Preferred Units, Initial Acquisition Date 11/24/2021",
+     "rule_id": "investcorp-label-v1",
+     "fields": {
+      "affiliate_status": "Non-Controlled/Non-Affiliated Investments",
+      "investment_type": "Equity, Warrants and Other Investments",
+      "industry": "Commercial Services & Supplies",
+      "issuer": "ArborWorks LLC B-1",
+      "description": "Preferred Units",
+      "issue_date": "2021-11-24"
+     }
+    },
+    {
+     "label": "Non-Controlled/Non-Affiliated Investments, Equity, Warrants and Other Investments, Health Care Providers & Services, Discovery Behavioral Health, LLC - Preferred Equity, Interest Rate +13.50% PIK, Initial Acquisition Date 10/10/2023",
+     "rule_id": "investcorp-label-v1",
+     "fields": {
+      "industry": "Health Care Providers & Services",
+      "issuer": "Discovery Behavioral Health LLC",
+      "description": "Preferred Equity",
+      "issue_date": "2023-10-10"
+     }
+    },
+    {
+     "label": "Non-Controlled/Non-Affiliated Investments, Equity, Warrants and Other Investments, IT Services, Fusion Connect, Inc. - Backstop Warrants, Initial Acquisition Date 1/12/2022",
+     "rule_id": "investcorp-label-v1",
+     "fields": {
+      "industry": "IT Services",
+      "issuer": "Fusion Connect Inc",
+      "description": "Backstop Warrants",
+      "issue_date": "2022-01-12"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1959604",
+   "company": "Jefferies Credit Partners BDC Inc.",
+   "accession": "0001193125-26-345216",
+   "report_date": "2026-06-30",
+   "template_id": "jefferies-credit-partners-2026-layout-v1",
+   "samples": [
+    {
+     "label": "NCNA Ptfl Cmp Invs First Lien Debt Investments Software Sapphire Software Buyer, Inc. Investment Type First Lien Term Loan Reference Rate and Spread S + 5.00% Maturity Date 9/30/2031",
+     "rule_id": "jefferies-label-v1",
+     "fields": {
+      "industry": "Software",
+      "issuer": "Sapphire Software Buyer Inc",
+      "investment_type": "First Lien Debt Investments",
+      "description": "First Lien Term Loan",
+      "maturity_date": "2031-09-30",
+      "reference_index": "SOFR",
+      "spread_bps": 500.0,
+      "spread": 0.05
+     }
+    },
+    {
+     "label": "NCNA Ptfl Cmp Invs First Lien Debt Investments Machinery Harvey Tool Company, LLC Investment Type First Lien Term Loan Reference Rate and Spread S + 4.50% Maturity Date 8/6/2032",
+     "rule_id": "jefferies-label-v1",
+     "fields": {
+      "industry": "Machinery",
+      "issuer": "Harvey Tool Company LLC",
+      "investment_type": "First Lien Debt Investments",
+      "description": "First Lien Term Loan",
+      "maturity_date": "2032-08-06",
+      "reference_index": "SOFR",
+      "spread_bps": 450.0,
+      "spread": 0.045
+     }
+    },
+    {
+     "label": "NCNA Ptfl Cmp Invs First Lien Debt Investments Air Freight & Logistics Capstone Acquisition Holdings, Inc. Investment Type First Lien Delayed Draw Term Loan Reference Rate and Spread S + 4.50% Maturity Date 11/12/2029",
+     "rule_id": "jefferies-label-v1",
+     "fields": {
+      "industry": "Air Freight & Logistics",
+      "issuer": "Capstone Acquisition Holdings Inc",
+      "investment_type": "First Lien Debt Investments",
+      "description": "First Lien Delayed Draw Term Loan",
+      "maturity_date": "2029-11-12",
+      "reference_index": "SOFR",
+      "spread_bps": 450.0,
+      "spread": 0.045
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1747172",
+   "company": "Kayne Anderson BDC, Inc.",
+   "accession": "0001193125-26-342385",
+   "report_date": "2026-06-30",
+   "template_id": "kayne-anderson-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Debt Investments - Professional services - DISA Holdings Corp. - First lien senior secured loan - Interest Rate 8.69% - Spread 5.00% - Reference SOFR(Q) - Maturity Date 9/9/2028 - One",
+     "rule_id": "kayne-dash-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "industry": "Professional services",
+      "issuer": "DISA Holdings Corp",
+      "description": "First lien senior secured loan - Interest Rate 8.69% - Spread 5.00% - Reference SOFR(Q) - Maturity Date 9/9/2028 - One"
+     }
+    },
+    {
+     "label": "Debt Investments - Machinery - CMT Intermediate Holdings, LLC (Capital Machine Technologies) - First lien senior secured loan - Interest Rate 9.14% - Spread 5.50% - Reference SOFR(M) - Maturity Date 3/29/2030",
+     "rule_id": "kayne-dash-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "industry": "Machinery",
+      "issuer": "CMT Intermediate Holdings LLC (Capital Machine Technologies)",
+      "description": "First lien senior secured loan",
+      "interest_rate": 0.0914,
+      "spread_bps": 550.0,
+      "spread": 0.055,
+      "reference_index": "SOFR",
+      "maturity_date": "2030-03-29"
+     }
+    },
+    {
+     "label": "Debt Investments - Machinery - Eppinger Technologies, LLC - First lien senior secured revolving loan - Interest Rate 11.32% - Spread 6.90% - PIK Rate 0.75% - Reference SOFR(Q) - Maturity Date 10/31/2026",
+     "rule_id": "kayne-dash-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "industry": "Machinery",
+      "issuer": "Eppinger Technologies LLC",
+      "description": "First lien senior secured revolving loan - Interest Rate 11.32% - Spread 6.90% - PIK Rate 0.75%",
+      "reference_index": "SOFR",
+      "maturity_date": "2026-10-31"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1779523",
+   "company": "Muzinich BDC, Inc.",
+   "accession": "0001213900-26-089024",
+   "report_date": "2026-06-30",
+   "template_id": "muzinich-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Equity Investments - Preferred Stock - Diversified Support Services - Sayres and Associates LLC - Preferred Stock - Class A",
+     "rule_id": "muzinich-equity-label-v1",
+     "fields": {
+      "investment_type": "Equity Investments",
+      "industry": "Diversified Support Services",
+      "issuer": "Sayres and Associates LLC - Preferred Stock",
+      "description": "Class A"
+     }
+    },
+    {
+     "label": "Senior Secured Loan Debt Investments - Automotive - AGS Automotive Solutions Holdings - Delayed Draw Term Loan",
+     "rule_id": "muzinich-debt-label-v1",
+     "fields": {
+      "investment_type": "Senior Secured Loan Debt Investments",
+      "industry": "Automotive",
+      "issuer": "AGS Automotive Solutions Holdings",
+      "description": "Delayed Draw Term Loan"
+     }
+    },
+    {
+     "label": "Senior Secured Loan Debt Investments - Industrial Machinery - Diamond Blade Warehouse LLC - First Lien Term Loan",
+     "rule_id": "muzinich-debt-label-v1",
+     "fields": {
+      "investment_type": "Senior Secured Loan Debt Investments",
+      "industry": "Industrial Machinery",
+      "issuer": "Diamond Blade Warehouse LLC",
+      "description": "First Lien Term Loan"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1925531",
+   "company": "New Mountain Guardian IV BDC, L.L.C.",
+   "accession": "0001925531-26-000014",
+   "report_date": "2026-06-30",
+   "template_id": "new-mountain-guardian-iv-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Centegix Intermediate II, LLC | First Lien 2",
+     "rule_id": "nmg4-pipe-label-v1",
+     "fields": {
+      "issuer": "Centegix Intermediate II LLC",
+      "description": "First Lien 2"
+     }
+    },
+    {
+     "label": "Legends Hospitality Holding Company, LLC | First Lien 1",
+     "rule_id": "nmg4-pipe-label-v1",
+     "fields": {
+      "issuer": "Legends Hospitality Holding Company LLC",
+      "description": "First Lien 1"
+     }
+    },
+    {
+     "label": "Community Management Holdings MidCo 2, LLC | First Lien 1",
+     "rule_id": "nmg4-pipe-label-v1",
+     "fields": {
+      "issuer": "Community Management Holdings MidCo 2 LLC",
+      "description": "First Lien 1"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1860424",
+   "company": "Onex Direct Lending BDC Fund",
+   "accession": "0001193125-26-339194",
+   "report_date": "2026-06-30",
+   "template_id": "onex-direct-lending-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Non-controlled/Non-affiliated investments Debt Investments High Tech Industries Apryse Software Corp First Lien Revolver Reference Rate and Spread 3M SOFR + 4.50% Interest Rate 8.24% Initial Acquisition Date 6/25/2025 Maturity Date 6/26/2032",
+     "rule_id": "onex-label-v1",
+     "fields": {
+      "industry": "High Tech Industries",
+      "issuer": "Apryse Software Corp First Lien Revolver",
+      "affiliate_status": "Non-controlled/Non-affiliated investments",
+      "investment_type": "Debt Investments",
+      "interest_rate": 0.0824,
+      "maturity_date": "2032-06-26",
+      "reference_index": "SOFR",
+      "spread_bps": 450.0,
+      "spread": 0.045
+     }
+    },
+    {
+     "label": "Non-controlled/Non-affiliated investments Debt Investments Construction & Building CP Atlas Buyer, Inc. First Lien Term Loan Reference Rate and Spread 1M SOFR + 5.25% Interest Rate 8.89% Initial Acquisition Date 7/1/2025 Maturity Date 7/8/2030",
+     "rule_id": "onex-label-v1",
+     "fields": {
+      "industry": "Construction & Building",
+      "issuer": "CP Atlas Buyer Inc. First Lien Term Loan",
+      "affiliate_status": "Non-controlled/Non-affiliated investments",
+      "investment_type": "Debt Investments",
+      "interest_rate": 0.0889,
+      "maturity_date": "2030-07-08",
+      "reference_index": "SOFR",
+      "spread_bps": 525.0,
+      "spread": 0.0525
+     }
+    },
+    {
+     "label": "Non-controlled/Non-affiliated investments Debt Investments Non-controlled/Non-affiliated investments Debt Investments Transportation: Cargo Keystone Purchaser, LLC First Lien Term Loan Reference Rate and Spread 3M SOFR + 5.75% Floor 1.00% Interest Rate 9.74% Initial Acquisition Date 2/1/2022 Maturity Date 5/7/2027",
+     "rule_id": "onex-label-v1",
+     "fields": {
+      "industry": "Transportation: Cargo",
+      "issuer": "Keystone Purchaser LLC First Lien Term Loan",
+      "affiliate_status": "Non-controlled/Non-affiliated investments",
+      "investment_type": "Debt Investments",
+      "rate_floor": 0.01,
+      "interest_rate": 0.0974,
+      "maturity_date": "2027-05-07",
+      "reference_index": "SOFR",
+      "spread_bps": 575.0,
+      "spread": 0.0575
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1905824",
+   "company": "PIMCO Capital Solutions BDC Corp.",
+   "accession": "0001193125-26-344935",
+   "report_date": "2026-06-30",
+   "template_id": "pimco-capital-solutions-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Debt Investments | First Lien Senior Secured | Technology | MRI Software, LLC Revolving Credit Loan | SOFR + 4.750 % | 8.450 % | 02/10/2028",
+     "rule_id": "pimco-pipe-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "industry": "Technology",
+      "issuer": "MRI Software LLC Revolving Credit Loan",
+      "interest_rate": 0.0845,
+      "maturity_date": "2028-02-10",
+      "reference_index": "SOFR",
+      "spread_bps": 475.0,
+      "spread": 0.0475
+     }
+    },
+    {
+     "label": "Debt Investments | First Lien Senior Secured | Technology | Newfold Digital Holdings Group, Inc. Initial Tranche A Term Loan | SOFR + 3.600 % | 7.269 % | 04/30/2029",
+     "rule_id": "pimco-pipe-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "industry": "Technology",
+      "issuer": "Newfold Digital Holdings Group Inc. Initial Tranche A Term Loan",
+      "interest_rate": 0.07269,
+      "maturity_date": "2029-04-30",
+      "reference_index": "SOFR",
+      "spread_bps": 360.0,
+      "spread": 0.036
+     }
+    },
+    {
+     "label": "Debt Investments | First Lien Senior Secured | Technology | Denali Intermediate Holdings, Inc. Term Loan | SOFR + 5.500%| 9.176 % | 08/26/2032",
+     "rule_id": "pimco-pipe-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "industry": "Technology",
+      "issuer": "Denali Intermediate Holdings Inc. Term Loan",
+      "interest_rate": 0.09176,
+      "maturity_date": "2032-08-26",
+      "reference_index": "SOFR",
+      "spread_bps": 550.0,
+      "spread": 0.055
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1794776",
+   "company": "Palmer Square Capital BDC Inc.",
+   "accession": "0001193125-26-333791",
+   "report_date": "2026-06-30",
+   "template_id": "palmer-square-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Portfolio Company Debt Investments Electronic Equipment, Instruments and Components Infinite Bidco, LLC Investment Second Lien Senior Secured Loan Interest Rate 10.93% (S +CSA + 7.00%) Maturity Date 2/24/2029",
+     "rule_id": "palmer-square-label-v1",
+     "fields": {
+      "industry": "Electronic Equipment, Instruments and Components",
+      "issuer": "Infinite Bidco LLC",
+      "investment_type": "Debt Investments",
+      "description": "Second Lien Senior Secured Loan",
+      "maturity_date": "2029-02-24",
+      "reference_index": "SOFR",
+      "spread_bps": 700.0,
+      "spread": 0.07,
+      "interest_rate": 0.1093
+     }
+    },
+    {
+     "label": "Portfolio Company Debt Investments Metals and Mining American Rock Salt Company LLC Investment First Lien Senior Secured Loan Interest Rate 7.99% (S +CSA + 4.00%) Maturity Date 6/9/2028",
+     "rule_id": "palmer-square-label-v1",
+     "fields": {
+      "industry": "Metals and Mining",
+      "issuer": "American Rock Salt Company LLC",
+      "investment_type": "Debt Investments",
+      "description": "First Lien Senior Secured Loan",
+      "maturity_date": "2028-06-09",
+      "reference_index": "SOFR",
+      "spread_bps": 400.0,
+      "spread": 0.04,
+      "interest_rate": 0.0799
+     }
+    },
+    {
+     "label": "Portfolio Company Debt Investments Healthcare Equipment and Supplies Hologic Inc Investment Second Lien Senior Secured Loan Interest Rate 8.74% (S + 5.00%) Maturity Date 4/7/2034",
+     "rule_id": "palmer-square-label-v1",
+     "fields": {
+      "industry": "Healthcare Equipment and Supplies",
+      "issuer": "Hologic Inc",
+      "investment_type": "Debt Investments",
+      "description": "Second Lien Senior Secured Loan",
+      "maturity_date": "2034-04-07",
+      "reference_index": "SOFR",
+      "spread_bps": 500.0,
+      "spread": 0.05,
+      "interest_rate": 0.0874
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1743415",
+   "company": "SCP Private Credit Income BDC LLC",
+   "accession": "0001193125-26-332724",
+   "report_date": "2026-06-30",
+   "template_id": "scp-private-credit-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Common Equity/Equity Interests/Warrants — TI TopCo Holdings, LLC Industry Ground Transportation Acquisition Date 1/2026",
+     "rule_id": "scp-label-v1",
+     "fields": {
+      "investment_type": "Common Equity/Equity Interests/Warrants",
+      "issuer": "TI TopCo Holdings LLC",
+      "industry": "Ground Transportation"
+     }
+    },
+    {
+     "label": "Bank Debt/Senior Secured Loans — iCIMS, Inc. Industry Software Spread above Index S+575(5) Floor 0.75% Interest Rate 9.42% Acquisition Date 8/2022 Maturity Date 8/2028",
+     "rule_id": "scp-label-v1",
+     "fields": {
+      "investment_type": "Bank Debt/Senior Secured Loans",
+      "issuer": "iCIMS Inc",
+      "industry": "Software",
+      "rate_floor": 0.0075,
+      "interest_rate": 0.0942,
+      "reference_index": "SOFR",
+      "spread_bps": 575.0,
+      "spread": 0.0575
+     }
+    },
+    {
+     "label": "Preferred Equity — TI TopCo Holdings, LLC Industry Ground Transportation Interest Rate 10.00% PIK Acquisition Date 1/2026",
+     "rule_id": "scp-label-v1",
+     "fields": {
+      "investment_type": "Preferred Equity",
+      "issuer": "TI TopCo Holdings LLC",
+      "industry": "Ground Transportation Interest Rate 10.00% PIK"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1832148",
+   "company": "SLR HC BDC LLC",
+   "accession": "0001193125-26-332723",
+   "report_date": "2026-06-30",
+   "template_id": "slr-hc-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Bank Debt/Senior Secured Loans | SunMed Group Holdings, LLC | Health Care Equipment & Supplies | S+550 | 0.75% | 9.26% | 6/2021 | 6/2028",
+     "rule_id": "slr-pipe-label-v1",
+     "fields": {
+      "investment_type": "Bank Debt/Senior Secured Loans",
+      "issuer": "SunMed Group Holdings LLC",
+      "industry": "Health Care Equipment & Supplies",
+      "rate_floor": 0.0075,
+      "interest_rate": 0.0926,
+      "reference_index": "SOFR",
+      "spread_bps": 550.0,
+      "spread": 0.055
+     }
+    },
+    {
+     "label": "Bank Debt/Senior Secured Loans | ReFocus Management Services, LLC | Health Care Providers & Services | S+500 | 1.00% | 8.64% | 2/2026 | 2/2029",
+     "rule_id": "slr-pipe-label-v1",
+     "fields": {
+      "investment_type": "Bank Debt/Senior Secured Loans",
+      "issuer": "ReFocus Management Services LLC",
+      "industry": "Health Care Providers & Services",
+      "rate_floor": 0.01,
+      "interest_rate": 0.0864,
+      "reference_index": "SOFR",
+      "spread_bps": 500.0,
+      "spread": 0.05
+     }
+    },
+    {
+     "label": "Bank Debt/Senior Secured Loans | Western Veterinary Partners LLC | Diversified Consumer Services | S+525 | 1.00% | 8.98% | 1/2024 | 10/2027",
+     "rule_id": "slr-pipe-label-v1",
+     "fields": {
+      "investment_type": "Bank Debt/Senior Secured Loans",
+      "issuer": "Western Veterinary Partners LLC",
+      "industry": "Diversified Consumer Services",
+      "rate_floor": 0.01,
+      "interest_rate": 0.0898,
+      "reference_index": "SOFR",
+      "spread_bps": 525.0,
+      "spread": 0.0525
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1932591",
+   "company": "SLR Private Credit BDC II LLC",
+   "accession": "0001193125-26-332722",
+   "report_date": "2026-06-30",
+   "template_id": "slr-private-credit-ii-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Bank Debt/Senior Secured Loans — 233.6% | WALCO Funding, LLC | Financial Services | S+785 | 1.00% | 11.49% | 6/2025| 12/2028",
+     "rule_id": "slr-pipe-label-v1",
+     "fields": {
+      "investment_type": "Bank Debt/Senior Secured Loans — 233.6%",
+      "issuer": "WALCO Funding LLC",
+      "industry": "Financial Services",
+      "rate_floor": 0.01,
+      "interest_rate": 0.1149,
+      "reference_index": "SOFR",
+      "spread_bps": 785.0,
+      "spread": 0.0785
+     }
+    },
+    {
+     "label": "Bank Debt/Senior Secured Loans — 233.6% | World Insurance Associates, LLC | Insurance | S+500 | 1.00% | 8.63% | 10/2023 | 4/2030",
+     "rule_id": "slr-pipe-label-v1",
+     "fields": {
+      "investment_type": "Bank Debt/Senior Secured Loans — 233.6%",
+      "issuer": "World Insurance Associates LLC",
+      "industry": "Insurance",
+      "rate_floor": 0.01,
+      "interest_rate": 0.0863,
+      "reference_index": "SOFR",
+      "spread_bps": 500.0,
+      "spread": 0.05
+     }
+    },
+    {
+     "label": "Bank Debt/Senior Secured Loans — 233.6% | Medrina, LLC | Health Care Providers & Services | S+600 | 1.00% | 9.63% | 10/2023 | 10/2029",
+     "rule_id": "slr-pipe-label-v1",
+     "fields": {
+      "investment_type": "Bank Debt/Senior Secured Loans — 233.6%",
+      "issuer": "Medrina LLC",
+      "industry": "Health Care Providers & Services",
+      "rate_floor": 0.01,
+      "interest_rate": 0.0963,
+      "reference_index": "SOFR",
+      "spread_bps": 600.0,
+      "spread": 0.06
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1901037",
+   "company": "Stellus Private Credit BDC",
+   "accession": "0001104659-26-094771",
+   "report_date": "2026-06-30",
+   "template_id": "stellus-private-credit-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Valor Buyco LLC, Delayed Draw Term Loan",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Valor Buyco LLC",
+      "description": "Delayed Draw Term Loan"
+     }
+    },
+    {
+     "label": "Silver Corporate Holdings LLC, Term Loan",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Silver Corporate Holdings LLC",
+      "description": "Term Loan"
+     }
+    },
+    {
+     "label": "Compost 360 Acquisition, LLC Term Loan",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Compost 360 Acquisition LLC",
+      "description": "Term Loan"
+     }
+    },
+    {
+     "label": "Monitorus Holding LLC, Sapphire Aggregator S.a r.l. Class G Shares",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Monitorus Holding LLC",
+      "description": "Sapphire Aggregator S.a r.l. Class G Shares"
+     }
+    },
+    {
+     "label": "Bart & Associates LLC, B&A Partners Holding LLC Series B Preferred Units",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Bart & Associates LLC",
+      "description": "B&A Partners Holding LLC Series B Preferred Units"
+     }
+    },
+    {
+     "label": "Champion Services Acquireco LLC, Term Loan (PBDC SPV)",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Champion Services Acquireco LLC",
+      "description": "Term Loan (PBDC SPV)"
+     }
+    },
+    {
+     "label": "AdCellerant LLC Term A Loan",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "AdCellerant LLC",
+      "description": "Term A Loan"
+     }
+    },
+    {
+     "label": "USDTL AcquisitionCo Inc. Revolver One",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "USDTL AcquisitionCo Inc",
+      "description": "Revolver One"
+     }
+    },
+    {
+     "label": "Impact Home Services LLC Impact Holdings Georgia LLC Class A Units",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Impact Home Services LLC Impact Holdings Georgia LLC",
+      "description": "Class A Units"
+     }
+    },
+    {
+     "label": "Eskola LLC, Eskola Holdings LLC Class C Units",
+     "rule_id": "stellus-label-v1",
+     "fields": {
+      "issuer": "Eskola LLC",
+      "description": "Eskola Holdings LLC Class C Units"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "1580345",
+   "company": "TriplePoint Venture Growth BDC Corp.",
+   "accession": "0001580345-26-000025",
+   "report_date": "2026-06-30",
+   "template_id": "triplepoint-venture-growth-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Forum Brands, LLC | Convertible Note",
+     "rule_id": "tpvg-pipe-label-v1",
+     "fields": {
+      "issuer": "Forum Brands LLC",
+      "description": "Convertible Note"
+     }
+    },
+    {
+     "label": "Passport Labs, Inc. | Preferred Stock | Equity Investments",
+     "rule_id": "tpvg-pipe-label-v1",
+     "fields": {
+      "issuer": "Passport Labs Inc",
+      "description": "Preferred Stock",
+      "investment_type": "Equity Investments"
+     }
+    },
+    {
+     "label": "Vergesense Inc. | Common Stock | Warrant Investments",
+     "rule_id": "tpvg-pipe-label-v1",
+     "fields": {
+      "issuer": "Vergesense Inc",
+      "description": "Common Stock",
+      "investment_type": "Warrant Investments"
+     }
+    },
+    {
+     "label": "Bestow Inc. | Preferred Stock 3 | Equity Investments  |Non-Affiliated Issuer",
+     "rule_id": "tpvg-pipe-label-v1",
+     "fields": {
+      "issuer": "Bestow Inc",
+      "description": "Preferred Stock 3",
+      "investment_type": "Equity Investments",
+      "affiliate_status": "Non-Affiliated Issuer"
+     }
+    },
+    {
+     "label": "Lively, Inc. | Growth Capital Loan | Non-Affiliated",
+     "rule_id": "tpvg-pipe-label-v1",
+     "fields": {
+      "issuer": "Lively Inc",
+      "description": "Growth Capital Loan",
+      "affiliate_status": "Non-Affiliated"
+     }
+    },
+    {
+     "label": "GrubMarket, Inc. | Common Stock | Equity Investments  |",
+     "rule_id": "tpvg-pipe-label-v1",
+     "fields": {
+      "issuer": "GrubMarket Inc",
+      "description": "Common Stock",
+      "investment_type": "Equity Investments"
+     }
+    }
+   ]
+  },
+  {
+   "cik": "2020354",
+   "company": "West Bay BDC LLC",
+   "accession": "0001193125-26-344618",
+   "report_date": "2026-06-30",
+   "template_id": "west-bay-bdc-2026-layout-v1",
+   "samples": [
+    {
+     "label": "Debt Investments - 209.2% United States - 209.2% 1st Lien/Senior Secured Debt - 203.7% Wildcat Solutions Holdings, LLC (dba O6 Environmental) Industry Commercial Services & Supplies Reference Rate and Spread S + 4.75% Maturity 08/05/32",
+     "rule_id": "west-bay-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "description": "1st Lien/Senior Secured Debt",
+      "issuer": "Wildcat Solutions Holdings LLC (dba O6 Environmental)",
+      "industry": "Commercial Services & Supplies",
+      "maturity_date": "2032-08-05",
+      "reference_index": "SOFR",
+      "spread_bps": 475.0,
+      "spread": 0.0475
+     }
+    },
+    {
+     "label": "Debt Investments - 209.2% United States - 209.2% 1st Lien/Senior Secured Debt - 203.7% Octane Purchaser, Inc. (dba Office Ally) Industry Health Care Technology Interest Rate 7.99% Reference Rate and Spread S + 4.35% Maturity 05/19/32",
+     "rule_id": "west-bay-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "description": "1st Lien/Senior Secured Debt",
+      "issuer": "Octane Purchaser Inc. (dba Office Ally)",
+      "industry": "Health Care Technology",
+      "interest_rate": 0.0799,
+      "maturity_date": "2032-05-19",
+      "reference_index": "SOFR",
+      "spread_bps": 435.0,
+      "spread": 0.0435
+     }
+    },
+    {
+     "label": "Debt Investments - 209.2% United States - 209.2% 1st Lien/Senior Secured Debt - 203.7% Saber Parent Holdings Corp. (dba Service Logic) Industry Commercial Services & Supplies Interest Rate 8.42% Reference Rate and Spread S + 4.75% (Incl. 2.25% PIK) Maturity 12/16/32",
+     "rule_id": "west-bay-label-v1",
+     "fields": {
+      "investment_type": "Debt Investments",
+      "description": "1st Lien/Senior Secured Debt",
+      "issuer": "Saber Parent Holdings Corp. (dba Service Logic)",
+      "industry": "Commercial Services & Supplies",
+      "interest_rate": 0.0842,
+      "maturity_date": "2032-12-16",
+      "reference_index": "SOFR",
+      "spread_bps": 475.0,
+      "spread": 0.0475
+     }
+    }
+   ]
+  }
+ ]
+}

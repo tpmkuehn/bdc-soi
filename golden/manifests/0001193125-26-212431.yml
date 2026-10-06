@@ -1,0 +1,11 @@
+cik: "1572694"
+company_name: "Goldman Sachs BDC, Inc."
+accession_number: "0001193125-26-212431"
+form: "10-Q"
+report_date: "2026-03-31"
+split: regression
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001193125-26-212431.candidates.csv
+notes: "Prior reporting period for the company template; candidates from output/s2_t*_<cik>_prior; UNREVIEWED."

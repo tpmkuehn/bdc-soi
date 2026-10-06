@@ -1,0 +1,11 @@
+cik: "1580345"
+company_name: "TriplePoint Venture Growth BDC Corp."
+accession_number: "0001580345-26-000025"
+form: "10-Q"
+report_date: "2026-06-30"
+split: development
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001580345-26-000025.candidates.csv
+notes: "Company template was built on this filing; candidates from the universe run; UNREVIEWED."

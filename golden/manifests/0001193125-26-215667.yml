@@ -1,0 +1,11 @@
+cik: "1837532"
+company_name: "Apollo Debt Solutions BDC"
+accession_number: "0001193125-26-215667"
+form: "10-Q"
+report_date: "2026-03-31"
+split: regression
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001193125-26-215667.candidates.csv
+notes: "Different period for the Apollo template. Candidates from output/apollo_q1_2026_run2; UNREVIEWED. Known filer inconsistency: 31 spread facts tagged in percent units."

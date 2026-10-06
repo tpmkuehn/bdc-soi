@@ -1,0 +1,11 @@
+cik: "2018545"
+company_name: "Franklin BSP Real Estate Debt BDC"
+accession_number: "0002018545-25-000011"
+form: "10-Q"
+report_date: "2025-03-31"
+split: regression
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0002018545-25-000011.candidates.csv
+notes: "Prior reporting period for the company template; candidates from output/s2_t*_<cik>_prior; UNREVIEWED."

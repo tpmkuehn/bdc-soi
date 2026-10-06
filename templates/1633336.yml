@@ -1,0 +1,176 @@
+# Company template for Crescent Capital BDC, Inc. (CIK 1633336). Grounded in SEC accession 0001193125-26-342351 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1633336'
+company_name: Crescent Capital BDC, Inc.
+templates:
+- id: crescent-capital-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels: ''Investments {Country} {Debt|Equity} Investments {Industry} {Issuer} Investment Type {Description} [Interest Term B + 500, 50 Floor] [Interest Rate 9.36%] [Maturity/ Dissolution
+    Date MM/DD/YYYY]'' with basis-point spreads and floors. HTML SOI in thousands with a title row above the header (''Country/Security/Industry/Company''); rate text ''S + 600 (425 PIK), 100 Floor''.'
+  evidence:
+  - '0001193125-26-342351 (2026-06-30): 859 typed members (208 without monetary facts); undimensioned fair value 1,570,668,000 and cost 1,625,061,000 equal the XBRL holdings sums'
+  - '0001193125-26-342351: index letters B (Australian holdings, enum BankBillSwapBid/BBSY), E (EURIBOR), S (SOFR, enum SecuredOvernightFinancingRate), P (Prime) supported by InvestmentVariableInterestRateTypeExtensibleEnumeration
+    on the same members; floors stated in basis points (''100 Floor'')'
+  - '0001193125-26-342351: 43 negative fair-value facts on unfunded facilities; industry vocabulary from HTML heading rows (GICS industry groups)'
+  - 0001193125-26-221936 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - Country/Security/Industry/Company
+      - ^Portfolio Company
+      security_description:
+      - ^Security
+      - ^Investment Type
+      interest_rate_text:
+      - ^Interest Rate$|^Interest$|Spread
+      interest_rate:
+      - ^Total Interest|^Current Interest
+      cost:
+      - ^Cost$
+      - ^Amortized Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity
+      principal_amount:
+      - ^Principal|^Par
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward:
+      - issuer_name
+      group_heading_target: issuer_name
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: ^(Debt|Equity) Investments
+        target: investment_type
+      - regex: ^(United States|Canada|United Kingdom|Australia|Europe|Netherlands|Germany|France|Luxembourg|Ireland|Spain|New Zealand|Switzerland|Sweden|Norway|Denmark|Belgium|Italy)$
+        target: country
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?:Term\s+)?(?P<index>S|B|E|SN|P|C|SOFR|BBSY|EURIBOR|SONIA|Prime|CORRA)\s*\+\s*(?P<spread_bps>\d+(?:\.\d+)?)
+      floor_pattern: (?P<floor_bps>\d+)\s*Floor
+      pik_pattern: \((?P<pik_bps>\d+)\s*PIK\)
+      spread_unit: basis_points
+      index_aliases:
+        S: SOFR
+        SOFR: SOFR
+        B: BBSY
+        BBSY: BBSY
+        E: EURIBOR
+        EURIBOR: EURIBOR
+        SN: SONIA
+        SONIA: SONIA
+        P: Prime
+        Prime: Prime
+        C: CORRA
+        CORRA: CORRA
+  composite_fields:
+  - id: crescent-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: '^Investments\s+(?P<country>.+?)\s+(?P<investment_type>Debt Investments|Equity Investments)\s+(?P<header>.+?)\s+Investment(?: Type)?\s+(?P<description>.+?)(?:\s+Interest\s+(?P<rate>.+?))?(?:\s+Interest
+      Rate\s+(?P<interest_rate>\d+(?:\.\d+)?%))?(?:\s+Maturity/ ?Dissolution Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$'
+    header_parser:
+      known_industries:
+      - Australia
+      - Automobiles & Components
+      - Belgium
+      - Canada
+      - Capital Goods
+      - Commercial & Professional Services
+      - Consumer Durables & Apparel
+      - Consumer Services
+      - Diversified Financials
+      - Energy
+      - Finland
+      - Food & Staples Retailing
+      - Food, Beverage & Tobacco
+      - Germany
+      - Health Care Equipment & Services
+      - Household & Personal Products
+      - Insurance
+      - Jersey
+      - Materials
+      - Netherlands
+      - Pharmaceuticals, Biotechnology & Life Sciences
+      - Retailing
+      - Software & Services
+      - Sweden
+      - Switzerland
+      - Technology, Hardware & Equipment
+      - Telecommunication Services
+      - Transportation
+      - United Kingdom
+      industry_position: prefix
+      remainder_target: issuer_name
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: basis_points
+    spread_output_format: decimal
+    reference_index_aliases:
+      S: SOFR
+      B: BBSY
+      E: EURIBOR
+      P: Prime
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001193125-26-342351: 43 negative InvestmentOwnedAtFairValue facts on unfunded facilities.'
+  overrides: []

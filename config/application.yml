@@ -1,0 +1,44 @@
+# Application configuration (SPEC 7.1). The SEC user agent comes from the SEC_USER_AGENT
+# environment variable and is intentionally not stored here.
+sec:
+  user_agent: null
+  request_delay_seconds: 0.20
+  request_timeout_seconds: 90
+  retries: 4
+  backoff_base_seconds: 1.0
+  backoff_max_seconds: 30.0
+
+filings:
+  months_back: 18
+  eligible_forms: ["10-Q"]
+  use_amendments: false
+
+paths:
+  cache: "./cache"
+  templates: "./templates"
+  output: "./output"
+  golden: "./golden"
+
+extraction:
+  append_unmatched_html_rows: true
+  write_long_xbrl_facts: true
+  preserve_raw_values: true
+  excel_long_facts: false
+  offline: false
+
+matching:
+  minimum_score: 5
+  require_unique_best_match: true
+  minimum_margin: 1.0
+
+validation:
+  total_relative_tolerance: 0.005
+  total_absolute_tolerance: 1.0
+  spread_min: 0.0
+  spread_max: 0.30
+  allow_negative_fair_value: false
+  low_confidence_threshold: 0.5
+  max_unmatched_html_ratio: 0.25
+  max_conflict_ratio: 0.10
+  min_axis_members: 3
+  expected_currencies: ["USD"]

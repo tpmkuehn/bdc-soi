@@ -1,0 +1,139 @@
+"""Generate docs/coverage-report.md from a universe run plus per-company prior-period runs.
+
+Usage: python scripts/coverage_report.py output/universe_s2_run1 [--determinism output/universe_s2_run2]
+"""
+
+from __future__ import annotations
+
+import glob
+import hashlib
+import json
+import sys
+from collections import Counter
+from pathlib import Path
+
+import pandas as pd
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+UNIVERSE_ORDER = [c["cik"] for c in yaml.safe_load((ROOT / "config" / "bdc_universe.yml").read_text())["companies"]]
+
+
+PRIOR_ACCESSIONS = {"1950976": "0001193125-26-214004", "1950572": "0001193125-26-214360", "1379785": "0001379785-26-000022", "1843162": "0001193125-26-222738", "1841514": "0001193125-26-219691", "1633336": "0001193125-26-221936", "2018545": "0002018545-25-000011", "1476765": "0001476765-26-000033", "1572694": "0001193125-26-212431", "1901612": "0001901612-26-000020", "1578348": "0001193125-26-220107", "1959604": "0001193125-26-221855", "1747172": "0001193125-26-216773", "1779523": "0001213900-26-056043", "1925531": "0001925531-26-000010", "1860424": "0001193125-26-213421", "1905824": "0001193125-26-224212", "1794776": "0001193125-26-207523", "1743415": "0001193125-26-206308", "1832148": "0001193125-26-206309", "1932591": "0001193125-26-206310", "1901037": "0001104659-26-059217", "1580345": "0001580345-26-000021", "2020354": "0001193125-26-219870", "1837532": "0001193125-26-215667", "1633858": "0001193125-26-219725"}
+
+
+def latest_prior_dir(cik: str) -> Path | None:
+    acc = PRIOR_ACCESSIONS.get(cik)
+    for tag in ("s3i_final", "s3h_final", "s3g_final", "s3f_final", "s3e_final", "s3d_final", "s3c_final", "s3b_final", "s3_final", "s2_final"):
+        if acc and (ROOT / "output" / f"{tag}_{cik}_{acc}").exists():
+            return ROOT / "output" / f"{tag}_{cik}_{acc}"
+    cands = sorted(glob.glob(str(ROOT / "output" / f"s2_t*_{cik}_prior")), key=lambda p: Path(p).stat().st_mtime)
+    return Path(cands[-1]) if cands else None
+
+
+def run_rows(d: Path) -> pd.DataFrame:
+    return pd.read_csv(d / "holdings.csv", dtype=str, keep_default_na=False)
+
+
+def recon(d: Path, acc: str) -> dict[str, str]:
+    v = pd.read_csv(d / "validation.csv", dtype=str, keep_default_na=False)
+    v = v[v.accession_number == acc]
+    return {r.field: r.status for r in v.itertuples()}
+
+
+def bridge(d: Path, acc: str, fld: str = "fair_value") -> dict[str, str]:
+    v = pd.read_csv(d / "validation.csv", dtype=str, keep_default_na=False)
+    r = v[(v.accession_number == acc) & (v.field == fld)]
+    if r.empty:
+        return {}
+    r = r.iloc[0]
+    return {k: r.get(k, "") for k in ("reported_total", "selected_source", "selected_location", "currency", "complete_exported_sum", "in_scope_sum", "matched_sum", "matched_count", "xbrl_only_sum", "xbrl_only_count", "html_only_sum", "html_only_count", "after_total_sum", "subsidiary_sum", "difference", "tolerance", "matched_only_status", "complete_status", "scope_rules", "scope_rows_all", "duplicate_candidate_sum", "duplicate_candidate_count", "acceptance")}
+
+
+def support_status(fv: str, cost: str, flags: list[str], html_status: str) -> str:
+    """Terminology: 'reconciled on tested periods' is a full-output reconciliation result, not reviewed-data accuracy."""
+    if html_status == "disabled_by_template":
+        return "template-covered; HTML blocked (XBRL only)"
+    if fv == "pass" and cost in {"pass", "review", "not_tested", "no_holdings"}:
+        return "reconciled on tested periods (scoped)"
+    if fv in {"review", "ambiguous_total", "not_tested"}:
+        return f"template-covered; fair value {fv} (unresolved source conflicts)"
+    return "template-covered; scoped reconciliation FAILS"
+
+
+def main(universe_dir: str, determinism_dir: str | None = None) -> None:
+    u = Path(universe_dir)
+    fd = pd.read_csv(u / "filing_diagnostics.csv", dtype=str, keep_default_na=False).set_index("cik")
+    usage = pd.read_csv(u / "template_usage.csv", dtype=str, keep_default_na=False).set_index("cik")
+    hold = run_rows(u)
+    matches = pd.read_csv(u / "matching_diagnostics.csv", dtype=str, keep_default_na=False)
+    verification = {r["cik"]: r for r in json.load(open(ROOT / "output" / "universe_verification_2026-10-06.json"))}
+    det: dict[str, str] = {}
+    if determinism_dir:
+        d2 = Path(determinism_dir)
+        h1 = hold.set_index("holding_id").sort_index()
+        h2 = run_rows(d2).set_index("holding_id").sort_index()
+        for cik in UNIVERSE_ORDER:
+            a = h1[h1.cik == cik].drop(columns=["engine_version"], errors="ignore")
+            b = h2[h2.cik == cik].drop(columns=["engine_version"], errors="ignore")
+            det[cik] = "identical" if a.equals(b) else f"DIFFERENT ({len(a)} vs {len(b)} rows)"
+    lines = ["# Coverage report: 26-company universe", "", f"Source run: `{u}` (offline from cache). Prior-period runs: `output/s3i_final_<cik>_<accession>`. Generated by `scripts/coverage_report.py`.", "",
+             "Company-by-period matrix: `docs/coverage-matrix.md` (a company's status is the worse of its two periods). Four separate things are reported and must not be conflated: (1) **implementation and template coverage** (a template exists and selects for the tested periods); (2) **scoped reconciliation** (the sum of every exported canonical holding whose row-level `reconciliation_scope` is in scope versus the selected reported total; rows scoped `cash_equivalent_after_total` or `subsidiary_context` are legitimate positions kept in the output and reported separately with their rule and evidence; the complete exported sum and its own status are shown next to it); (3) **unresolved source conflicts** (review flags, field conflicts, excluded candidates kept in `excluded_candidates.csv`); (4) **independently measured row and field accuracy**, which requires human-reviewed golden data and is NOT ASSESSED for every company below. Matched-rows-only sums appear in the bridge as diagnostics and never decide a status. 'Reconciled on tested periods' is statement (2) only and is a scoped result, never a statement about omitted records.", ""]
+    summary = Counter()
+    for cik in UNIVERSE_ORDER:
+        f = fd.loc[cik]
+        ver = verification[cik]
+        tf = yaml.safe_load((ROOT / "templates" / f"{cik}.yml").read_text())
+        tv = tf["templates"][0]
+        acc = f.accession_number
+        h = hold[hold.cik == cik]
+        src = h.source_method.value_counts().to_dict()
+        m = matches[matches.cik == cik].status.value_counts().to_dict()
+        rc = recon(u, acc)
+        flags = Counter(x.split(":")[0] for fl in h.review_flags for x in json.loads(fl))
+        conflicts = int(h.field_conflicts.map(lambda s: len(json.loads(s)) > 0).sum())
+        prior = latest_prior_dir(cik)
+        prior_txt = "n/a"
+        if prior:
+            pf = pd.read_csv(prior / "filing_diagnostics.csv", dtype=str, keep_default_na=False).iloc[0]
+            prc = recon(prior, pf.accession_number)
+            prior_txt = f"{pf.accession_number} ({pf.report_date}): {len(run_rows(prior))} holdings, FV {prc.get('fair_value')}, cost {prc.get('cost')}"
+        b = bridge(u, acc)
+        exc_path = u / "excluded_candidates.csv"
+        excl = "n/a"
+        if exc_path.exists():
+            ex = pd.read_csv(exc_path, dtype=str, keep_default_na=False)
+            ex = ex[ex.cik == cik]
+            excl = dict(Counter(ex.rule)) if len(ex) else "none"
+        status = support_status(rc.get("fair_value", "-"), rc.get("cost", "-"), list(flags), f.html_status)
+        if str(b.get("acceptance", "")).startswith("blocked"):
+            status = f"template-covered; ACCEPTANCE BLOCKED ({b.get('acceptance')}) although scoped reconciliation {rc.get('fair_value')}"
+        if prior is not None and status.startswith("reconciled") and not (prc.get("fair_value") == "pass" and prc.get("cost") in {"pass", "review", "not_tested", "no_holdings"}):
+            status = f"template-covered; latest period reconciled (scoped) but PRIOR period FAILS (fair value {prc.get('fair_value')}, cost {prc.get('cost')})"
+        summary[status.split(" (")[0].split(";")[0] if status.startswith("reconciled") else status] += 1
+        blockers = [n for n in json.loads(f.notes) if "disabled" in n or "excluded" in n][:3]
+        lines += [f"## {ver['name']} (CIK {cik})", "",
+                  f"- Filing: {acc}, {f.company_name}, form 10-Q, report date {f.report_date}; latest eligible 10-Q as of 2026-10-06" + (" (no later 10-Q within the lookback)" if cik == "2018545" else ""),
+                  f"- Template: `{tv['id']}` effective from {tv['effective_from']} to {tv.get('effective_to') or 'open'}; selection: {usage.loc[cik].selection_reason}",
+                  f"- Periods tested: latest {f.report_date}; prior {prior_txt}",
+                  f"- Holdings: {len(h)} (hybrid {src.get('hybrid_xbrl_html', 0)}, XBRL-only {src.get('xbrl', 0)}, HTML-only {src.get('html_only', 0)}); XBRL status {f.xbrl_status}, HTML status {f.html_status}",
+                  f"- Matching: matched {m.get('matched', 0)}, ambiguous {m.get('ambiguous', 0)}, unmatched {m.get('unmatched', 0) + m.get('no_candidates', 0)}; unmatched HTML rows {f.unmatched_html_rows}",
+                  f"- Scoped reconciliation: fair value {rc.get('fair_value')}, cost {rc.get('cost')}, amortized cost {rc.get('amortized_cost')}; complete-exported status (no scope exclusions): {b.get('complete_status')}; rows with a fair value by scope {b.get('scope_rules')}; all exported rows by scope {b.get('scope_rows_all')}; contradictory-identity duplicates outside the sums {b.get('duplicate_candidate_count')} ({b.get('duplicate_candidate_sum')})",
+                  f"- Identity acceptance (separate from numerical reconciliation): {b.get('acceptance')}",
+                  f"- Fair-value bridge (latest): complete exported {b.get('complete_exported_sum')} = matched {b.get('matched_sum')} ({b.get('matched_count')}) + XBRL-only {b.get('xbrl_only_sum')} ({b.get('xbrl_only_count')}) + HTML-only {b.get('html_only_sum')} ({b.get('html_only_count')}) + after-total {b.get('after_total_sum')} + subsidiary {b.get('subsidiary_sum')}; in scope {b.get('in_scope_sum')} vs reported {b.get('reported_total')} [{b.get('selected_source')}; {b.get('selected_location')}]; difference {b.get('difference')} tolerance {b.get('tolerance')} currency {b.get('currency')}; matched-only diagnostic {b.get('matched_only_status')}",
+                  f"- Excluded candidates (not holdings; see excluded_candidates.csv): {excl}",
+                  f"- Independently measured accuracy: NOT ASSESSED (no reviewed golden rows for this filing)",
+                  f"- Conflicts and review flags: {conflicts} rows with field conflicts; top flags {flags.most_common(4)}",
+                  f"- Cached-determinism (universe run vs second run): {det.get(cik, 'not run')}",
+                  f"- Support status: **{status}**" + (f"; notes: {blockers}" if blockers else ""),
+                  ""]
+    lines.insert(6, f"Summary: {dict(summary)} of {len(UNIVERSE_ORDER)} companies; filing-level failures: {int((fd.status == 'failed').sum())}.")
+    lines.insert(7, "")
+    (ROOT / "docs" / "coverage-report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print("wrote docs/coverage-report.md", dict(summary))
+
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    det = args[args.index("--determinism") + 1] if "--determinism" in args else None
+    main(args[0], det)

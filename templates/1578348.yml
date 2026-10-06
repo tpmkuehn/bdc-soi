@@ -1,0 +1,132 @@
+# Company template for Investcorp Credit Management BDC, Inc. (CIK 1578348). Grounded in SEC accession 0001193125-26-352658 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1578348'
+company_name: Investcorp Credit Management BDC, Inc.
+templates:
+- id: investcorp-cm-bdc-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels: ''{Affiliation}, {Section}, {Industry}, {Issuer} - {Description}[, Interest Rate ...][, Acquisition Date ...][, Maturity Date M/D/YYYY]''; section-node members (e.g. ''Investment
+    in non-controlled, Affiliated Investments'') aggregate their children. HTML SOI in whole dollars: ''Investments | Interest Rate | Maturity Date | Principal Amount/ Shares | Amortized Cost/ Cost | Fair
+    Value | % of Net Assets'' with affiliation and industry headings; rates like ''1M S + 6.50% PIK (1.00% Floor)'' and ''10.00% PIK''.'
+  evidence:
+  - '0001193125-26-352658 (2026-06-30): 56 typed members incl. section nodes; undimensioned cost 161,157,365 equals the holdings sum; HTML ''Amortized Cost/ Cost'' equals us-gaap:InvestmentOwnedAtCost on
+    38/38 matched rows'
+  - '0001193125-26-352658: ''S'' supported by InvestmentVariableInterestRateTypeExtensibleEnumeration values ''Three Month Sofr''/''One Month Sofr'' on the same members'
+  - 0001193125-26-220107 (2026-03-31) inspected as the prior period; industry vocabulary from HTML heading rows
+  - '0001193125-26-352658 equity members: the section name ''Equity, Warrants and Other Investments'' contains a comma and the label ends '', Initial Acquisition Date M/D/YYYY'' (e.g. ''Non-Controlled/Non-Affiliated
+    Investments, Equity, Warrants and Other Investments, Commercial Services & Supplies, ArborWorks, LLC B-1 - Preferred Units, Initial Acquisition Date 11/24/2021''); ''{Issuer} - {Description}'' is split
+    inside the label; these members carry InvestmentOwnedBalanceShares facts and the HTML ''Investments'' cell carries ''{Issuer} - {Description}'' with the share count in ''Principal Amount/ Shares'' (table_10
+    rows 5-28)'
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+      exclude_member_regex:
+      - '^Investment in '
+      - '^Investments in '
+      - ^Total\b
+      exclude_member_evidence: '0001193125-26-352658: members ''Investment in non-controlled, Affiliated Investment'' (9,514,365) and similar section aggregates equal the sums of the affiliation sections
+        and are not holdings; excluding them leaves the XBRL sum equal to the undimensioned InvestmentOwnedAtFairValue 135,930,163.'
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Investments
+      interest_rate_text:
+      - ^Interest Rate
+      cost:
+      - ^Amortized Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+    scale:
+      source: fixed
+      fixed_multiplier: 1
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: Debt Investments|Equity|Warrants|Preferred
+        target: investment_type
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?:\d+M\s+)?(?P<index>S|SOFR|P|Prime)\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      floor_pattern: \((?P<floor_pct>\d+(?:\.\d+)?)\s*%\s*Floor\)
+      pik_pattern: (?P<pik_pct>\d+(?:\.\d+)?)\s*%\s*PIK
+      index_aliases:
+        S: SOFR
+        SOFR: SOFR
+        P: Prime
+        Prime: Prime
+  composite_fields:
+  - id: investcorp-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: '^(?P<affiliate_status>[^,]+), (?P<investment_type>Equity, Warrants and Other Investments|[^,]+), (?P<industry>[^,]+), (?P<issuer>.+?)(?: - (?P<description>[^,]+?))?(?:, Interest Rate (?P<rate>.+?))?(?:,
+      (?:Initial )?Acquisition Date (?P<issue_date>\d{1,2}/\d{1,2}/\d{4}))?(?:, Maturity Date (?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$'
+    rate_parser: *id001
+  - id: investcorp-html-issuer-description-v1
+    source_field: issuer_name
+    applies_to: html
+    pattern: ^(?P<issuer>.+?) - (?P<description>[^-]+)$
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      S: SOFR
+      P: Prime
+  validation: {}
+  overrides: []

@@ -1,0 +1,11 @@
+cik: "1633858"
+company_name: "Audax Credit BDC Inc."
+accession_number: "0001193125-26-348682"
+form: "10-Q"
+report_date: "2026-06-30"
+split: development
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001193125-26-348682.candidates.csv
+notes: "Template audax-credit-bdc-2026-layout-v1 was built on this filing. Candidates from output/audax_q2_2026_run2; UNREVIEWED."

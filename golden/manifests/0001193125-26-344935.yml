@@ -1,0 +1,11 @@
+cik: "1905824"
+company_name: "PIMCO Capital Solutions BDC Corp."
+accession_number: "0001193125-26-344935"
+form: "10-Q"
+report_date: "2026-06-30"
+split: development
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001193125-26-344935.candidates.csv
+notes: "Company template was built on this filing; candidates from the universe run; UNREVIEWED."

@@ -1,0 +1,242 @@
+# Company template for Apollo Debt Solutions BDC (CIK 1837532). Grounded in SEC accession 0001193125-26-341358
+# (10-Q, report date 2026-06-30). Single-letter index aliases (S, E, C, B, P) are company-specific and supported by the
+# filing's us-gaap:InvestmentVariableInterestRateTypeExtensibleEnumeration facts. See docs/iteration-log.md.
+schema_version: 1
+cik: '1837532'
+company_name: Apollo Debt Solutions BDC
+templates:
+- id: apollo-debt-solutions-2026-layout-v1
+  priority: 100
+  effective_from: '2025-06-30'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Apollo Debt Solutions BDC 10-Q layout observed in accession 0001193125-26-341358 (report date 2026-06-30): typed us-gaap:InvestmentIdentifierAxis labels ''{Industry} {Issuer short name}
+    {Issuer legal name} Investment Type|Security Type {Description} Interest Rate {Rate} Maturity Date {M/D/YYYY}''; HTML SOI uses industry heading rows, issuer short-name heading rows, legal name on the
+    first facility row, ''Industry/Company'' header, amounts in thousands, totals ''Total Investments before Cash Equivalents''.'
+  evidence:
+  - 'SEC accession 0001193125-26-341358, ck0001837532-20260630_htm.xml: 835 typed InvestmentIdentifierAxis members at 2026-06-30; us-gaap:InvestmentVariableInterestRateTypeExtensibleEnumeration = SecuredOvernightFinancingRateSofrMember
+    on 742 holdings supports S = SOFR'
+  - 'SEC accession 0001193125-26-341358, ck0001837532-20260630.htm: SOI tables 10-62 header ''Industry/Company (14) | Investment Type | Interest Rate (13) | Maturity Date | Par/Shares/Units (3) | Cost (36)
+    | Fair Value (1)(37)''; total row ''Total Investments before Cash Equivalents'' = 25,367,235 (thousands) equals the undimensioned us-gaap:InvestmentOwnedAtFairValue fact'
+  - 'Industry vocabulary: labels of the filing''s industry-axis members (EquitySecuritiesByIndustryAxis) at 2026-06-30 and comparative dates'
+  - Second typed-label format without 'Investment Type'/'Interest Rate' keywords observed on 34 members, e.g. 'Software G2CI Evergreen IX Borrower 2023 LLC First Lien Secured Debt - Term Loan S+475, 0.75%
+    Floor Maturity Date 9/30/2030'
+  - HTML SOI discloses the issuer legal name on the first facility row (e.g. 'ABG Intermediate Holdings 2, LLC') while the typed label carries a brand short name ('Authentic Brands'); html.prefer_html_fields
+    supersedes the composite-derived issuer with lineage and a recorded conflict
+  - Index letters N, T, K observed in typed labels (N+475, T+500, K+500) with VariableRateAxis members NIBOR, TONAR, KORIBOR in the same instance
+  - 'Effective from 2025-06-30: accession 0000950170-25-105984 (report date 2025-06-30, different filing agent) uses the same typed-label format and HTML header ''Industry/Company | Investment Type | Interest
+    Rate | Maturity Date | Par/Shares | Cost | Fair Value''; accession 0001193125-26-215667 (2026-03-31) likewise'
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+      - IssuerName
+      - OpenSwapContract
+      - Counterparty
+      - DebtInstrument
+    field_concepts: {}
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Consolidated Schedule of Investments
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      optional_terms:
+      - Cost
+      - Par
+      - Maturity
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Industry\s*/\s*Company
+      security_description:
+      - ^Investment Type
+      interest_rate_text:
+      - ^Interest Rate
+      cost:
+      - ^Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1000
+    row_rules:
+      carry_forward:
+      - issuer_name
+      group_heading_target: issuer_name
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      skip_if_regex: []
+      total_if_regex:
+      - ^Total Investments before Cash Equivalents
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    rate_parser:
+      pattern: (?P<index>SOFR|S|SONIA|EURIBOR|E|CORRA|C|BBSW|B|STIBOR|NIBOR|N|TONAR|T|KORIBOR|K|SARON|Prime|P)\s*\+\s*(?P<spread_bps>\d+(?:\.\d+)?)
+      floor_pattern: (?P<floor_pct>\d+(?:\.\d+)?)\s*%\s*Floor
+      pik_pattern: (?P<pik_pct>\d+(?:\.\d+)?)\s*%\s*PIK
+      index_aliases: &id001
+        S: SOFR
+        SOFR: SOFR
+        E: EURIBOR
+        EURIBOR: EURIBOR
+        C: CORRA
+        CORRA: CORRA
+        B: BBSW
+        BBSW: BBSW
+        SONIA: SONIA
+        STIBOR: STIBOR
+        N: NIBOR
+        NIBOR: NIBOR
+        T: TONAR
+        TONAR: TONAR
+        K: KORIBOR
+        KORIBOR: KORIBOR
+        SARON: SARON
+        P: Prime
+        Prime: Prime
+      spread_unit: auto
+    prefer_html_fields:
+    - issuer_name
+  composite_fields:
+  - id: apollo-member-label-layout-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    precedence: direct_first
+    pattern: ^(?P<header>.+?)\s+(?:Investment|Security) Type\s+(?P<description>.+?)(?:\s+(?:Interest Rate\s+)?(?P<rate>(?:[A-Z]{1,7}\s*\+\s*\d+|\d+(?:\.\d+)?\s*%|Equity plus).*?))?(?:\s+Maturity Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$
+    header_parser: &id002
+      known_industries:
+      - Aerospace & Defense
+      - Air Freight & Logistics
+      - Automobile Components
+      - Banks
+      - Beverages
+      - Building Products
+      - Capital Markets
+      - Chemicals
+      - Commercial Services & Supplies
+      - Communications Equipment
+      - Construction & Engineering
+      - Construction Materials
+      - Consumer Staples Distribution and Retail
+      - Containers & Packaging
+      - Containers and Packaging
+      - Distributors
+      - Diversified Consumer Services
+      - Diversified REITs
+      - Diversified Telecommunication Services
+      - Electric Utilities
+      - Electrical Equipment
+      - Electronic Equipment, Instruments And Components
+      - Energy Equipment & Services
+      - Entertainment
+      - Financial Services
+      - Food Products
+      - Gas Utilities
+      - Ground Transportation
+      - Health Care Equipment & Supplies
+      - Health Care Providers & Services
+      - Health Care Technology
+      - Hotels, Restaurants & Leisure
+      - Household Durables
+      - Household Products
+      - IT Services
+      - Independent Power And Renewable Electricity Producers
+      - Industrial Conglomerates
+      - Insurance
+      - Insurance Sector
+      - Interactive Media & Services
+      - Leisure Products
+      - Life Sciences Tools And Services
+      - Machinery
+      - Media
+      - Metals & Mining
+      - Multi-Utilities
+      - Oil, Gas And Consumable Fuels
+      - Paper And Forest Products
+      - Personal Care Products
+      - Pharmaceuticals
+      - Professional Services
+      - Real Estate Management And Development
+      - Semiconductors & Semiconductor Equipment
+      - Software
+      - Specialty Retail
+      - Technology Hardware Storage And Peripherals
+      - Technology Hardware, Storage & Peripherals
+      - Textiles Apparel And Luxury Goods
+      - Textiles, Apparel & Luxury Goods
+      - Trading Companies & Distributors
+      - Trading Companies And Distributors
+      - Transportation Infrastructure
+      - Wireless Telecommunication Services
+      industry_position: prefix
+      remainder_target: issuer_name
+      remainder_pattern: ^(?P<short>.+?)\s+(?P<issuer>(?P=short)\b.*)$
+    rate_parser: &id003
+      pattern: (?P<index>SOFR|S|SONIA|EURIBOR|E|CORRA|C|BBSW|B|STIBOR|NIBOR|N|TONAR|T|KORIBOR|K|SARON|Prime|P)\s*\+\s*(?P<spread_bps>\d+(?:\.\d+)?)
+      floor_pattern: (?P<floor_pct>\d+(?:\.\d+)?)\s*%\s*Floor
+      pik_pattern: (?P<pik_pct>\d+(?:\.\d+)?)\s*%\s*PIK
+      index_aliases: *id001
+      spread_unit: basis_points
+  - id: apollo-member-label-layout-v2
+    source_field: issuer_name
+    applies_to: xbrl
+    precedence: direct_first
+    pattern: ^(?P<header>.+?)\s+(?P<description>(?:First|Second|Third) Lien Secured Debt [-–] .+?|Unsecured Debt [-–] .+?|Subordinated Debt [-–] .+?|Senior Secured .+?)\s+(?P<rate>(?:SOFR|S|SONIA|EURIBOR|E|CORRA|C|BBSW|B|STIBOR|NIBOR|N|TONAR|T|KORIBOR|K|SARON|Prime|P)\s*\+\s*\d+.*?)\s+Maturity
+      Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4})$
+    header_parser: *id002
+    rate_parser: *id003
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: basis_points
+    spread_output_format: percent
+    reference_index_aliases:
+      S: SOFR
+  overrides: []
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: 'Accession 0001193125-26-341358: 135 us-gaap:InvestmentOwnedAtFairValue facts on InvestmentIdentifierAxis members are negative; all are unfunded revolver/delayed-draw
+      commitments (no principal) carried at negative fair value.'
+    reporting_currency_evidence:
+    - "0001193125-26-341358, 0001193125-26-215667 and 0000950170-25-105984, Consolidated Schedule of Investments footnote (3): 'Par amount is denominated in USD unless otherwise noted, British Pound (\"\xA3\"), Australian Dollar (\"A$\"), Canadian Dollar (\"C$\"), European Euro (\"\u20AC\") ...' (currency markers are defined for the par column only; cost and fair value print under the '$' column header)"
+    - '0001193125-26-341358, 0001193125-26-215667 and 0000950170-25-105984, Note 2 Foreign Currency Translations: ''The accounting records of the Company are maintained in U.S. dollars. All assets and liabilities denominated in foreign currencies are translated into U.S. dollars based on the foreign exchange rate on the date of valuation.'''
+    - '0001193125-26-341358: schedule header ''(In thousands, except share data)'' and undimensioned us-gaap:InvestmentOwnedAtFairValue F_ad49fec7-28eb-46b0-9c15-eb0e38cb8d51 (unit USD, 25,367,235,000) include the CAD/GBP/EUR-tagged rows at their printed values; the XBRL fair-value units conflict with the filer''s own presentation'

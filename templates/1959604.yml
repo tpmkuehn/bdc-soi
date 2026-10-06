@@ -1,0 +1,164 @@
+# Company template for Jefferies Credit Partners BDC Inc. (CIK 1959604). Grounded in SEC accession 0001193125-26-345216 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1959604'
+company_name: Jefferies Credit Partners BDC Inc.
+templates:
+- id: jefferies-credit-partners-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels: ''NCNA Ptfl Cmp Invs {Section} {Industry} {Issuer} Investment Type {Description} Reference Rate and Spread S + 4.75% Maturity Date M/D/YYYY'' plus commitment members ''Portfolio
+    Company {Issuer} Investment Type {Description}'' without monetary facts. HTML SOI in thousands: ''Portfolio Company | Investment Type | Reference Rate and Spread | Maturity Date | Principal / Shares
+    | Cost | Fair Value'' with an unfunded-commitment table (excluded).'
+  evidence:
+  - '0001193125-26-345216 (2026-06-30): 484 typed members; undimensioned fair value 1,906,400,000 and cost 1,914,843,000 within tolerance of the holdings sums'
+  - '0001193125-26-345216: ''S'' supported by InvestmentVariableInterestRateTypeExtensibleEnumeration = SOFR on 308 members; 135 negative fair-value facts on unfunded facilities'
+  - 0001193125-26-221855 (2026-03-31) inspected as the prior period; industry vocabulary from HTML heading rows
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      - Unfunded Commitment
+      - Commitment Expiration
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Investment Type
+      interest_rate_text:
+      - ^Reference Rate and Spread
+      cost:
+      - ^Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: Debt Investments|Equity Investments
+        target: investment_type
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      - ^Total investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?P<index>S|SOFR|P|Prime|E|EURIBOR|SN|SONIA)\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      index_aliases:
+        S: SOFR
+        SOFR: SOFR
+        P: Prime
+        Prime: Prime
+        E: EURIBOR
+        SN: SONIA
+  composite_fields:
+  - id: jefferies-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^NCNA Ptfl Cmp Invs\s+(?P<investment_type>First Lien Debt Investments|Second Lien Debt Investments|Equity Investments|Debt Investments|Unsecured Debt Investments)\s+(?P<header>.+?)\s+Investment
+      Type\s+(?P<description>.+?)(?:\s+Reference Rate and Spread\s+(?P<rate>.+?))?(?:\s+Maturity Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$
+    header_parser:
+      known_industries:
+      - Aerospace & Defense
+      - Air Freight & Logistics
+      - Chemicals
+      - Commercial Services & Supplies
+      - Commercial Services & Supplies, continued
+      - Diversified Consumer Services
+      - Electrical Equipment
+      - Electrical Equipment, continued
+      - Electronic Equipment, Instruments & Components
+      - Financial Services
+      - Food Products
+      - Health Care Equipment & Supplies
+      - Health Care Providers & Services
+      - Health Care Providers & Services, continued
+      - Health Care Technology
+      - Hotels, Restaurants & Leisure
+      - IT Services
+      - Insurance
+      - Insurance, continued
+      - L.P. Interests
+      - Life Sciences Tools & Services
+      - Life Sciences Tools & Services, continued
+      - Machinery
+      - Media
+      - Pharmaceuticals, Biotechnology & Life Sciences
+      - Professional Services
+      - Professional Services, continued
+      - Real Estate Management & Development
+      - Software
+      - Software, continued
+      - Trading Companies & Distributors
+      industry_position: prefix
+      remainder_target: issuer_name
+    rate_parser: *id001
+  - id: jefferies-commitment-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^Portfolio Company\s+(?P<issuer>.+?)\s+Investment Type\s+(?P<description>.+)$
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      S: SOFR
+      P: Prime
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001193125-26-345216: 135 negative InvestmentOwnedAtFairValue facts on unfunded revolver/delayed-draw members.'
+  overrides: []

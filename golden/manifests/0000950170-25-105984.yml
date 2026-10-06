@@ -1,0 +1,11 @@
+cik: "1837532"
+company_name: "Apollo Debt Solutions BDC"
+accession_number: "0000950170-25-105984"
+form: "10-Q"
+report_date: "2025-06-30"
+split: holdout
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0000950170-25-105984.candidates.csv
+notes: "Report date equals the template effective_from boundary; different filing agent. Candidates from output/apollo_q2_2025_run2; UNREVIEWED. Do not tune templates against this filing."

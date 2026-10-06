@@ -1,0 +1,126 @@
+# Company template for New Mountain Guardian IV BDC, L.L.C. (CIK 1925531). Grounded in SEC accession 0001925531-26-000014 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1925531'
+company_name: New Mountain Guardian IV BDC, L.L.C.
+templates:
+- id: new-mountain-guardian-iv-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels ''Issuer | Description'' (e.g. ''AAH Topco, LLC | First Lien - Drawn''). HTML SOI in thousands: ''Portfolio Company, Location and Industry | Type of Investment | Reference |
+    Spread | Interest Rate | Purchase Date | Maturity/Expiration Date | Principal Amount, Par Value or Shares | Cost | Fair Value | Percent of Net Assets''; the issuer is a heading row and the first column
+    of the first facility row carries the location/industry text; maturities are MM/YYYY (left null).'
+  evidence:
+  - '0001925531-26-000014 (2026-06-30): 445 typed members; undimensioned fair value 2,071,442,000 and cost 2,095,505,000 within tolerance of the holdings sums'
+  - '0001925531-26-000014: reference cells ''SOFR(Q)'' / ''SOFR(M)''; 92 negative fair-value facts on undrawn facilities'
+  - 0001925531-26-000010 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      industry:
+      - ^Portfolio Company, Location and Industry
+      security_description:
+      - ^Type of Investment
+      reference_index:
+      - ^Reference
+      spread:
+      - ^Spread
+      interest_rate:
+      - ^Interest Rate
+      cost:
+      - ^Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity
+      principal_amount:
+      - ^Principal Amount
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: issuer_name
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      - ^Total investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields: []
+    rate_parser:
+      pattern: (?P<index>SOFR|Prime|EURIBOR|SONIA)(?:\([A-Z]\))?\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      index_aliases:
+        SOFR: SOFR
+        Prime: Prime
+        EURIBOR: EURIBOR
+        SONIA: SONIA
+  composite_fields:
+  - id: nmg4-pipe-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    kind: delimited
+    delimiter: '|'
+    positions:
+      issuer: 0
+      description: 1
+    min_parts: 2
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      SOFR: SOFR
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001925531-26-000014: 92 negative InvestmentOwnedAtFairValue facts on undrawn/unfunded facilities.'
+  overrides: []

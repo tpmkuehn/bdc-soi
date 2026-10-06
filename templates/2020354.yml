@@ -1,0 +1,140 @@
+# Company template for West Bay BDC LLC (CIK 2020354). Grounded in SEC accession 0001193125-26-344618 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '2020354'
+company_name: West Bay BDC LLC
+templates:
+- id: west-bay-bdc-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Goldman Sachs-managed layout. Typed labels: ''{Section} - x% {Country} - x% {Security type} - x% {Issuer} Industry {Industry} [Interest Rate 8.49%] Reference Rate and Spread S + 4.75% Maturity
+    MM/DD/YY''. HTML SOI in thousands: ''Investment | Industry | Interest Rate | Reference Rate and Spread | Maturity | Par/Shares | Cost | Fair Value | Footnotes'' with section/country/security-type headings;
+    an affiliated money-market fund is listed after the investments total.'
+  evidence:
+  - '0001193125-26-344618 (2026-06-30): 148 typed members; undimensioned fair value 608,548,000 and cost 613,539,000 within tolerance of the XBRL holdings sums; HTML ''Total Debt Investments $613,539 $608,548'''
+  - '0001193125-26-344618: index letters S/P/E supported by InvestmentVariableInterestRateTypeExtensibleEnumeration (SOFR 145, Prime 1, EURIBOR 1); 53 negative fair-value facts on unfunded facilities'
+  - 0001193125-26-219870 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Investment
+      industry:
+      - ^Industry
+      interest_rate:
+      - ^Interest Rate
+      interest_rate_text:
+      - ^Reference Rate and Spread
+      cost:
+      - ^Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity
+      principal_amount:
+      - ^Par
+      footnote_markers:
+      - ^Footnotes
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: investment_type
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: ^(United States|Canada|United Kingdom|India|Australia|Europe|Netherlands|Germany|France|Luxembourg|Ireland|Spain|Sweden|Norway|Denmark|Belgium|Italy|Switzerland|Israel|Singapore|Japan)\b
+        target: country
+      total_if_regex:
+      - ^Total Debt Investments\b
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?P<index>S|C|E|P|SN|B|N|SOFR|CORRA|EURIBOR|Prime|SONIA)\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      pik_pattern: (?P<pik_pct>\d+(?:\.\d+)?)\s*%\s*PIK
+      index_aliases:
+        S: SOFR
+        SOFR: SOFR
+        C: CORRA
+        CORRA: CORRA
+        E: EURIBOR
+        EURIBOR: EURIBOR
+        P: Prime
+        Prime: Prime
+        SN: SONIA
+        SONIA: SONIA
+        B: BBSY
+        N: NIBOR
+  composite_fields:
+  - id: west-bay-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^(?P<investment_type>.+?) - \d+(?:\.\d+)?%\s+(?P<country>.+?) - \d+(?:\.\d+)?%\s+(?P<security>.+?) - \d+(?:\.\d+)?%\s+(?P<issuer>.+?)\s+Industry\s+(?P<industry>.+?)(?:\s+Interest Rate\s+(?P<interest_rate>\d+(?:\.\d+)?%))?(?:\s+Reference
+      Rate and Spread\s+(?P<rate>.+?))?(?:\s+Maturity\s+(?P<maturity>\d{2}/\d{2}/\d{2}))?(?:\s+Acquisition Date.*)?$
+    capture_targets:
+      security: description
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%y'
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      S: SOFR
+      P: Prime
+      E: EURIBOR
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001193125-26-344618: 53 negative InvestmentOwnedAtFairValue facts on unfunded facilities.'
+  overrides: []

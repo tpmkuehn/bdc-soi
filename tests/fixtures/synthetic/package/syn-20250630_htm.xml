@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SYNTHETIC TEST INSTANCE: not a real SEC filing. See README.md. -->
+<xbrli:xbrl xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:us-gaap="http://fasb.org/us-gaap/2024" xmlns:dei="http://xbrl.sec.gov/dei/2024" xmlns:syn="http://synthetic.test/20250630"
+ xmlns:iso4217="http://www.xbrl.org/2003/iso4217" xmlns:xbrli-pure="http://www.xbrl.org/2003/instance">
+<link:schemaRef xlink:type="simple" xlink:href="syn-20250630.xsd"/>
+<xbrli:context id="d_2025"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-06-30</xbrli:endDate></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2024"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:instant>2024-12-31</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_L3"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:explicitMember dimension="us-gaap:FairValueByFairValueHierarchyLevelAxis">us-gaap:FairValueInputsLevel3Member</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_sw"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:explicitMember dimension="syn:IndustryAxis">syn:SoftwareMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_h1"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:typedMember dimension="us-gaap:InvestmentIdentifierAxis"><us-gaap:InvestmentIdentifierDomain>Software Redwood Runway Bidco, LLC Investment Type First Lien Secured Debt - Term Loan Interest Rate S+450, 0.50% Floor Maturity Date 12/17/2031</us-gaap:InvestmentIdentifierDomain></xbrldi:typedMember><xbrldi:explicitMember dimension="syn:IndustryAxis">syn:SoftwareMember</xbrldi:explicitMember><xbrldi:explicitMember dimension="us-gaap:InvestmentTypeAxis">us-gaap:DebtSecuritiesMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_h2"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:typedMember dimension="us-gaap:InvestmentIdentifierAxis"><us-gaap:InvestmentIdentifierDomain>Software Redwood Runway Bidco, LLC Investment Type First Lien Secured Debt - Revolver Interest Rate S+450, 0.50% Floor Maturity Date 12/17/2031</us-gaap:InvestmentIdentifierDomain></xbrldi:typedMember><xbrldi:explicitMember dimension="syn:IndustryAxis">syn:SoftwareMember</xbrldi:explicitMember><xbrldi:explicitMember dimension="us-gaap:InvestmentTypeAxis">us-gaap:DebtSecuritiesMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_h3"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:typedMember dimension="us-gaap:InvestmentIdentifierAxis"><us-gaap:InvestmentIdentifierDomain>Healthcare Alpine Health Services, Inc. Investment Type Second Lien Secured Debt - Term Loan Interest Rate S+800, 1.00% Floor Maturity Date 06/30/2029</us-gaap:InvestmentIdentifierDomain></xbrldi:typedMember><xbrldi:explicitMember dimension="syn:IndustryAxis">syn:HealthcareMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_h4"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:typedMember dimension="us-gaap:InvestmentIdentifierAxis"><us-gaap:InvestmentIdentifierDomain>Healthcare Alpine Health Services, Inc. Investment Type First Lien Secured Debt - Term Loan Interest Rate S+500, 1.00% Floor Maturity Date 06/30/2029</us-gaap:InvestmentIdentifierDomain></xbrldi:typedMember><xbrldi:explicitMember dimension="syn:IndustryAxis">syn:HealthcareMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_h5"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:typedMember dimension="us-gaap:InvestmentIdentifierAxis"><us-gaap:InvestmentIdentifierDomain>Healthcare Alpine Health Services, Inc. Investment Type Common Equity</us-gaap:InvestmentIdentifierDomain></xbrldi:typedMember><xbrldi:explicitMember dimension="syn:IndustryAxis">syn:HealthcareMember</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:context id="i_2025_h1_dup"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0999999999</xbrli:identifier><xbrli:segment><xbrldi:typedMember dimension="us-gaap:InvestmentIdentifierAxis"><us-gaap:InvestmentIdentifierDomain>Software Redwood Runway Bidco, LLC Investment Type First Lien Secured Debt - Term Loan Interest Rate S+450, 0.50% Floor Maturity Date 12/17/2031</us-gaap:InvestmentIdentifierDomain></xbrldi:typedMember><xbrldi:explicitMember dimension="us-gaap:FairValueByFairValueHierarchyLevelAxis">us-gaap:FairValueInputsLevel3Member</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:instant>2025-06-30</xbrli:instant></xbrli:period></xbrli:context>
+<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>
+<xbrli:unit id="pure"><xbrli:measure>xbrli:pure</xbrli:measure></xbrli:unit>
+<dei:DocumentPeriodEndDate contextRef="d_2025" id="dei1">2025-06-30</dei:DocumentPeriodEndDate>
+<dei:EntityRegistrantName contextRef="d_2025" id="dei2">Synthetic Test BDC</dei:EntityRegistrantName>
+<!-- holding 1 -->
+<us-gaap:InvestmentOwnedBalancePrincipalAmount contextRef="i_2025_h1" unitRef="usd" decimals="-3" id="h1p">10000000</us-gaap:InvestmentOwnedBalancePrincipalAmount>
+<us-gaap:InvestmentOwnedAtCost contextRef="i_2025_h1" unitRef="usd" decimals="-3" id="h1c">9900000</us-gaap:InvestmentOwnedAtCost>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_h1" unitRef="usd" decimals="-3" id="h1f">10050000</us-gaap:InvestmentOwnedAtFairValue>
+<us-gaap:InvestmentBasisSpreadVariableRate contextRef="i_2025_h1" unitRef="pure" decimals="4" id="h1s">0.045</us-gaap:InvestmentBasisSpreadVariableRate>
+<syn:InvestmentInterestRateFloor contextRef="i_2025_h1" unitRef="pure" decimals="4" id="h1fl">0.005</syn:InvestmentInterestRateFloor>
+<us-gaap:InvestmentMaturityDate contextRef="i_2025_h1" id="h1m">2031-12-17</us-gaap:InvestmentMaturityDate>
+<!-- duplicate fair value fact for holding 1 in a fair-value-hierarchy context with a different value (conflict test) -->
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_h1_dup" unitRef="usd" decimals="-3" id="h1f_dup">10051000</us-gaap:InvestmentOwnedAtFairValue>
+<!-- holding 2 -->
+<us-gaap:InvestmentOwnedBalancePrincipalAmount contextRef="i_2025_h2" unitRef="usd" decimals="-3" id="h2p">2000000</us-gaap:InvestmentOwnedBalancePrincipalAmount>
+<us-gaap:InvestmentOwnedAtCost contextRef="i_2025_h2" unitRef="usd" decimals="-3" id="h2c">1980000</us-gaap:InvestmentOwnedAtCost>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_h2" unitRef="usd" decimals="-3" id="h2f">2000000</us-gaap:InvestmentOwnedAtFairValue>
+<us-gaap:InvestmentBasisSpreadVariableRate contextRef="i_2025_h2" unitRef="pure" decimals="4" id="h2s">0.045</us-gaap:InvestmentBasisSpreadVariableRate>
+<us-gaap:InvestmentMaturityDate contextRef="i_2025_h2" id="h2m">2031-12-17</us-gaap:InvestmentMaturityDate>
+<!-- holding 3 -->
+<us-gaap:InvestmentOwnedBalancePrincipalAmount contextRef="i_2025_h3" unitRef="usd" decimals="-3" id="h3p">5000000</us-gaap:InvestmentOwnedBalancePrincipalAmount>
+<us-gaap:InvestmentOwnedAtCost contextRef="i_2025_h3" unitRef="usd" decimals="-3" id="h3c">4950000</us-gaap:InvestmentOwnedAtCost>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_h3" unitRef="usd" decimals="-3" id="h3f">4875000</us-gaap:InvestmentOwnedAtFairValue>
+<us-gaap:InvestmentBasisSpreadVariableRate contextRef="i_2025_h3" unitRef="pure" decimals="4" id="h3s">0.08</us-gaap:InvestmentBasisSpreadVariableRate>
+<us-gaap:InvestmentMaturityDate contextRef="i_2025_h3" id="h3m">2029-06-30</us-gaap:InvestmentMaturityDate>
+<!-- holding 4: same issuer and identical monetary values as holding 3, different facility -->
+<us-gaap:InvestmentOwnedBalancePrincipalAmount contextRef="i_2025_h4" unitRef="usd" decimals="-3" id="h4p">5000000</us-gaap:InvestmentOwnedBalancePrincipalAmount>
+<us-gaap:InvestmentOwnedAtCost contextRef="i_2025_h4" unitRef="usd" decimals="-3" id="h4c">4950000</us-gaap:InvestmentOwnedAtCost>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_h4" unitRef="usd" decimals="-3" id="h4f">4875000</us-gaap:InvestmentOwnedAtFairValue>
+<us-gaap:InvestmentBasisSpreadVariableRate contextRef="i_2025_h4" unitRef="pure" decimals="4" id="h4s">0.05</us-gaap:InvestmentBasisSpreadVariableRate>
+<us-gaap:InvestmentMaturityDate contextRef="i_2025_h4" id="h4m">2029-06-30</us-gaap:InvestmentMaturityDate>
+<!-- holding 5: equity, no maturity -->
+<us-gaap:InvestmentOwnedAtCost contextRef="i_2025_h5" unitRef="usd" decimals="-3" id="h5c">500000</us-gaap:InvestmentOwnedAtCost>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_h5" unitRef="usd" decimals="-3" id="h5f">650000</us-gaap:InvestmentOwnedAtFairValue>
+<!-- totals -->
+<us-gaap:InvestmentOwnedAtCost contextRef="i_2025" unitRef="usd" decimals="-3" id="tc">22280000</us-gaap:InvestmentOwnedAtCost>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025" unitRef="usd" decimals="-3" id="tf">22450000</us-gaap:InvestmentOwnedAtFairValue>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_L3" unitRef="usd" decimals="-3" id="tf_l3">22450000</us-gaap:InvestmentOwnedAtFairValue>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2025_sw" unitRef="usd" decimals="-3" id="tf_sw">12050000</us-gaap:InvestmentOwnedAtFairValue>
+<us-gaap:InvestmentOwnedAtFairValue contextRef="i_2024" unitRef="usd" decimals="-3" id="tf_2024">20000000</us-gaap:InvestmentOwnedAtFairValue>
+</xbrli:xbrl>

@@ -1,0 +1,67 @@
+# Template for the SYNTHETIC fixture company (not a real registrant). Exercises composite parsing,
+# carry-forward, heading targets and index aliases against tests/fixtures/synthetic.
+schema_version: 1
+cik: "999999999"
+company_name: "Synthetic Test BDC"
+templates:
+  - id: "synthetic-bdc-2025-v1"
+    priority: 100
+    effective_from: "2025-01-01"
+    effective_to: null
+    forms: ["10-Q"]
+    status: "production"
+    description: "Synthetic layout: typed InvestmentIdentifierAxis label '{Industry} {Issuer} Investment Type {Desc} Interest Rate {Rate} Maturity Date {MM/DD/YYYY}'."
+    evidence: ["tests/fixtures/synthetic/package/syn-20250630_htm.xml", "tests/fixtures/synthetic/package/syn-20250630.htm"]
+    xbrl:
+      role_regex: ["Schedule of Investments"]
+      row_axes:
+        explicit_qnames: ["us-gaap:InvestmentIdentifierAxis"]
+        exclude_regex: ["FairValue.*Hierarchy"]
+      field_concepts:
+        rate_floor: ["{http://synthetic.test/20250630}InvestmentInterestRateFloor"]
+      context_filters:
+        require_report_date: true
+        allowed_period_types: ["instant"]
+        excluded_axes_regex: ["FairValueByFairValueHierarchyLevel"]
+      dimension_fields:
+        "{http://synthetic.test/20250630}IndustryAxis": industry
+    html:
+      table_detection:
+        heading_regex: ["Consolidated Schedule of Investments"]
+        required_terms: ["Fair Value"]
+        excluded_terms: ["Fair Value Hierarchy"]
+        minimum_score: 6
+      header_aliases:
+        issuer_name: ["Industry\\s*/\\s*Company"]
+        amortized_cost: ["Amortized Cost"]
+      scale:
+        source: "table_then_document"
+        thousands_regex: ["in thousands"]
+        default: 1
+      row_rules:
+        carry_forward: [issuer_name]
+        group_heading_target: issuer_name
+        total_if_regex: ["^Total Investments"]
+        subtotal_if_regex: ["^Total\\b"]
+        require_any_numeric: [fair_value, cost, amortized_cost, principal_amount, shares]
+    composite_fields:
+      - id: "member-label-layout-v1"
+        source_field: issuer_name
+        applies_to: xbrl
+        pattern: '^(?P<header>.+?)\s+Investment Type\s+(?P<description>.+?)(?:\s+Interest Rate\s+(?P<rate>.+?))?(?:\s+Maturity Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$'
+        header_parser:
+          known_industries: ["Software", "Healthcare"]
+          industry_position: "prefix"
+          remainder_target: issuer_name
+        rate_parser:
+          pattern: '(?P<index>SOFR|S|LIBOR|L|PRIME|P)\s*\+\s*(?P<spread_bps>\d+(?:\.\d+)?)'
+          floor_pattern: '(?P<floor_pct>\d+(?:\.\d+)?)\s*%\s*Floor'
+          index_aliases: {S: "SOFR", SOFR: "SOFR", L: "LIBOR", LIBOR: "LIBOR", P: "Prime", PRIME: "Prime"}
+          spread_unit: "auto"
+    normalization:
+      legal_suffixes: {remove_preceding_comma: true}
+      date_formats: ["%m/%d/%Y", "%Y-%m-%d"]
+      spread_input_unit: "basis_points"
+      spread_output_format: "percent"
+      reference_index_aliases: {S: "SOFR"}
+    overrides: []

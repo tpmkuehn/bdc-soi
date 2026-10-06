@@ -1,0 +1,178 @@
+# Company template for Golub Capital BDC 4, Inc. (CIK 1901612). Grounded in SEC accession 0001901612-26-000031 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1901612'
+company_name: Golub Capital BDC 4, Inc.
+templates:
+- id: golub-capital-bdc4-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: Typed labels are pipe-delimited 'Issuer | Description [| Affiliation]'. HTML SOI in thousands with an unnamed first column (issuer), 'Investment Type', a split 'Spread Above Index' column
+    ('SF +' / '5.50%'), 'Interest Rate', 'Maturity Date' (MM/YYYY only, left null), 'Principal ($) / Shares', 'Amortized Cost', 'Percentage of Net Assets', 'Fair Value'; industry heading rows; no maturity-date
+    XBRL facts.
+  evidence:
+  - '0001901612-26-000031 (2026-06-30): 922 typed members ''Issuer | One stop 1''; HTML ''Amortized Cost'' equals us-gaap:InvestmentOwnedAtCost on all matched rows => cost'
+  - '0001901612-26-000031: HTML footnote (1): ''Secured Overnight Financing Rate (SOFR or SF), Euro Interbank Offered Rate (EURIBOR or E), Prime (P), Sterling Overnight Index Average (SONIA or SN), Australian
+    Interbank Rate (AUD or A) or Canadian Overnight Repo Rate Average (CORRA or CA)''; industry vocabulary from the filing''s HTML heading rows'
+  - '0001901612-26-000031: negative fair-value facts on unfunded facilities (one stop revolvers/delayed draws)'
+  - 0001901612-26-000020 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      security_description:
+      - ^Investment Type
+      interest_rate_text:
+      - ^Spread Above Index
+      interest_rate:
+      - ^Interest Rate
+      cost:
+      - ^Amortized Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward:
+      - issuer_name
+      group_heading_target: industry
+      known_industries:
+      - Aerospace & Defense
+      - Air Freight & Logistics
+      - Auto Components
+      - Automobiles
+      - Beverages
+      - Building Products
+      - Capital Markets
+      - Chemicals
+      - Commercial Services & Supplies
+      - Construction & Engineering
+      - Containers & Packaging
+      - Diversified Consumer Services
+      - Diversified Financial Services
+      - Electric Utilities
+      - Electronic Equipment, Instruments & Components
+      - Food & Staples Retailing
+      - Food Products
+      - Healthcare Equipment & Supplies
+      - Healthcare Providers & Services
+      - Healthcare Technology
+      - Hotels, Restaurants & Leisure
+      - Household Durables
+      - Household Products
+      - IT Services
+      - Industrial Conglomerates
+      - Insurance
+      - Leisure Products
+      - Life Sciences Tools & Services
+      - Machinery
+      - Media
+      - Money market funds
+      - Oil, Gas & Consumable Fuels
+      - Pharmaceuticals
+      - Professional Services
+      - Software
+      - Specialty Retail
+      - Transportation Infrastructure
+      - Water Utilities
+      group_heading_rules:
+      - regex: affiliate|control
+        target: affiliate_status
+      - regex: ^(Debt|Equity) investments
+        target: investment_type
+      total_if_regex:
+      - ^Total investments\b(?!\s+in\s)
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^(?:Sub)?[Tt]otal\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser:
+      pattern: (?P<index>SF|E|P|SN|A|CA|SOFR|EURIBOR|Prime|SONIA|CORRA)\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      index_aliases:
+        SF: SOFR
+        SOFR: SOFR
+        E: EURIBOR
+        EURIBOR: EURIBOR
+        P: Prime
+        Prime: Prime
+        SN: SONIA
+        SONIA: SONIA
+        A: AUD Interbank
+        CA: CORRA
+        CORRA: CORRA
+  composite_fields:
+  - id: golub-pipe-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    kind: delimited
+    delimiter: '|'
+    positions:
+      issuer: 0
+      description: 1
+      affiliate_status: 2
+    min_parts: 2
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      SF: SOFR
+      E: EURIBOR
+      P: Prime
+      SN: SONIA
+      A: AUD Interbank
+      CA: CORRA
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001901612-26-000031: negative InvestmentOwnedAtFairValue facts on unfunded revolver/delayed-draw members (HTML ''(2)'' style).'
+  overrides: []

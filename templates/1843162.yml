@@ -1,0 +1,120 @@
+# Company template for Chicago Atlantic BDC, Inc. (CIK 1843162). Grounded in SEC accession 0001193125-26-347342 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1843162'
+company_name: Chicago Atlantic BDC, Inc.
+templates:
+- id: chicago-atlantic-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'XBRL carries issuer, affiliation and type as extensible enumerations. HTML SOI in thousands: ''Portfolio Company | Facility Type | All in Rate | Benchmark | Spread | PIK | Floor | Initial
+    Acquisition Date | Maturity | Par | Amortized Cost | Fair Value | % of Net Assets | Footnotes'' with industry heading rows; benchmark letters S (SOFR), P (Prime), F (fixed).'
+  evidence:
+  - '0001193125-26-347342 (2026-06-30): 54 typed members; fair value 334,833,992 and cost 336,747,389 undimensioned facts equal the holdings sums'
+  - '0001193125-26-347342: HTML ''Amortized Cost(15)'' equals us-gaap:InvestmentOwnedAtCost on 40/40 matched rows => cost; benchmark letters confirmed by us-gaap:InvestmentVariableInterestRateTypeExtensibleEnumeration
+    values (Prime 19, SOFR 11, Fixed 10)'
+  - 0001193125-26-222738 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Facility Type
+      - ^Class Series
+      interest_rate:
+      - ^All in Rate
+      reference_index:
+      - ^Benchmark
+      spread:
+      - ^Spread
+      pik_rate:
+      - ^PIK
+      rate_floor:
+      - ^Floor
+      cost:
+      - ^Amortized Cost
+      - ^Cost$
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity
+      principal_amount:
+      - ^Par
+      shares:
+      - ^Shares
+      footnote_markers:
+      - ^Footnotes
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: ^Investments at Fair Value|^US Corporate Debt|Senior Secured|Equity
+        target: ignore
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+  composite_fields: []
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      S: SOFR
+      P: Prime
+  validation: {}
+  overrides: []

@@ -1,0 +1,11 @@
+cik: "1379785"
+company_name: "Barings BDC, Inc."
+accession_number: "0001379785-26-000030"
+form: "10-Q"
+report_date: "2026-06-30"
+split: development
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001379785-26-000030.candidates.csv
+notes: "Company template was built on this filing; candidates from the universe run; UNREVIEWED."

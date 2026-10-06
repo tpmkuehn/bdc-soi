@@ -1,0 +1,11 @@
+cik: "1925531"
+company_name: "New Mountain Guardian IV BDC, L.L.C."
+accession_number: "0001925531-26-000010"
+form: "10-Q"
+report_date: "2026-03-31"
+split: regression
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001925531-26-000010.candidates.csv
+notes: "Prior reporting period for the company template; candidates from output/s2_t*_<cik>_prior; UNREVIEWED."

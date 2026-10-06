@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:link="http://www.xbrl.org/2003/linkbase"
+  xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrldt="http://xbrl.org/2005/xbrldt" xmlns:syn="http://synthetic.test/20250630"
+  targetNamespace="http://synthetic.test/20250630" elementFormDefault="qualified">
+  <xs:import namespace="http://www.xbrl.org/2003/instance" schemaLocation="http://www.xbrl.org/2003/xbrl-instance-2003-12-31.xsd"/>
+  <xs:import namespace="http://xbrl.org/2005/xbrldt" schemaLocation="http://www.xbrl.org/2005/xbrldt-2005.xsd"/>
+  <xs:import namespace="http://fasb.org/us-gaap/2024" schemaLocation="usgaap-syn.xsd"/>
+  <xs:import namespace="http://xbrl.sec.gov/dei/2024" schemaLocation="dei-syn.xsd"/>
+  <xs:annotation><xs:appinfo>
+    <link:linkbaseRef xlink:type="simple" xlink:href="syn-20250630_lab.xml" xlink:role="http://www.xbrl.org/2003/role/labelLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+    <link:linkbaseRef xlink:type="simple" xlink:href="syn-20250630_pre.xml" xlink:role="http://www.xbrl.org/2003/role/presentationLinkbaseRef" xlink:arcrole="http://www.w3.org/1999/xlink/properties/linkbase"/>
+    <link:roleType roleURI="http://synthetic.test/role/ScheduleOfInvestmentsDetails" id="SOIDetails">
+      <link:definition>9999 - Disclosure - Consolidated Schedule of Investments (Details)</link:definition>
+      <link:usedOn>link:presentationLink</link:usedOn>
+    </link:roleType>
+    <link:roleType roleURI="http://synthetic.test/role/FairValueHierarchy" id="FVH">
+      <link:definition>9998 - Disclosure - Fair Value Hierarchy (Details)</link:definition>
+      <link:usedOn>link:presentationLink</link:usedOn>
+    </link:roleType>
+  </xs:appinfo></xs:annotation>
+  <xs:element name="IndustryAxis" id="syn_IndustryAxis" type="xbrli:stringItemType" substitutionGroup="xbrldt:dimensionItem" abstract="true" xbrli:periodType="duration"/>
+  <xs:element name="SoftwareMember" id="syn_SoftwareMember" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" xbrli:periodType="duration"/>
+  <xs:element name="HealthcareMember" id="syn_HealthcareMember" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" xbrli:periodType="duration"/>
+  <xs:element name="InvestmentInterestRateFloor" id="syn_InvestmentInterestRateFloor" type="xbrli:pureItemType" substitutionGroup="xbrli:item" xbrli:periodType="instant" nillable="true"/>
+  <xs:element name="SOIAbstract" id="syn_SOIAbstract" type="xbrli:stringItemType" substitutionGroup="xbrli:item" abstract="true" xbrli:periodType="duration"/>
+</xs:schema>

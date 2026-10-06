@@ -1,0 +1,193 @@
+# Company template for Audax Credit BDC Inc. (CIK 1633858). Grounded in SEC accession 0001193125-26-348682 (10-Q, report
+# date 2026-06-30). Spreads are percent-formatted in both XBRL labels and HTML; S = SOFR is supported by the filing's own
+# InvestmentVariableInterestRateTypeExtensibleEnumeration facts. See docs/iteration-log.md.
+schema_version: 1
+cik: '1633858'
+company_name: Audax Credit BDC Inc.
+templates:
+- id: audax-credit-bdc-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Audax Credit BDC 10-Q layout observed in accession 0001193125-26-348682 (report date 2026-06-30). Typed us-gaap:InvestmentIdentifierAxis labels: (1) ''Ptfl Inv Audax Credit BDC, Inc. BNK
+    LNS: NCNA Inv {Industry} {Issuer} Investment Type {Desc} Index S + Spread 4.75% Interest Rate 8.48% Acquisition Date M/D/YYYY Maturity Date M/D/YYYY''; (2) commitment members ''Investment {Issuer} Investment
+    Type {Desc} Index S+ Spread 4.50% Interest Rate 8.18% Maturity M/D/YYYY'' (rate/maturity facts only, no monetary facts). HTML SOI in whole dollars with columns Portfolio Investments | Footnote Reference
+    | Investment Type | Index | Spread | Interest Rate | Acquisition Date | Maturity Date | Par/Shares | Amortized Cost | Market Value; section headings ''BANK LOANS: NON-CONTROL/NON-AFFILIATE INVESTMENTS''
+    and industry headings. Page-header rows ''Audax Credit BDC, Inc. (Continued)'' are ignored.'
+  evidence:
+  - 'SEC accession 0001193125-26-348682, ck0001633858-20260630_htm.xml: 659 typed InvestmentIdentifierAxis members at 2026-06-30; InvestmentIssuerNameExtensibleEnumeration / InvestmentIndustrySectorExtensibleEnumeration
+    / InvestmentTypeExtensibleEnumeration on 194 members; undimensioned InvestmentOwnedAtFairValue 383,150,883 and InvestmentOwnedAtCost 404,197,839 equal the generic-engine detail sums'
+  - 'SEC accession 0001193125-26-348682, ck0001633858-20260630.htm: SOI tables 10-18 with header ''Portfolio Investments (a) (b) (c) (d) (e) (f) | Footnote Reference | Investment Type | Index (^) | Spread
+    | Interest Rate | Acquisition Date | Maturity Date | Par/ Shares | Amortized Cost | Market Value''; index cells ''S+'' with InvestmentVariableInterestRateTypeExtensibleEnumeration = SOFR on the same
+    holdings supports S = SOFR'
+  - 'SEC accession 0001193125-26-219725 (10-Q, report date 2026-03-31, retrieved live 2026-10-06): same layout; HTML SOI tables 10-17 carry the identical header ''Portfolio Investments | Footnote Reference
+    | Investment Type | Index | Spread | Interest Rate | Acquisition Date | Maturity Date | Par/ Shares | Amortized Cost | Market Value'' (the generic template rejected them: required term ''Fair Value''
+    absent), 456 typed identifier members with monetary facts; effective_from moved to 2026-03-31 on this evidence (run output/s3e_final_1633858_0001193125-26-219725)'
+  - 'Industry vocabulary: the filing''s HTML group-heading rows (Moody''s-style sectors such as ''Services: Business'', ''Beverage, Food & Tobacco'')'
+  - 'HTML ''Amortized Cost'' column mapped to cost: 0 cost conflicts on 449 matched rows in run output/audax_q2_2026_run1 against us-gaap:InvestmentOwnedAtCost'
+  - 'Third typed-label format for the equity section: ''Portfolio Investments EQUITY AND PREFERRED SHARES: NON-CONTROL/NON-AFFILIATE INVESTMENTS {Industry} {Issuer} Investment Type {Desc} Acquisition Date
+    M/D/YYYY'' (52 members)'
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+      - MeasurementInput
+      - RelatedParty
+    field_concepts: {}
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Market Value|Fair Value
+      optional_terms:
+      - Amortized Cost
+      - Par
+      - Maturity
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      - investment activity
+      minimum_score: 7
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Investments
+      security_description:
+      - ^Investment Type
+      reference_index:
+      - ^Index
+      spread:
+      - ^Spread
+      interest_rate:
+      - ^Interest Rate
+      maturity_date:
+      - ^Maturity Date
+      cost:
+      - ^Amortized Cost
+      fair_value:
+      - ^Market Value
+      footnote_markers:
+      - ^Footnote Reference
+    scale:
+      source: fixed
+      fixed_multiplier: 1
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: NON-CONTROL|AFFILIATE|CONTROL
+        target: affiliate_status
+      - regex: ^Audax Credit BDC, Inc\.
+        target: ignore
+      skip_if_regex: []
+      total_if_regex:
+      - ^Total Investments
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    rate_parser: &id001
+      pattern: (?P<index>[A-Z]+)\s*\+\s*Spread\s+(?P<spread_pct>\d+(?:\.\d+)?)%
+      interest_rate_pattern: Interest Rate\s+(?P<rate_pct>\d+(?:\.\d+)?)%
+      index_aliases:
+        S: SOFR
+        SOFR: SOFR
+        P: Prime
+        Prime: Prime
+      spread_unit: percent
+    prefer_html_fields:
+    - issuer_name
+  composite_fields:
+  - id: audax-member-label-section-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    precedence: direct_first
+    pattern: ^Ptfl Inv Audax Credit BDC, Inc\.\s+(?:[A-Z ]+:\s*[A-Z]+)\s+Inv\s+(?P<header>.+?)\s+Investment Type\s+(?P<description>.+?)(?:\s+Index\s+(?P<rate>.+?))?(?:\s+Acquisition Date\s+\d{1,2}/\d{1,2}/\d{4})?(?:\s+Maturity
+      Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$
+    header_parser: &id002
+      known_industries:
+      - Aerospace & Defense
+      - Automotive
+      - Banking, Finance, Insurance & Real Estate
+      - Beverage, Food & Tobacco
+      - Capital Equipment
+      - Chemicals, Plastics & Rubber
+      - Construction & Building
+      - 'Consumer Goods: Non-durable'
+      - 'Consumer Goods: Durable'
+      - Containers, Packaging & Glass
+      - 'Energy: Oil & Gas'
+      - Environmental Industries
+      - Healthcare & Pharmaceuticals
+      - High Tech Industries
+      - Hotels, Gaming & Leisure
+      - 'Media: Advertising, Printing & Publishing'
+      - 'Media: Diversified & Production'
+      - 'Media: Broadcasting & Subscription'
+      - Metals & Mining
+      - Retail
+      - 'Services: Business'
+      - 'Services: Consumer'
+      - Telecommunications
+      - 'Transportation: Cargo'
+      - 'Transportation: Consumer'
+      - 'Utilities: Electric'
+      - 'Utilities: Water'
+      - Wholesale
+      industry_position: prefix
+      remainder_target: issuer_name
+    rate_parser: *id001
+  - id: audax-member-label-equity-section-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    precedence: direct_first
+    pattern: ^Portfolio Investments\s+(?P<section>[A-Z &/\-]+:\s*[A-Z/\- ]+INVESTMENTS)\s+(?P<header>.+?)\s+Investment Type\s+(?P<description>.+?)(?:\s+Index\s+(?P<rate>.+?))?(?:\s+Acquisition Date\s+\d{1,2}/\d{1,2}/\d{4})?(?:\s+Maturity
+      Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$
+    capture_targets:
+      section: affiliate_status
+    header_parser: *id002
+    rate_parser: *id001
+  - id: audax-member-label-commitment-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    precedence: direct_first
+    pattern: ^Investment\s+(?P<issuer>.+?)\s+Investment Type\s+(?P<description>.+?)(?:\s+Index\s+(?P<rate>.+?))?(?:\s+Maturity\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: percent
+    reference_index_aliases:
+      S: SOFR
+      P: Prime
+  overrides: []

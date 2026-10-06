@@ -1,0 +1,125 @@
+# Company template for Barings BDC, Inc. (CIK 1379785). Grounded in SEC accession 0001379785-26-000030 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1379785'
+company_name: Barings BDC, Inc.
+templates:
+- id: barings-bdc-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: Typed labels 'Issuer | Description[ | Funded]'. HTML SOI in thousands with 'Portfolio Company | Investment Type | Interest | Acq. Date | Maturity Date | Principal Amount | Cost | Fair Value
+    | % of Net Assets | Notes'; interest text 'SOFR + 4.75%, 8.6% Cash'; maturity shown as MM/YY (not a full date; left null). Jocassee Partners LLC (consolidated subsidiary) holdings are tagged with a
+    subsidiary axis and reported outside the entity-wide total.
+  evidence:
+  - '0001379785-26-000030 (2026-06-30): 855 typed members, 149 without monetary facts (commitments); after excluding the Jocassee subsidiary-context row (33,180,000) the XBRL fair-value sum equals the undimensioned
+    total 2,458,590,000'
+  - '0001379785-26-000030 HTML: index tokens SOFR, SONIA, BBSY, CORRA, BKBM, SARON, STIBOR, NIBOR (all unambiguous full names); 63 negative fair-value facts on unfunded facilities'
+  - 0001379785-26-000022 (2026-03-31) inspected as the prior period; industry vocabulary from HTML heading rows
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+      exclude_member_regex:
+      - '[|,]\s*Funded$'
+      exclude_member_evidence: '0001379785-26-000030: members ending in ''| Funded'' or '', Funded'' (e.g. ''Eclipse Business Capital Holdings LLC | Revolver | Funded'' 12,900,000; ''Rocade Holdings LLC
+        | Second Lien Secured Loan | Funded'' 12,200,000) re-tag the funded portion of facilities that already appear as members and as single HTML rows; excluding them makes the XBRL sum equal ''Total
+        Investments, June 30, 2026 $2,458,590''.'
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Investment Type
+      interest_rate_text:
+      - ^Interest$
+      cost:
+      - ^Cost$
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+      principal_amount:
+      - ^Principal Amount
+      shares:
+      - ^Units / Shares
+      footnote_markers:
+      - ^Notes$
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward:
+      - issuer_name
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliate|control
+        target: affiliate_status
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      - ^Total investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^(?:Sub)?[Tt]otal\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+  composite_fields:
+  - id: barings-pipe-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    kind: delimited
+    delimiter: '|'
+    positions:
+      issuer: 0
+      description: 1
+    min_parts: 2
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: auto
+    spread_output_format: decimal
+    reference_index_aliases: {}
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001379785-26-000030: 63 negative InvestmentOwnedAtFairValue facts on unfunded revolver/delayed-draw members (HTML ''(33)'' style).'
+  overrides: []

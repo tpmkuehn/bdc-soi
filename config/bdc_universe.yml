@@ -1,0 +1,56 @@
+# Authoritative project universe (26 BDCs) supplied by the project owner on 2026-10-06.
+# Registrant names verified against the SEC submissions API on 2026-10-06 (see docs/progress.md).
+# CIKs are unpadded strings (SPEC 7.2). Coverage and support status per company: docs/coverage-report.md.
+companies:
+  - cik: "1950976"  # 26North BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1837532"  # Apollo Debt Solutions BDC; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1633858"  # Audax Credit BDC Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1950572"  # BIP Ventures Evergreen BDC; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1379785"  # Barings BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1843162"  # Chicago Atlantic BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1841514"  # Commonwealth Credit Partners BDC I, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1633336"  # Crescent Capital BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "2018545"  # Franklin BSP Real Estate Debt BDC; latest eligible 10-Q report date 2025-06-30
+    enabled: true
+  - cik: "1476765"  # GOLUB CAPITAL BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1572694"  # Goldman Sachs BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1901612"  # Golub Capital BDC 4, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1578348"  # Investcorp Credit Management BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1959604"  # Jefferies Credit Partners BDC Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1747172"  # Kayne Anderson BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1779523"  # Muzinich BDC, Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1925531"  # New Mountain Guardian IV BDC, L.L.C.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1860424"  # Onex Direct Lending BDC Fund; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1905824"  # PIMCO Capital Solutions BDC Corp.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1794776"  # Palmer Square Capital BDC Inc.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1743415"  # SCP Private Credit Income BDC LLC; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1832148"  # SLR HC BDC LLC; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1932591"  # SLR Private Credit BDC II LLC; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1901037"  # Stellus Private Credit BDC; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "1580345"  # TriplePoint Venture Growth BDC Corp.; latest eligible 10-Q report date 2026-06-30
+    enabled: true
+  - cik: "2020354"  # West Bay BDC LLC; latest eligible 10-Q report date 2026-06-30
+    enabled: true

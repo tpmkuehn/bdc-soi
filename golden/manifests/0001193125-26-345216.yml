@@ -1,0 +1,11 @@
+cik: "1959604"
+company_name: "Jefferies Credit Partners BDC Inc."
+accession_number: "0001193125-26-345216"
+form: "10-Q"
+report_date: "2026-06-30"
+split: development
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001193125-26-345216.candidates.csv
+notes: "Company template was built on this filing; candidates from the universe run; UNREVIEWED."

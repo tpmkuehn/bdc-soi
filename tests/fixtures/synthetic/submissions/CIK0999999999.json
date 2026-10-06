@@ -1,0 +1,7 @@
+{"cik": "999999999", "name": "Synthetic Test BDC", "sic": "6799", "filings": {"recent": {
+ "accessionNumber": ["0009999999-25-000001", "0009999999-25-000002", "0009999999-24-000009"],
+ "filingDate": ["2025-08-11", "2025-09-01", "2024-11-12"],
+ "reportDate": ["2025-06-30", "2025-06-30", "2024-09-30"],
+ "form": ["10-Q", "10-Q/A", "10-Q"],
+ "primaryDocument": ["syn-20250630.htm", "syn-20250630a.htm", "syn-20240930.htm"],
+ "isXBRL": [1, 1, 1], "isInlineXBRL": [0, 0, 0]}, "files": []}}

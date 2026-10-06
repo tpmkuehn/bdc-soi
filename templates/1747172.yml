@@ -1,0 +1,132 @@
+# Company template for Kayne Anderson BDC, Inc. (CIK 1747172). Grounded in SEC accession 0001193125-26-342385 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1747172'
+company_name: Kayne Anderson BDC, Inc.
+templates:
+- id: kayne-anderson-bdc-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels: ''Debt Investments - {Industry} - {Issuer} - {Description} - Interest Rate 9.14% - Spread 5.50% - Reference SOFR(M) - Maturity Date M/D/YYYY''. HTML SOI is stated in thousands
+    although no caption says so (XBRL/HTML value ratio ~1000): ''Portfolio Company | Footnotes | Investment | Interest Rate | Spread | PIK Rate | Reference | Maturity Date | Principal/ Par | Amortized Cost
+    | Fair Value | Percentage of Net Assets'' with industry heading rows; reference cells like ''SOFR(M)'' / ''SOFR(Q)''.'
+  evidence:
+  - '0001193125-26-342385 (2026-06-30): 336 typed members; undimensioned fair value 2,291,802,000 and cost 2,304,505,000; HTML holding values are 1/1000 of matching XBRL facts (median ratio 588 before scaling)
+    => fixed scale 1000'
+  - '0001193125-26-342385: InvestmentVariableInterestRateTypeExtensibleEnumeration values SOFR 280, Federal Funds Effective Swap Rate 6, Prime 3; HTML ''Amortized Cost'' column corresponds to us-gaap:InvestmentOwnedAtCost'
+  - 0001193125-26-216773 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Investment
+      interest_rate:
+      - ^Interest Rate
+      spread:
+      - ^Spread
+      pik_rate:
+      - ^PIK Rate
+      reference_index:
+      - ^Reference
+      cost:
+      - ^Amortized Cost
+      - ^Cost$
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+      principal_amount:
+      - ^Principal
+      shares:
+      - ^Number of Shares
+      footnote_markers:
+      - ^Footnotes
+    scale:
+      source: fixed
+      fixed_multiplier: 1000
+      default: 1000
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: ^(Debt|Equity) Investments
+        target: investment_type
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?P<index>SOFR|Prime|Federal Funds)(?:\([A-Z]\))?\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      index_aliases:
+        SOFR: SOFR
+        Prime: Prime
+        Federal Funds: Federal Funds Effective Swap Rate
+  composite_fields:
+  - id: kayne-dash-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: '^(?P<investment_type>[^-]+?) - (?P<industry>.+?) - (?P<issuer>.+?) - (?P<description>.+?)(?: - Interest Rate (?P<interest_rate>\d+(?:\.\d+)?%))?(?: - Spread (?P<spread>\d+(?:\.\d+)?%))?(?:
+      - Reference (?P<reference_index>[A-Za-z ]+?)(?:\([A-Z]\))?)?(?: - Maturity Date (?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?(?: - Acquisition Date .*)?$'
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      SOFR: SOFR
+      Prime: Prime
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001193125-26-342385: 3 negative InvestmentOwnedAtFairValue facts on unfunded facilities.'
+  overrides: []

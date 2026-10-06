@@ -1,0 +1,124 @@
+# Company template for SCP Private Credit Income BDC LLC (CIK 1743415). Grounded in SEC accession 0001193125-26-332724 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1743415'
+company_name: SCP Private Credit Income BDC LLC
+templates:
+- id: scp-private-credit-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'SLR-managed layout. Typed labels: ''Bank Debt/Senior Secured Loans — {Issuer} Industry {Industry} Spread above Index S+525 Floor 0.75% Interest Rate 9.57% Acquisition Date M/YYYY Maturity
+    Date M/YYYY'' (basis-point spreads, month/year dates). HTML SOI in thousands: ''Description | Industry | Spread above Index | Floor | Interest Rate | Acquisition Date | Maturity Date | Par Amount |
+    Cost | Fair Value''; grand total ''Total Investments(9) — 103.2%'' (the row ''Total Investments & Cash Equivalents'' is not the SOI total).'
+  evidence:
+  - '0001193125-26-332724 (2026-06-30): 19 typed members; HTML ''Total Investments(9) $151,605 $131,073'' matches the holdings sums; no undimensioned XBRL total facts'
+  - '0001193125-26-332724: ''S'' supported by InvestmentVariableInterestRateTypeExtensibleEnumeration = SOFR on 11 members'
+  - 0001193125-26-206308 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Description
+      industry:
+      - ^Industry
+      interest_rate_text:
+      - ^Spread above Index
+      rate_floor:
+      - ^Floor
+      interest_rate:
+      - ^Interest Rate
+      cost:
+      - ^Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+      principal_amount:
+      - ^Par Amount
+      shares:
+      - ^Shares
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: investment_type
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      total_if_regex:
+      - ^Total Investments\b(?!\s*\(?\d*\)?\s*(?:&|and)\s+Cash)(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?P<index>S|P|SOFR|Prime)\s*\+\s*(?P<spread_bps>\d+)(?!\.\d)(?!\s*%)
+      spread_unit: basis_points
+      index_aliases:
+        S: SOFR
+        SOFR: SOFR
+        P: Prime
+        Prime: Prime
+  composite_fields:
+  - id: scp-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^(?P<investment_type>[^—]+?)\s+—\s+(?P<issuer>.+?)\s+Industry\s+(?P<industry>.+?)(?:\s+Spread above Index\s+(?P<rate>\S+))?(?:\s+Floor\s+(?P<rate_floor>\d+(?:\.\d+)?%))?(?:\s+Interest Rate\s+(?P<interest_rate>\d+(?:\.\d+)?%))?(?:\s+Acquisition
+      Date\s+\d{1,2}/\d{4})?(?:\s+Maturity Date\s+\d{1,2}/\d{4})?$
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: basis_points
+    spread_output_format: decimal
+    reference_index_aliases:
+      S: SOFR
+      P: Prime
+  validation: {}
+  overrides: []

@@ -1,0 +1,1128 @@
+{
+  "$defs": {
+    "CompositeField": {
+      "additionalProperties": false,
+      "properties": {
+        "applies_to": {
+          "default": "both",
+          "enum": [
+            "xbrl",
+            "html",
+            "both"
+          ],
+          "title": "Applies To",
+          "type": "string"
+        },
+        "capture_targets": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Capture Targets",
+          "type": "object"
+        },
+        "delimiter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Delimiter"
+        },
+        "header_parser": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/HeaderParser"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "default": "regex",
+          "enum": [
+            "regex",
+            "delimited"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "min_parts": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Parts"
+        },
+        "pattern": {
+          "default": "",
+          "title": "Pattern",
+          "type": "string"
+        },
+        "positions": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Positions",
+          "type": "object"
+        },
+        "precedence": {
+          "default": "direct_first",
+          "enum": [
+            "direct_first",
+            "composite_first"
+          ],
+          "title": "Precedence",
+          "type": "string"
+        },
+        "rate_parser": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RateParser"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source_field": {
+          "title": "Source Field",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "source_field"
+      ],
+      "title": "CompositeField",
+      "type": "object"
+    },
+    "ContextFilters": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_period_types": {
+          "items": {
+            "enum": [
+              "instant",
+              "duration"
+            ],
+            "type": "string"
+          },
+          "title": "Allowed Period Types",
+          "type": "array"
+        },
+        "excluded_axes_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Axes Regex",
+          "type": "array"
+        },
+        "require_report_date": {
+          "default": true,
+          "title": "Require Report Date",
+          "type": "boolean"
+        }
+      },
+      "title": "ContextFilters",
+      "type": "object"
+    },
+    "FieldPreferenceItem": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "title": "Concept",
+          "type": "string"
+        },
+        "namespace": {
+          "title": "Namespace",
+          "type": "string"
+        }
+      },
+      "required": [
+        "namespace",
+        "concept"
+      ],
+      "title": "FieldPreferenceItem",
+      "type": "object"
+    },
+    "GroupHeadingRule": {
+      "additionalProperties": false,
+      "properties": {
+        "regex": {
+          "title": "Regex",
+          "type": "string"
+        },
+        "target": {
+          "title": "Target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "regex",
+        "target"
+      ],
+      "title": "GroupHeadingRule",
+      "type": "object"
+    },
+    "HeaderParser": {
+      "additionalProperties": false,
+      "properties": {
+        "industry_position": {
+          "default": "prefix",
+          "enum": [
+            "prefix",
+            "suffix",
+            "infix"
+          ],
+          "title": "Industry Position",
+          "type": "string"
+        },
+        "known_industries": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Known Industries",
+          "type": "array"
+        },
+        "remainder_pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remainder Pattern"
+        },
+        "remainder_target": {
+          "default": "issuer",
+          "title": "Remainder Target",
+          "type": "string"
+        }
+      },
+      "title": "HeaderParser",
+      "type": "object"
+    },
+    "HeaderRows": {
+      "additionalProperties": false,
+      "properties": {
+        "max": {
+          "default": 4,
+          "title": "Max",
+          "type": "integer"
+        },
+        "min": {
+          "default": 1,
+          "title": "Min",
+          "type": "integer"
+        }
+      },
+      "title": "HeaderRows",
+      "type": "object"
+    },
+    "HtmlSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "default": false,
+          "title": "Disabled",
+          "type": "boolean"
+        },
+        "disabled_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disabled Reason"
+        },
+        "header_aliases": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Header Aliases",
+          "type": "object"
+        },
+        "header_rows": {
+          "$ref": "#/$defs/HeaderRows"
+        },
+        "period_selection": {
+          "$ref": "#/$defs/PeriodSelection"
+        },
+        "prefer_html_fields": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Prefer Html Fields",
+          "type": "array"
+        },
+        "rate_parser": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RateParser"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "row_rules": {
+          "$ref": "#/$defs/RowRules"
+        },
+        "scale": {
+          "$ref": "#/$defs/ScaleSpec"
+        },
+        "table_detection": {
+          "$ref": "#/$defs/TableDetection"
+        }
+      },
+      "title": "HtmlSpec",
+      "type": "object"
+    },
+    "LegalSuffixes": {
+      "additionalProperties": false,
+      "properties": {
+        "remove_preceding_comma": {
+          "default": true,
+          "title": "Remove Preceding Comma",
+          "type": "boolean"
+        },
+        "strip_trailing_period": {
+          "default": true,
+          "title": "Strip Trailing Period",
+          "type": "boolean"
+        }
+      },
+      "title": "LegalSuffixes",
+      "type": "object"
+    },
+    "NormalizationSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "date_formats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Date Formats",
+          "type": "array"
+        },
+        "legal_suffixes": {
+          "$ref": "#/$defs/LegalSuffixes"
+        },
+        "reference_index_aliases": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Reference Index Aliases",
+          "type": "object"
+        },
+        "spread_input_unit": {
+          "default": "auto",
+          "enum": [
+            "basis_points",
+            "percent",
+            "auto"
+          ],
+          "title": "Spread Input Unit",
+          "type": "string"
+        },
+        "spread_output_format": {
+          "default": "decimal",
+          "enum": [
+            "percent",
+            "decimal",
+            "basis_points"
+          ],
+          "title": "Spread Output Format",
+          "type": "string"
+        }
+      },
+      "title": "NormalizationSpec",
+      "type": "object"
+    },
+    "Override": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "match": {
+          "$ref": "#/$defs/OverrideMatch"
+        },
+        "provenance": {
+          "$ref": "#/$defs/OverrideProvenance"
+        },
+        "set": {
+          "additionalProperties": true,
+          "title": "Set",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "match",
+        "set",
+        "provenance"
+      ],
+      "title": "Override",
+      "type": "object"
+    },
+    "OverrideMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "accession_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Accession Number"
+        },
+        "description_raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description Raw"
+        },
+        "holding_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Holding Id"
+        },
+        "holding_member_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Holding Member Key"
+        },
+        "issuer_name_raw": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Issuer Name Raw"
+        },
+        "report_date": {
+          "format": "date",
+          "title": "Report Date",
+          "type": "string"
+        }
+      },
+      "required": [
+        "report_date"
+      ],
+      "title": "OverrideMatch",
+      "type": "object"
+    },
+    "OverrideProvenance": {
+      "additionalProperties": false,
+      "properties": {
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "reviewed_at": {
+          "format": "date",
+          "title": "Reviewed At",
+          "type": "string"
+        },
+        "reviewed_by": {
+          "title": "Reviewed By",
+          "type": "string"
+        },
+        "source_reference": {
+          "title": "Source Reference",
+          "type": "string"
+        },
+        "source_type": {
+          "title": "Source Type",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Url"
+        }
+      },
+      "required": [
+        "source_type",
+        "source_reference",
+        "reviewed_by",
+        "reviewed_at",
+        "rationale"
+      ],
+      "title": "OverrideProvenance",
+      "type": "object"
+    },
+    "PeriodSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_undated_tables": {
+          "default": true,
+          "title": "Allow Undated Tables",
+          "type": "boolean"
+        },
+        "prefer_report_date": {
+          "default": true,
+          "title": "Prefer Report Date",
+          "type": "boolean"
+        }
+      },
+      "title": "PeriodSelection",
+      "type": "object"
+    },
+    "RateParser": {
+      "additionalProperties": false,
+      "properties": {
+        "cash_pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cash Pattern"
+        },
+        "floor_pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Floor Pattern"
+        },
+        "index_aliases": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Index Aliases",
+          "type": "object"
+        },
+        "interest_rate_pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interest Rate Pattern"
+        },
+        "pattern": {
+          "title": "Pattern",
+          "type": "string"
+        },
+        "pik_pattern": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pik Pattern"
+        },
+        "spread_unit": {
+          "default": "auto",
+          "enum": [
+            "basis_points",
+            "percent",
+            "auto"
+          ],
+          "title": "Spread Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pattern"
+      ],
+      "title": "RateParser",
+      "type": "object"
+    },
+    "RowAxesSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "exclude_member_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exclude Member Evidence"
+        },
+        "exclude_member_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Exclude Member Regex",
+          "type": "array"
+        },
+        "exclude_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Exclude Regex",
+          "type": "array"
+        },
+        "explicit_qnames": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Explicit Qnames",
+          "type": "array"
+        },
+        "regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Regex",
+          "type": "array"
+        }
+      },
+      "title": "RowAxesSpec",
+      "type": "object"
+    },
+    "RowRules": {
+      "additionalProperties": false,
+      "properties": {
+        "blanks_meaningful": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blanks Meaningful",
+          "type": "array"
+        },
+        "carry_forward": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Carry Forward",
+          "type": "array"
+        },
+        "carry_forward_across_tables": {
+          "default": false,
+          "title": "Carry Forward Across Tables",
+          "type": "boolean"
+        },
+        "footnote_if_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Footnote If Regex",
+          "type": "array"
+        },
+        "group_heading_rules": {
+          "items": {
+            "$ref": "#/$defs/GroupHeadingRule"
+          },
+          "title": "Group Heading Rules",
+          "type": "array"
+        },
+        "group_heading_target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Group Heading Target"
+        },
+        "known_industries": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Known Industries",
+          "type": "array"
+        },
+        "require_any_numeric": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Require Any Numeric",
+          "type": "array"
+        },
+        "skip_if_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Skip If Regex",
+          "type": "array"
+        },
+        "subtotal_if_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Subtotal If Regex",
+          "type": "array"
+        },
+        "total_if_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Total If Regex",
+          "type": "array"
+        }
+      },
+      "title": "RowRules",
+      "type": "object"
+    },
+    "ScaleSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "default": {
+          "default": 1,
+          "title": "Default",
+          "type": "integer"
+        },
+        "fixed_multiplier": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fixed Multiplier"
+        },
+        "millions_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Millions Regex",
+          "type": "array"
+        },
+        "source": {
+          "default": "table_then_document",
+          "enum": [
+            "fixed",
+            "table_then_document",
+            "table_only",
+            "document_only"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "thousands_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Thousands Regex",
+          "type": "array"
+        }
+      },
+      "title": "ScaleSpec",
+      "type": "object"
+    },
+    "TableDetection": {
+      "additionalProperties": false,
+      "properties": {
+        "excluded_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Terms",
+          "type": "array"
+        },
+        "heading_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Heading Regex",
+          "type": "array"
+        },
+        "max_heading_distance": {
+          "default": 20,
+          "title": "Max Heading Distance",
+          "type": "integer"
+        },
+        "minimum_score": {
+          "default": 6,
+          "title": "Minimum Score",
+          "type": "number"
+        },
+        "optional_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Optional Terms",
+          "type": "array"
+        },
+        "required_terms": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Terms",
+          "type": "array"
+        }
+      },
+      "title": "TableDetection",
+      "type": "object"
+    },
+    "TemplateValidationRules": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_negative_fair_value": {
+          "default": false,
+          "title": "Allow Negative Fair Value",
+          "type": "boolean"
+        },
+        "allow_negative_fair_value_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Allow Negative Fair Value Evidence"
+        },
+        "reporting_currency_evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reporting Currency Evidence",
+          "type": "array"
+        },
+        "total_source_preference": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Total Source Preference",
+          "type": "array"
+        },
+        "total_source_preference_evidence": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Total Source Preference Evidence"
+        }
+      },
+      "title": "TemplateValidationRules",
+      "type": "object"
+    },
+    "TemplateVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "accessions": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Accessions"
+        },
+        "composite_fields": {
+          "items": {
+            "$ref": "#/$defs/CompositeField"
+          },
+          "title": "Composite Fields",
+          "type": "array"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "effective_from": {
+          "format": "date",
+          "title": "Effective From",
+          "type": "string"
+        },
+        "effective_to": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Effective To"
+        },
+        "evidence": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "forms": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forms"
+        },
+        "html": {
+          "$ref": "#/$defs/HtmlSpec"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "normalization": {
+          "$ref": "#/$defs/NormalizationSpec"
+        },
+        "overrides": {
+          "items": {
+            "$ref": "#/$defs/Override"
+          },
+          "title": "Overrides",
+          "type": "array"
+        },
+        "priority": {
+          "default": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "status": {
+          "default": "production",
+          "enum": [
+            "production",
+            "draft",
+            "placeholder"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "validation": {
+          "$ref": "#/$defs/TemplateValidationRules"
+        },
+        "xbrl": {
+          "$ref": "#/$defs/XbrlSpec"
+        }
+      },
+      "required": [
+        "id",
+        "effective_from"
+      ],
+      "title": "TemplateVersion",
+      "type": "object"
+    },
+    "XbrlSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "context_filters": {
+          "$ref": "#/$defs/ContextFilters"
+        },
+        "dimension_fields": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Dimension Fields",
+          "type": "object"
+        },
+        "field_concepts": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Field Concepts",
+          "type": "object"
+        },
+        "field_preference": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/$defs/FieldPreferenceItem"
+            },
+            "type": "array"
+          },
+          "title": "Field Preference",
+          "type": "object"
+        },
+        "field_regex": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Field Regex",
+          "type": "object"
+        },
+        "role_regex": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Role Regex",
+          "type": "array"
+        },
+        "row_axes": {
+          "$ref": "#/$defs/RowAxesSpec"
+        },
+        "total_concepts": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Total Concepts",
+          "type": "object"
+        }
+      },
+      "title": "XbrlSpec",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cik": {
+      "title": "Cik",
+      "type": "string"
+    },
+    "company_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Company Name"
+    },
+    "namespace_families": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Namespace Families",
+      "type": "object"
+    },
+    "schema_version": {
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "templates": {
+      "items": {
+        "$ref": "#/$defs/TemplateVersion"
+      },
+      "title": "Templates",
+      "type": "array"
+    }
+  },
+  "required": [
+    "cik"
+  ],
+  "title": "BDC SOI company template file",
+  "type": "object"
+}

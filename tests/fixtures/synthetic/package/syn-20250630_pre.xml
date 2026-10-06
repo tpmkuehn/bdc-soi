@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<link:linkbase xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink">
+<link:roleRef roleURI="http://synthetic.test/role/ScheduleOfInvestmentsDetails" xlink:type="simple" xlink:href="syn-20250630.xsd#SOIDetails"/>
+<link:roleRef roleURI="http://synthetic.test/role/FairValueHierarchy" xlink:type="simple" xlink:href="syn-20250630.xsd#FVH"/>
+<link:presentationLink xlink:type="extended" xlink:role="http://synthetic.test/role/ScheduleOfInvestmentsDetails">
+<link:loc xlink:type="locator" xlink:href="syn-20250630.xsd#syn_SOIAbstract" xlink:label="abs"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_InvestmentIdentifierAxis" xlink:label="ax"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_InvestmentOwnedAtFairValue" xlink:label="fv"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_InvestmentOwnedAtCost" xlink:label="cost"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_InvestmentOwnedBalancePrincipalAmount" xlink:label="prin"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_InvestmentMaturityDate" xlink:label="mat"/>
+<link:loc xlink:type="locator" xlink:href="syn-20250630.xsd#syn_InvestmentInterestRateFloor" xlink:label="floor"/>
+<link:presentationArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="abs" xlink:to="ax" order="1"/>
+<link:presentationArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="abs" xlink:to="fv" order="2"/>
+<link:presentationArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="abs" xlink:to="cost" order="3"/>
+<link:presentationArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="abs" xlink:to="prin" order="4"/>
+<link:presentationArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="abs" xlink:to="mat" order="5"/>
+<link:presentationArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="abs" xlink:to="floor" order="6"/>
+</link:presentationLink>
+<link:presentationLink xlink:type="extended" xlink:role="http://synthetic.test/role/FairValueHierarchy">
+<link:loc xlink:type="locator" xlink:href="syn-20250630.xsd#syn_SOIAbstract" xlink:label="abs"/>
+<link:loc xlink:type="locator" xlink:href="usgaap-syn.xsd#us-gaap_FairValueByFairValueHierarchyLevelAxis" xlink:label="fvax"/>
+<link:presentationArc xlink:type="arc" xlink:arcrole="http://www.xbrl.org/2003/arcrole/parent-child" xlink:from="abs" xlink:to="fvax" order="1"/>
+</link:presentationLink>
+</link:linkbase>

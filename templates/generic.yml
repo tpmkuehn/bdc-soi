@@ -1,0 +1,165 @@
+# Generic fallback rules (SPEC 2.3, 11.3 tiers 3-4). Not company-specific.
+# Concept references: "{uri}Local" exact Clark, "prefix:Local" exact within a namespace family,
+# bare "Local" is a controlled local-name fallback. No {issuer-namespace} placeholders.
+schema_version: 1
+cik: "generic"
+company_name: "Generic fallback"
+namespace_families:
+  us-gaap: '^http://fasb\.org/us-gaap/\d{4}(?:-\d{2}-\d{2})?$'
+  dei: '^http://xbrl\.sec\.gov/dei/\d{4}(?:-\d{2}-\d{2})?$'
+  srt: '^http://fasb\.org/srt/\d{4}(?:-\d{2}-\d{2})?$'
+  xbrli: '^http://www\.xbrl\.org/2003/instance$'
+templates:
+  - id: "generic-v1"
+    priority: 0
+    effective_from: "2000-01-01"
+    effective_to: null
+    status: "production"
+    description: "Generic US-GAAP investment-company mapping; company templates refine it."
+    xbrl:
+      role_regex:
+        - "Schedule\\s+of\\s+Investments"
+        - "Investment\\s+Portfolio"
+        - "Investments\\s+Schedule"
+      row_axes:
+        regex:
+          - "InvestmentIdentifier"
+          - "Investment.*Identifier"
+          - "PortfolioCompany"
+        exclude_regex:
+          - "FairValue.*Hierarchy"
+          - "FairValueByFairValueHierarchyLevel"
+          - "Industry"
+          - "Sector"
+          - "Geograph"
+          - "Affiliat"
+          - "InvestmentType"
+          - "Currency"
+      field_concepts:
+        # Specific concepts are listed before broad ones (amortized cost before cost).
+        amortized_cost:
+          - "us-gaap:InvestmentOwnedAtAmortizedCost"
+        cost:
+          - "us-gaap:InvestmentOwnedAtCost"
+        fair_value:
+          - "us-gaap:InvestmentOwnedAtFairValue"
+        principal_amount:
+          - "us-gaap:InvestmentOwnedBalancePrincipalAmount"
+        shares:
+          - "us-gaap:InvestmentOwnedBalanceShares"
+        percent_of_net_assets:
+          - "us-gaap:InvestmentOwnedPercentOfNetAssets"
+        interest_rate:
+          - "us-gaap:InvestmentInterestRate"
+        spread:
+          - "us-gaap:InvestmentBasisSpreadVariableRate"
+        rate_floor:
+          - "us-gaap:InvestmentInterestRateFloor"
+        pik_rate:
+          - "us-gaap:InvestmentInterestRatePaidInKind"
+        cash_rate:
+          - "us-gaap:InvestmentInterestRatePaidInCash"
+        maturity_date:
+          - "us-gaap:InvestmentMaturityDate"
+        reference_index:
+          - "us-gaap:InvestmentVariableInterestRateTypeExtensibleEnumeration"
+        issuer:
+          - "us-gaap:InvestmentIssuerNameExtensibleEnumeration"
+        affiliate_status:
+          - "us-gaap:InvestmentIssuerAffiliationExtensibleEnumeration"
+        investment_type:
+          - "us-gaap:InvestmentTypeExtensibleEnumeration"
+        industry:
+          - "us-gaap:InvestmentIndustrySectorExtensibleEnumeration"
+      field_regex:
+        # Regex tier over Clark QName, label and documentation; evaluated after exact tiers.
+        amortized_cost:
+          - "InvestmentOwnedAtAmortizedCost|AmortizedCost\\b"
+        fair_value:
+          - "InvestmentOwnedAtFairValue$|InvestmentsFairValue$"
+        cost:
+          - "InvestmentOwnedAtCost$"
+        principal_amount:
+          - "InvestmentOwnedBalancePrincipalAmount|PrincipalAmount$|ParAmount$"
+        shares:
+          - "InvestmentOwnedBalanceShares|NumberOfShares$"
+        maturity_date:
+          - "InvestmentMaturityDate|MaturityDate$"
+        spread:
+          - "InvestmentBasisSpreadVariableRate|BasisSpread"
+        rate_floor:
+          - "InvestmentInterestRateFloor|InterestRateFloor"
+        pik_rate:
+          - "InterestRatePaidInKind|PaidInKind.*Rate"
+        interest_rate:
+          - "InvestmentInterestRate$"
+      context_filters:
+        require_report_date: true
+        allowed_period_types: ["instant"]
+        excluded_axes_regex: []
+      total_concepts: {}
+      dimension_fields: {}
+    html:
+      table_detection:
+        heading_regex:
+          - "Schedule\\s+of\\s+Investments"
+          - "Consolidated\\s+Schedule\\s+of\\s+Investments"
+        required_terms:
+          - "Fair\\s+Value"
+        optional_terms:
+          - "Cost"
+          - "Principal|Par"
+          - "Maturity"
+        excluded_terms:
+          - "Fair\\s+Value\\s+Hierarchy"
+          - "Financial\\s+Highlights"
+        minimum_score: 6
+        max_heading_distance: 20
+      header_rows:
+        min: 1
+        max: 4
+      header_aliases: {}
+      scale:
+        source: "table_then_document"
+        thousands_regex:
+          - "amounts?\\s+in\\s+thousands"
+          - "\\$\\s*in\\s+thousands"
+          - "in\\s+thousands"
+        millions_regex:
+          - "amounts?\\s+in\\s+millions"
+          - "in\\s+millions"
+        default: 1
+      row_rules:
+        carry_forward: []
+        group_heading_target: industry
+        skip_if_regex: []
+        total_if_regex:
+          - "^Total\\s+(?:Portfolio\\s+)?Investments\\b(?!\\s+in\\s)(?!\\s+(?:and|&)\\s+Cash)"
+          - "^Total\\s+Investments\\s+(?:at|in)\\s+Fair\\s+Value"
+        subtotal_if_regex:
+          - "^(?:Sub)?[Tt]otal\\b"
+        require_any_numeric:
+          - fair_value
+          - cost
+          - amortized_cost
+          - principal_amount
+          - shares
+      period_selection:
+        prefer_report_date: true
+        allow_undated_tables: true
+    composite_fields: []
+    normalization:
+      legal_suffixes:
+        remove_preceding_comma: true
+      date_formats:
+        - "%m/%d/%Y"
+        - "%Y-%m-%d"
+      spread_input_unit: "auto"
+      spread_output_format: "decimal"
+      # Only unambiguous aliases here; single letters (S, L, P) must be company-specific.
+      reference_index_aliases:
+        SOFR: "SOFR"
+        LIBOR: "LIBOR"
+        PRIME: "Prime"
+        Prime: "Prime"
+    overrides: []

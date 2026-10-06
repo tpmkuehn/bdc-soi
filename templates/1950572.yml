@@ -1,0 +1,114 @@
+# Company template for BIP Ventures Evergreen BDC (CIK 1950572). Grounded in SEC accession 0001193125-26-339708 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1950572'
+company_name: BIP Ventures Evergreen BDC
+templates:
+- id: bip-ventures-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels: ''Investments – non-controlled / affiliated {Section} {Industry} {Issuer} Type {Description} Acquisition Date M/D/YYYY [Interest Rate 10.0%] [Maturity Date M/D/YYYY]''. HTML
+    SOI in whole dollars: ''Investments | Type | Acquisition Date | Interest Rate | Maturity Date | Par Amount/Units | Cost | Fair Value | % of Net Assets'' with affiliation, section and industry heading
+    rows; fixed-rate convertible notes and equity only.'
+  evidence:
+  - '0001193125-26-339708 (2026-06-30): 24 typed members; undimensioned InvestmentOwnedAtFairValue 157,635,546 equals the XBRL holdings sum; cost 122,573,899 equals'
+  - '0001193125-26-339708 HTML: whole-dollar amounts (e.g. $48,500,000) matching XBRL facts; industry vocabulary from HTML heading rows: Enterprise SaaS, Healthcare, Technology-Enabled Marketplace'
+  - 0001193125-26-214360 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Investments
+      security_description:
+      - ^Type$
+      interest_rate:
+      - ^Interest Rate
+      cost:
+      - ^Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+    scale:
+      source: fixed
+      fixed_multiplier: 1
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated
+        target: affiliate_status
+      - regex: ^(Convertible Notes|Equity Investments|Unsecured Convertible Notes|Warrants|Preferred|Common)
+        target: investment_type
+      total_if_regex:
+      - ^Total investments\b(?!\s+in\s)
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+  composite_fields:
+  - id: bip-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^Investments [–-] (?P<affiliate_status>non-controlled / (?:non-)?affiliated)\s+(?P<header>.+?)\s+Type\s+(?P<description>.+?)(?:\s+Acquisition Date\s+\d{1,2}/\d{1,2}/\d{4})?(?:\s+Interest Rate\s+(?P<interest_rate>\d+(?:\.\d+)?%))?(?:\s+Maturity
+      Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$
+    header_parser:
+      known_industries:
+      - Enterprise SaaS
+      - Healthcare
+      - Technology-Enabled Marketplace
+      industry_position: infix
+      remainder_target: issuer_name
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: auto
+    spread_output_format: decimal
+    reference_index_aliases: {}
+  validation: {}
+  overrides: []

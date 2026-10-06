@@ -1,0 +1,22 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+cache/
+output/
+*.log
+
+# Generated candidate annotations (engine output; regenerate with `python -m bdc_soi annotate`)
+golden/annotations/

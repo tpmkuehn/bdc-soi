@@ -1,0 +1,11 @@
+cik: "1743415"
+company_name: "SCP Private Credit Income BDC LLC"
+accession_number: "0001193125-26-206308"
+form: "10-Q"
+report_date: "2026-03-31"
+split: regression
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001193125-26-206308.candidates.csv
+notes: "Prior reporting period for the company template; candidates from output/s2_t*_<cik>_prior; UNREVIEWED."

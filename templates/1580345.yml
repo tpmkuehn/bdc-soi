@@ -1,0 +1,132 @@
+# Company template for TriplePoint Venture Growth BDC Corp. (CIK 1580345). Grounded in SEC accession 0001580345-26-000025 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1580345'
+company_name: TriplePoint Venture Growth BDC Corp.
+templates:
+- id: triplepoint-venture-growth-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels are pipe-delimited ''Issuer | Description | Section'' (e.g. ''Radar Labs, Inc. | Preferred Stock | Equity Investments''). HTML SOI in thousands with title rows repeating the
+    schedule name; debt rows carry the rate inside the investment type text: ''Growth Capital Loan (Prime + 5.50% interest rate, 12.25% floor, 5.00% EOT payment)''; separate warrant/equity tables with ''Shares
+    | Cost | Fair Value''.'
+  evidence:
+  - '0001580345-26-000025 (2026-06-30): 340 typed members (29 without monetary facts); undimensioned cost 830,835,000 equals the holdings sum; fair value 780,742,000 within tolerance of XBRL-only rows'
+  - 0001580345-26-000021 (2026-03-31) inspected as the prior period
+  - '0001580345-26-000025 HTML table_15 rows 31-33: additional tranches of the same issuer (Lively, Inc. Growth Capital Loan x3) leave the Portfolio Company cell blank; XBRL carries three ''Lively Inc |
+    Growth Capital Loan'' members, so the issuer carries forward within a group'
+  - '0001580345-26-000021 (2026-03-31): typed labels carry the affiliation as a further pipe segment (''Bestow Inc. | Preferred Stock 3 | Equity Investments  |Non-Affiliated Issuer''; debt rows ''Lively,
+    Inc. | Growth Capital Loan | Non-Affiliated''); the earlier positional rule wrote ''Non-Affiliated'' into investment_type for 101 rows, so the label rule names the section vocabulary (Debt/Equity/Warrant
+    Investments) and maps the affiliation to affiliate_status'
+  - '0001580345-26-000025 HTML table_25 row 13: ''Total Investments in Portfolio Companies - 221.28%*(9)(11) $ 830,835 $ 780,742'' equals the undimensioned XBRL cost/fair value totals and is the schedule''s
+    grand total; the ''Cash Equivalents'' money-market fund (13,582) follows it outside the total'
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Type of Investment
+      - ^Type of Warrant
+      - ^Type of Equity
+      cost:
+      - ^Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+      principal_amount:
+      - ^Principal Amount
+      shares:
+      - ^Shares
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward:
+      - issuer_name
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: ^(Debt Investments|Warrant Investments|Equity Investments)
+        target: investment_type
+      total_if_regex:
+      - ^Total Investments in Portfolio Companies\b
+      - ^Total Investments\b(?!\s+in\s)
+      - ^Total investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: \((?P<index>Prime|SOFR)\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%\s*interest rate
+      floor_pattern: (?P<floor_pct>\d+(?:\.\d+)?)\s*%\s*floor
+      spread_unit: percent
+      index_aliases:
+        Prime: Prime
+        SOFR: SOFR
+  composite_fields:
+  - id: tpvg-pipe-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: '^(?P<issuer>[^|]+?)\s*\|\s*(?P<description>[^|]+?)\s*(?:\|\s*(?P<investment_type>(?:Debt|Equity|Warrant) Investments)\s*)?(?:\|?\s*(?P<affiliate_status>(?:Non-)?Affiliated(?: Issuer)?|Controlled(?:
+      Issuer)?)\s*)?\|?\s*$'
+  - id: tpvg-html-rate-in-description-v1
+    source_field: security_description
+    applies_to: html
+    pattern: ^(?P<description>[^(]+?)\s*\((?P<rate>.+?)\)\s*$
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases: {}
+  validation: {}
+  overrides: []

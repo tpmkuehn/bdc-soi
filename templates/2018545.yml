@@ -1,0 +1,105 @@
+# Company template for Franklin BSP Real Estate Debt BDC (CIK 2018545). Grounded in SEC accession 0002018545-25-000016 (10-Q, report date 2025-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '2018545'
+company_name: Franklin BSP Real Estate Debt BDC
+templates:
+- id: franklin-bsp-red-2025-layout-v1
+  priority: 100
+  effective_from: '2025-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Real-estate debt BDC. Typed labels ''{Borrower}, {Property type}'' (Multifamily, Industrial, Hospitality, Mixed Use, Self Storage). HTML SOI in thousands: ''Portfolio Company | Spread Above
+    Reference Rate | Interest Rate | Maturity Date | Par Amount | Amortized Cost | Fair Value | % of Net Assets'' with headings ''Senior Mortgage - 219.7%'' / ''Mezzanine - 4.6%'' and property-type headings.
+    Latest eligible 10-Q is 2025-06-30 (no later 10-Q filed within the lookback as of 2026-10-06).'
+  evidence:
+  - '0002018545-25-000016 (2025-06-30): 89 typed members (24 without monetary facts); undimensioned fair value 1,275,931,000 and cost 1,266,301,000 within tolerance of the holdings sums'
+  - '0002018545-25-000016: HTML ''Amortized Cost'' equals us-gaap:InvestmentOwnedAtCost on 54/54 matched rows => cost; only SOFR appears in rate text'
+  - 0002018545-25-000011 (2025-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      interest_rate_text:
+      - ^Spread Above Reference Rate
+      interest_rate:
+      - ^Interest Rate
+      cost:
+      - ^Amortized Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+      principal_amount:
+      - ^Par Amount
+    scale:
+      source: table_then_document
+      thousands_regex:
+      - in thousands
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: ^(Senior Mortgage|Mezzanine|Subordinate|Preferred Equity)
+        target: investment_type
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^(?:Sub)?[Tt]otal\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+    prefer_html_fields:
+    - issuer_name
+  composite_fields:
+  - id: fbred-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^(?P<issuer>.+), (?P<industry>Multifamily|Industrial|Hospitality|Mixed Use|Self Storage|Office|Retail|Land|Other)$
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases: {}
+  validation: {}
+  overrides: []

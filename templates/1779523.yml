@@ -1,0 +1,135 @@
+# Company template for Muzinich BDC, Inc. (CIK 1779523). Grounded in SEC accession 0001213900-26-089024 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1779523'
+company_name: Muzinich BDC, Inc.
+templates:
+- id: muzinich-bdc-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed members form a hierarchy (''Senior Secured Loan Debt Investments - {Industry} - {Issuer} - {Description}'', ''Equity Investments - Common Stock - {Industry} - {Issuer} - {Description}'')
+    whose parent nodes aggregate children; ''Net Assets''/''Liabilities in Excess of Other Assets'' are also members. HTML SOI is in whole dollars although the statements heading says thousands: ''Portfolio
+    Company | Footnotes | Security | Spread Above Index | Floor | Interest Rate/Discount Rate | Payment-in-Kind Interest Rate | Acquisition Dates | Maturity/Expiration Date | Principal / Units | Amortized
+    Cost | Fair Value | Percentage of Net Assets''; grand total ''Total Investments $236,305,097 $214,085,177''. The undimensioned XBRL InvestmentOwnedAtFairValue/AtCost facts are not the SOI totals in
+    this filing.'
+  evidence:
+  - '0001213900-26-089024 (2026-06-30): HTML holding amounts (e.g. $10,676,203) equal XBRL facts in whole dollars (median ratio 0.001 when scaled by 1000) => fixed scale 1'
+  - '0001213900-26-089024: HTML ''Total Investments $236,305,097 $214,085,177'' is the SOI grand total; the undimensioned XBRL facts (amortized cost 19,500,000; fair value 0.023) do not represent it =>
+    total_source_preference html_template_total'
+  - 0001213900-25-056043 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+      exclude_member_regex:
+      - ^(?!(?:Senior Secured Loan Debt Investments|Debt Investments|Subordinated Debt Investments|Unsecured Debt Investments) - [^-]+ - .+ - [^-]+$)(?!Equity Investments - [^-]+ - [^-]+ - .+ - [^-]+$)
+      exclude_member_evidence: '0001213900-26-089024: the holding axis is a hierarchy; section nodes (''Senior Secured Loan Debt Investments - Industrial Machinery'', ''Equity Investments - Common Stock
+        - Automotive'', ''Investments'', ''Net Assets'') aggregate their children; only leaf labels of the shape ''Section - Industry - Issuer - Description'' (debt) or ''Equity Investments - Class - Industry
+        - Issuer - Description'' (equity) are holdings; hybrid leaf rows sum to the HTML total 214,085,177.'
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts: {}
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Security
+      interest_rate_text:
+      - ^Spread Above Index
+      rate_floor:
+      - ^Floor
+      interest_rate:
+      - ^Interest Rate/Discount Rate
+      - ^Interest Rate
+      pik_rate:
+      - ^Payment-in-Kind
+      cost:
+      - ^Amortized Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity/Expiration Date
+      footnote_markers:
+      - ^Footnotes
+    scale:
+      source: fixed
+      fixed_multiplier: 1
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: Debt Investments|Equity Investments|Preferred Stock|Common Stock
+        target: investment_type
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser:
+      pattern: (?:\d+\s*Month\s+)?(?P<index>SOFR|Prime)(?:\s+USD)?\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      index_aliases:
+        SOFR: SOFR
+        Prime: Prime
+  composite_fields:
+  - id: muzinich-debt-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^(?P<investment_type>Senior Secured Loan Debt Investments|Debt Investments|Subordinated Debt Investments) - (?P<industry>[^-]+?) - (?P<issuer>.+?) - (?P<description>[^-]+)$
+  - id: muzinich-equity-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^(?P<investment_type>Equity Investments) - (?P<security>[^-]+?) - (?P<industry>[^-]+?) - (?P<issuer>.+?) - (?P<description>[^-]+)$
+    capture_targets:
+      security: sector
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases: {}
+  validation:
+    total_source_preference:
+    - html_template_total
+    - xbrl_no_dimensions
+    total_source_preference_evidence: '0001213900-26-089024: HTML ''Total Investments $236,305,097 $214,085,177'' equals the sum of HTML holding rows; the undimensioned us-gaap:InvestmentOwnedAtFairValue/AtCost
+      facts carry unrelated values (0.023 / 19,500,000).'
+  overrides: []

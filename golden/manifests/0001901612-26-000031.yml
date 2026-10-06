@@ -1,0 +1,11 @@
+cik: "1901612"
+company_name: "Golub Capital BDC 4, Inc."
+accession_number: "0001901612-26-000031"
+form: "10-Q"
+report_date: "2026-06-30"
+split: development
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0001901612-26-000031.candidates.csv
+notes: "Company template was built on this filing; candidates from the universe run; UNREVIEWED."

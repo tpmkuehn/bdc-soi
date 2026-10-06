@@ -1,0 +1,148 @@
+# Company template for Onex Direct Lending BDC Fund (CIK 1860424). Grounded in SEC accession 0001193125-26-339194 (10-Q, report date 2026-06-30);
+# a prior period was inspected as recorded in docs/coverage-report.md. Rules cite filing evidence in `evidence`.
+schema_version: 1
+cik: '1860424'
+company_name: Onex Direct Lending BDC Fund
+templates:
+- id: onex-direct-lending-2026-layout-v1
+  priority: 100
+  effective_from: '2026-03-31'
+  effective_to: null
+  forms:
+  - 10-Q
+  status: production
+  description: 'Typed labels: ''{Affiliation} {Debt Investments|Equity} [{Affiliation} {Section}] {Industry} {Issuer} {Description} Reference Rate and Spread 3M SOFR + 5.25% Floor 0.50% Interest Rate 9.01%
+    Initial Acquisition Date M/D/YYYY Maturity Date M/D/YYYY''. HTML SOI in whole dollars: ''Portfolio Company | Investment Type | Reference Rate and Spread | Floor | Interest Rate | Initial Acquisition
+    Date | Maturity Date | Par/Shares | Amortized Cost | Fair Value | % of Net Assets | Footnotes'' with industry headings; ''Liabilities in Excess of Other Assets'' rows are not holdings.'
+  evidence:
+  - '0001193125-26-339194 (2026-06-30): 100 typed members (25 without monetary facts); undimensioned fair value 287,774,870 equals the XBRL holdings sum; cost 323,273,856 equals'
+  - '0001193125-26-339194: HTML ''Amortized Cost'' equals us-gaap:InvestmentOwnedAtCost on 70/70 matched rows => cost; 12 negative fair-value facts on unfunded facilities; industry vocabulary from HTML
+    heading rows'
+  - 0001193125-26-213421 (2026-03-31) inspected as the prior period
+  xbrl:
+    role_regex:
+    - Schedule of Investments
+    row_axes:
+      explicit_qnames:
+      - us-gaap:InvestmentIdentifierAxis
+      exclude_regex:
+      - FairValue.*Hierarchy
+    context_filters:
+      require_report_date: true
+      allowed_period_types:
+      - instant
+      excluded_axes_regex:
+      - FairValueByFairValueHierarchyLevel
+    total_concepts:
+      fair_value:
+      - us-gaap:InvestmentOwnedAtFairValue
+      cost:
+      - us-gaap:InvestmentOwnedAtCost
+  html:
+    table_detection:
+      heading_regex:
+      - Schedule of Investments
+      required_terms:
+      - Fair Value
+      excluded_terms:
+      - Fair Value Hierarchy
+      - Financial Highlights
+      minimum_score: 6
+      max_heading_distance: 20
+    header_rows:
+      min: 1
+      max: 3
+    header_aliases:
+      issuer_name:
+      - ^Portfolio Company
+      security_description:
+      - ^Investment Type
+      interest_rate_text:
+      - ^Reference Rate and Spread
+      rate_floor:
+      - ^Floor
+      interest_rate:
+      - ^Interest Rate
+      cost:
+      - ^Amortized Cost
+      fair_value:
+      - ^Fair Value
+      maturity_date:
+      - ^Maturity Date
+      footnote_markers:
+      - ^Footnotes
+    scale:
+      source: fixed
+      fixed_multiplier: 1
+      default: 1
+    row_rules:
+      carry_forward: []
+      group_heading_target: industry
+      group_heading_rules:
+      - regex: affiliated|controlled
+        target: affiliate_status
+      - regex: ^(Debt Investments|Equity)$
+        target: investment_type
+      skip_if_regex:
+      - ^Liabilities in Excess
+      - ^Net Assets
+      total_if_regex:
+      - ^Total Investments\b(?!\s+in\s)
+      subtotal_if_regex:
+      - ^Total\b
+      require_any_numeric:
+      - fair_value
+      - cost
+      - principal_amount
+      - shares
+    prefer_html_fields:
+    - issuer_name
+    rate_parser: &id001
+      pattern: (?:\d+M\s+)?(?P<index>SOFR|Prime|FFR)\s*\+\s*(?P<spread_pct>\d+(?:\.\d+)?)\s*%
+      spread_unit: percent
+      index_aliases:
+        SOFR: SOFR
+        Prime: Prime
+        FFR: Federal Funds Rate
+  composite_fields:
+  - id: onex-label-v1
+    source_field: issuer_name
+    applies_to: xbrl
+    pattern: ^(?P<affiliate_status>Non-controlled/Non-affiliated investments|Non-controlled/Affiliated investments|Controlled/Affiliated investments)\s+(?P<investment_type>Debt Investments|Equity)\s+(?:(?P=affiliate_status)\s+(?P=investment_type)\s+)?(?P<header>.+?)(?:\s+Reference
+      Rate and Spread\s+(?P<rate>.+?))?(?:\s+Floor\s+(?P<rate_floor>\d+(?:\.\d+)?%))?(?:\s+Interest Rate\s+(?P<interest_rate>\d+(?:\.\d+)?%))?(?:\s+Initial Acquisition Date\s+\d{1,2}/\d{1,2}/\d{4})?(?:\s+Maturity
+      Date\s+(?P<maturity>\d{1,2}/\d{1,2}/\d{4}))?$
+    header_parser:
+      known_industries:
+      - Automotive
+      - Business Services
+      - Construction & Building
+      - 'Consumer Goods: Durable'
+      - 'Consumer Goods: Non-durable'
+      - Consumer Services
+      - Containers, Packaging & Glass
+      - Financial Services
+      - Forest Products & Paper
+      - Healthcare & Pharmaceuticals
+      - High Tech Industries
+      - Insurance
+      - Oil & Gas
+      - Sovereign & Public Finance
+      - 'Transportation: Cargo'
+      - Wholesale
+      industry_position: prefix
+      remainder_target: issuer_name
+    rate_parser: *id001
+  normalization:
+    legal_suffixes:
+      remove_preceding_comma: true
+    date_formats:
+    - '%m/%d/%Y'
+    - '%Y-%m-%d'
+    spread_input_unit: percent
+    spread_output_format: decimal
+    reference_index_aliases:
+      SOFR: SOFR
+  validation:
+    allow_negative_fair_value: true
+    allow_negative_fair_value_evidence: '0001193125-26-339194: 12 negative InvestmentOwnedAtFairValue facts on unfunded revolver/delayed-draw facilities.'
+  overrides: []

@@ -1,0 +1,10 @@
+{"directory": {"item": [
+ {"last-modified": "2025-08-11 09:00:00", "name": "index.json", "type": "json", "size": ""},
+ {"last-modified": "2025-08-11 09:00:00", "name": "syn-20250630.htm", "type": "text.gif", "size": "4096"},
+ {"last-modified": "2025-08-11 09:00:00", "name": "syn-20250630_htm.xml", "type": "text.gif", "size": "8192"},
+ {"last-modified": "2025-08-11 09:00:00", "name": "syn-20250630.xsd", "type": "text.gif", "size": "2048"},
+ {"last-modified": "2025-08-11 09:00:00", "name": "syn-20250630_lab.xml", "type": "text.gif", "size": "2048"},
+ {"last-modified": "2025-08-11 09:00:00", "name": "syn-20250630_pre.xml", "type": "text.gif", "size": "2048"},
+ {"last-modified": "2025-08-11 09:00:00", "name": "usgaap-syn.xsd", "type": "text.gif", "size": "2048"},
+ {"last-modified": "2025-08-11 09:00:00", "name": "dei-syn.xsd", "type": "text.gif", "size": "1024"}
+], "name": "/Archives/edgar/data/999999999/000999999925000001", "parent-dir": "/Archives/edgar/data/999999999"}}

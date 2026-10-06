@@ -1,0 +1,11 @@
+cik: "2018545"
+company_name: "Franklin BSP Real Estate Debt BDC"
+accession_number: "0002018545-25-000016"
+form: "10-Q"
+report_date: "2025-06-30"
+split: development
+review_status: unreviewed
+reviewer: null
+review_date: null
+expected_file: ../annotations/0002018545-25-000016.candidates.csv
+notes: "Company template was built on this filing; candidates from the universe run; UNREVIEWED."
