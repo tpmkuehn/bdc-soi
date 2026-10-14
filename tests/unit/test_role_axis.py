@@ -48,7 +48,7 @@ def test_tie_is_ambiguous():
 
 
 def test_role_discovery_on_synthetic_instance():
-    loaded = load_model(SYN / "package" / "syn-20250630_htm.xml", ROOT / "cache")
+    loaded = load_model(SYN / "package" / "syn-20250630_htm.xml", ROOT / "cache", offline=True)  # offline: no contact, no taxonomy download
     try:
         rd = discover_roles(loaded.model, [])
     finally:

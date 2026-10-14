@@ -36,7 +36,8 @@ def run_result(tmp_path_factory, request):
     shutil.copy(ROOT / "templates" / "generic.yml", tdir / "generic.yml")
     shutil.copy(ROOT / "tests" / "fixtures" / "synthetic" / "templates" / "999999999.yml", tdir / "999999999.yml")
     cfg = load_config(ROOT / "config" / "application.yml", {"paths.cache": str(cache), "paths.templates": str(tdir), "extraction.offline": True})
-    cfg.sec.user_agent = None  # never echo the environment contact in test output
+    cfg.sec.user_agent = "bdc_soi/0.0 analyst@acme.test"  # synthetic contact: must never appear in any artifact
+    cfg.sec.user_agent_source = "cli"
     reg = TemplateRegistry.from_directory(tdir)
     reg.raise_if_invalid()
     ctx = RunContext(config=cfg, registry=reg, client=SecClient(cfg.sec, cache, offline=True), cache_dir=cache, offline=True)
@@ -85,7 +86,11 @@ def test_all_required_artifacts_written(run_result):
     assert len(df) == 5
     assert manifest["row_counts"]["holdings"] == 5 and manifest["template_checksums"] and manifest["configuration_checksum"]
     assert manifest["selected_filings"][0]["accession_checksums"]
-    assert "user_agent" not in json.dumps(manifest) or "<redacted>" in json.dumps(manifest)
+    manifest_text = json.dumps(manifest)
+    assert "analyst@acme.test" not in manifest_text and manifest["configuration"]["sec"]["user_agent"] == "<redacted>"
+    assert manifest["configuration"]["sec"]["user_agent_source"] == "cli"  # provenance without the contact itself
+    assert "analyst@acme.test" not in (out / "run_manifest.json").read_text(encoding="utf-8")
+    assert not any("analyst@acme.test" in p.read_text(encoding="utf-8", errors="ignore") for p in out.iterdir() if p.suffix in {".csv", ".json", ".md", ".txt"})
     pq = pd.read_parquet(out / "holdings.parquet")
     assert len(pq) == 5
     assert (out / "long_xbrl_facts.parquet").stat().st_size > 0 and len(pd.read_parquet(out / "long_xbrl_facts.parquet")) == 31

@@ -1,6 +1,6 @@
 # Progress
 
-Last updated: 2026-10-06 (session 6 close: implementation frozen, local Git checkpoint, user-run trial pending). Resume by reading this file, `docs/coverage-report.md`,
+Last updated: 2026-10-14 (security review and SEC contact runtime configuration, D48; extraction rules unchanged). Resume by reading this file, `docs/coverage-report.md`,
 `docs/iteration-log.md` and `docs/decisions.md`. Nothing is committed; all work is in the working tree.
 
 ## Environment (tested)
@@ -9,7 +9,17 @@ Last updated: 2026-10-06 (session 6 close: implementation frozen, local Git chec
 - Tested package versions: arelle-release 2.46.0, requests 2.34.2, pandas 3.0.6, openpyxl 3.1.5, beautifulsoup4 4.15.0,
   lxml 6.1.3, PyYAML 6.0.3, pydantic 2.13.5, RapidFuzz 3.14.6, pyarrow 25.0.1, jsonschema 4.26.0, pytest 9.1.1, numpy 2.5.3.
 - Install: `python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"`.
-- `SEC_USER_AGENT` is set in the shell environment (genuine contact; never printed). No LLM/API dependency in the engine.
+- SEC contact: `--sec-email` per run or `SEC_USER_AGENT` in the shell (genuine contact; never printed, no default in the repository; D48). No LLM/API dependency in the engine.
+
+## Security review and SEC contact (2026-10-14)
+- Tracked files and the full reachable history (one commit, `main`, no tags, not shallow) scanned with gitleaks
+  8.30.1 (history and a tracked-only export) plus manual pattern review: no credentials, private keys,
+  credential-bearing URLs or personal contact addresses found; the single scanner hit is a synthetic fixture date
+  string in `tests/fixtures/synthetic/README.md` (false positive). `.gitignore` excludes `.env*`, `cache/`,
+  `output/`, `.venv/`, logs and generated annotations. Details: `docs/security-review.md`.
+- SEC User-Agent is now runtime configuration (`--sec-email` / `--sec-organization`, else `SEC_USER_AGENT`; D48),
+  also applied to Arelle taxonomy downloads; `tests/unit/test_sec_contact.py` (48 offline tests). No extraction
+  rule, template or golden data changed; Q1-Q6 remain unapproved; acceptance remains NOT ASSESSED.
 
 ## Universe (26 companies, authoritative list from the project owner, verified 2026-10-06)
 All 26 CIKs resolve to BDC registrants with eligible 10-Q filings (`output/universe_verification_2026-10-06.json`,
@@ -130,6 +140,7 @@ human reviewer. Reconciliation outcomes above are necessary, not sufficient, evi
 ```bash
 .venv/bin/python -m bdc_soi validate-templates --templates templates
 .venv/bin/python -m bdc_soi extract-universe --universe config/bdc_universe.yml --output output/universe_s3_run19 --offline
+# live retrieval needs a monitored contact: add --sec-email <monitored address> (or export SEC_USER_AGENT) and drop --offline
 .venv/bin/python -m bdc_soi compare --before output/universe_s3_run17 --after output/universe_s3_run19 --output output/comparison_universe
 .venv/bin/python scripts/determinism_check.py output/universe_s3_run17 output/universe_s3_run19
 .venv/bin/python scripts/coverage_report.py output/universe_s3_run19 --determinism output/universe_s3_run18

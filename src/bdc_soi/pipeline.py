@@ -394,7 +394,7 @@ def process_filing(ctx: RunContext, cik: str | int, accession: str | None = None
         diag.phase = "arelle_loading"
         if pkg.instance.path is None:
             raise RuntimeError(f"no XBRL instance available: {pkg.instance.reason}")
-        loaded = load_model(pkg.instance.path, ctx.cache_dir, ctx.offline)
+        loaded = load_model(pkg.instance.path, ctx.cache_dir, ctx.offline, user_agent=ctx.config.sec.user_agent)
         inventory = build_inventory(loaded.model, loaded.document_type, loaded.extension_namespaces, report_date)
         if inventory.report_date and report_date and inventory.report_date != report_date:
             diag.notes.append(f"report_date_mismatch:dei={inventory.report_date}:submissions={report_date}")

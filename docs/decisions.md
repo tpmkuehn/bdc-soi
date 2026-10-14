@@ -332,3 +332,17 @@ The bridge publishes two scope counts: rows carrying the reconciled field (`scop
 hidden. `schedule` rows carry an explicit default rule and evidence. A subsidiary/legal-entity dimension on its own is
 not exclusion evidence: such rows stay in scope (`D47:subsidiary_dimension_in_scope_by_default`, flagged) until a
 template records evidence that the consolidated total excludes the entity.
+
+## D48. SEC contact is runtime configuration with no default (2026-10-14)
+The SEC User-Agent is resolved once per run by `config.resolve_user_agent`: an explicit `--sec-email`
+(optionally `--sec-organization`) builds `[organization] bdc_soi/<version> <email>`; otherwise an explicitly set
+`SEC_USER_AGENT` is used as given; otherwise a YAML `sec.user_agent` (still null in the tracked file); otherwise the
+run fails before any request with setup instructions. An explicit address that is empty, malformed or a documentation
+placeholder (`example.com`) is an error, never a silent fallback. The same resolved value is applied to the SEC
+client session and to Arelle's web cache (previously Arelle used its built-in default User-Agent for SEC-hosted
+taxonomy downloads); online use of Arelle without a genuine contact is refused. Live commands (`extract`,
+`extract-universe`, `inspect`) check the contact before loading templates, preparing output or opening the cache;
+`--offline`, `--help` and non-retrieval commands need none. The contact is never logged or written to artifacts;
+the run manifest records `configuration.sec.user_agent_source` (cli / environment / config / none) as provenance and
+the configuration checksum ignores both the value and its source. Two unit tests that loaded the synthetic instance
+with Arelle online and no contact now load it offline (their behaviour was already cache-only).

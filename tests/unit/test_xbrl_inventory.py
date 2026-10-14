@@ -15,7 +15,7 @@ def test_dimension_signature_is_sorted_and_complete():
 
 @pytest.fixture(scope="module")
 def inventory():
-    loaded = load_model(SYN / "package" / "syn-20250630_htm.xml", ROOT / "cache", offline=False)
+    loaded = load_model(SYN / "package" / "syn-20250630_htm.xml", ROOT / "cache", offline=True)  # offline: no contact, no taxonomy download
     inv = build_inventory(loaded.model, loaded.document_type, loaded.extension_namespaces)
     loaded.close()
     return inv

@@ -13,7 +13,7 @@ from pathlib import Path
 import yaml
 
 from bdc_soi import ENGINE_VERSION
-from bdc_soi.config import AppConfig, load_config
+from bdc_soi.config import USER_AGENT_SETUP_MESSAGE, AppConfig, ContactEmailError, is_genuine_user_agent, load_config, resolve_user_agent
 from bdc_soi.sec_client import SecClient, is_illustrative_accession, normalize_cik
 from bdc_soi.templates import TemplateRegistry, TemplateValidationError, validate_against_json_schema, write_json_schema
 
@@ -25,6 +25,13 @@ def _common(p: argparse.ArgumentParser) -> None:
     p.add_argument("--templates", default=None, help="templates directory (default from config)")
     p.add_argument("--cache", default=None, help="cache directory (default from config)")
     p.add_argument("--offline", action="store_true", help="never touch the network; use cached filings and taxonomies")
+    p.add_argument(
+        "--sec-email",
+        default=None,
+        metavar="EMAIL",
+        help="monitored contact email for the SEC User-Agent (required for live retrieval unless SEC_USER_AGENT is set; place it after the subcommand, e.g. extract --cik ... --sec-email EMAIL)",
+    )
+    p.add_argument("--sec-organization", default=None, metavar="NAME", help="optional organization name placed before the application name in the SEC User-Agent (use with --sec-email)")
     p.add_argument("--log-level", default="INFO")
 
 
@@ -112,8 +119,18 @@ def _context(args: argparse.Namespace):
         overrides["paths.cache"] = args.cache
     if args.offline:
         overrides["extraction.offline"] = True
+    sec_email = getattr(args, "sec_email", None)
+    sec_organization = getattr(args, "sec_organization", None)
+    if sec_email is not None or sec_organization is not None:
+        # An explicit contact is validated here, before any configuration or network activity.
+        user_agent, source = resolve_user_agent(sec_email, sec_organization, env={})
+        overrides["sec.user_agent"] = user_agent
+        overrides["sec.user_agent_source"] = source
     cfg: AppConfig = load_config(args.config, overrides)
     offline = cfg.extraction.offline
+    if not offline and not is_genuine_user_agent(cfg.sec.user_agent):
+        # Fail before any SEC request (filing download or Arelle taxonomy retrieval) is attempted.
+        raise ContactEmailError(USER_AGENT_SETUP_MESSAGE)
     registry = TemplateRegistry.from_directory(cfg.resolve("templates"))
     registry.raise_if_invalid()  # SPEC 23: template validation failure stops before extraction
     cache_dir = cfg.resolve("cache")
@@ -307,6 +324,9 @@ def main(argv: list[str] | None = None) -> int:
     except TemplateValidationError as exc:
         print(str(exc), file=sys.stderr)
         return 1
+    except ContactEmailError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -12,20 +12,41 @@ python3 -m venv .venv
 source .venv/bin/activate            # Windows: .venv\Scripts\activate
 pip install --upgrade pip
 pip install -e ".[dev]"
-export SEC_USER_AGENT="Your Organization monitored-contact@your-domain"   # Windows: set SEC_USER_AGENT=...
 ```
 
 Tested versions are recorded in `docs/progress.md`. No LLM or API key is used by the engine.
-Live SEC requests require a genuine monitored contact in `SEC_USER_AGENT`; the example address is rejected.
+
+### SEC contact for live retrieval
+
+The SEC requires a descriptive User-Agent naming a monitored contact. The engine ships with **no contact
+default**: supply one per run or through the environment. Addresses below are placeholders; use a mailbox
+you actually monitor.
+
+```bash
+# per run (preferred): the User-Agent becomes "[organization] bdc_soi/<version> <email>"
+python -m bdc_soi extract --cik 1837532 --latest --output output/run_001 --sec-email analyst@example.com
+python -m bdc_soi extract --cik 1837532 --latest --output output/run_001 --sec-email analyst@example.com --sec-organization "Example Research"
+
+# environment alternative (used as given when --sec-email is absent)
+export SEC_USER_AGENT="Example Research analyst@example.com"   # Windows: set SEC_USER_AGENT=...
+```
+
+Precedence: an explicit `--sec-email` (with optional `--sec-organization`) wins; otherwise `SEC_USER_AGENT`;
+with neither, `extract`, `extract-universe` and `inspect` exit with setup instructions before any request.
+`--sec-email` and `--sec-organization` are accepted after the subcommand on those three commands only. An empty,
+malformed or placeholder address (`example.com`) passed explicitly is rejected rather than ignored. The same
+User-Agent is used for filing downloads and for the SEC-hosted taxonomies Arelle retrieves; the contact is never
+written to logs, templates or run manifests (the manifest records only `user_agent_source`: cli / environment /
+config / none). Offline runs (`--offline`), `--help` and the commands that do not retrieve filings need no contact.
 
 ## Commands
 
 ```bash
 python -m bdc_soi validate-templates --templates templates
-python -m bdc_soi inspect --cik 1837532 --accession 0001193125-26-341358 --output output/inspection
-python -m bdc_soi extract --cik 1837532 --latest --output output/run_001
+python -m bdc_soi inspect --cik 1837532 --accession 0001193125-26-341358 --output output/inspection --sec-email analyst@example.com
+python -m bdc_soi extract --cik 1837532 --latest --output output/run_001 --sec-email analyst@example.com
 python -m bdc_soi extract --cik 1837532 --accession 0001193125-26-341358 --output output/run_002 --offline
-python -m bdc_soi extract-universe --universe config/bdc_universe.yml --output output/run_003
+python -m bdc_soi extract-universe --universe config/bdc_universe.yml --output output/run_003 --sec-email analyst@example.com
 python -m bdc_soi evaluate --actual output/run_002 --golden golden --report output/run_002/evaluation
 python -m bdc_soi compare --before output/run_001 --after output/run_002 --output output/comparison
 python -m bdc_soi annotate --actual output/run_002 --golden golden --accession 0001193125-26-341358
@@ -46,7 +67,16 @@ overwritten unless `--force` is passed.
 
 ```bash
 pytest                         # offline unit + integration tests on synthetic fixtures
-BDC_SOI_LIVE=1 pytest -m live  # live SEC retrieval, needs SEC_USER_AGENT
+BDC_SOI_LIVE=1 pytest -m live  # live SEC retrieval, needs SEC_USER_AGENT (the live test has no --sec-email)
+```
+
+`tests/unit/test_sec_contact.py` covers contact resolution offline: argument precedence, environment fallback,
+failure before any request, User-Agent propagation to the SEC client and Arelle, help/offline without a contact,
+and the absence of any contact default in runtime code or configuration.
+
+```bash
+# security scan of tracked files and history (no secret values are printed)
+gitleaks git --redact=100 . && git archive HEAD | tar -x -C /tmp/tracked && gitleaks dir --redact=100 /tmp/tracked
 ```
 
 ## Universe and coverage

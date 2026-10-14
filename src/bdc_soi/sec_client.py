@@ -17,7 +17,7 @@ from typing import Any
 
 import requests
 
-from bdc_soi.config import SecConfig, is_genuine_user_agent
+from bdc_soi.config import USER_AGENT_SETUP_MESSAGE, SecConfig, is_genuine_user_agent
 
 log = logging.getLogger(__name__)
 
@@ -173,14 +173,11 @@ class SecClient:
     def session(self) -> requests.Session:
         if self._session is None:
             if not is_genuine_user_agent(self.config.user_agent):
-                raise UserAgentError(
-                    "SEC_USER_AGENT must name your organization and a genuine monitored email "
-                    "(the example address is not accepted). Set it in the environment before live requests."
-                )
+                raise UserAgentError(USER_AGENT_SETUP_MESSAGE)
             s = requests.Session()
             s.headers.update(
                 {
-                    "User-Agent": self.config.user_agent or "",
+                    "User-Agent": self.config.user_agent,
                     "Accept-Encoding": "gzip, deflate",
                     "Accept": "*/*",
                 }

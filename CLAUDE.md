@@ -5,7 +5,7 @@ Read SPEC.md before implementation. It defines the requirements; CLAUDE_CODE_PRO
 - Python 3.11+, src layout (`src/bdc_soi`), macOS and Windows, portable paths (pathlib only).
 - Deterministic source-grounded extraction; no runtime LLM requirement.
 - Keep company logic in effective-dated templates (`templates/<cik>.yml`), with field-level provenance.
-- Use environment variable SEC_USER_AGENT for a monitored SEC contact; never log or persist it.
+- SEC contact: `--sec-email` (optional `--sec-organization`) on extract / extract-universe / inspect, else environment variable SEC_USER_AGENT; no contact default exists; never log or persist the contact (manifests record only `user_agent_source`).
 - Never read or expose API secrets; never commit secrets, .venv, cache, or output.
 - No invented filing facts, golden approvals, override provenance, or results.
 - Test offline by default (`pytest`); live tests are `@pytest.mark.live` and need `BDC_SOI_LIVE=1`.
